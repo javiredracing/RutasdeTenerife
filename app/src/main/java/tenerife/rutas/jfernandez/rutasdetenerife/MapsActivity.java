@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Handler;
 import android.os.Message;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -16,12 +18,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -41,7 +52,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-public class MapsActivity extends Activity implements OnMapReadyCallback{
+public class MapsActivity extends Activity implements OnMapReadyCallback, LocationListener,
+        ConnectionCallbacks,
+        OnConnectionFailedListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MapFragment fragmentMap;
@@ -56,6 +69,12 @@ public class MapsActivity extends Activity implements OnMapReadyCallback{
     private LinearLayout quickInfo;
 
     private boolean enableTap = false;
+
+    //private FusedLocationProviderApi locator = LocationServices.FusedLocationApi;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest locationRequest;
+    private Location mCurrentLocation;
+    private Marker myPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +91,99 @@ public class MapsActivity extends Activity implements OnMapReadyCallback{
                 enableTap = true;
             }
         };
+        if (isGooglePlayServicesAvailable()) {
+            createLocationRequest();
+            mGoogleApiClient = new GoogleApiClient.Builder(this).
+                    addApi(LocationServices.API).
+                    addConnectionCallbacks(this).
+                    addOnConnectionFailedListener(this).
+                    build();
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient, this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+        if (mGoogleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                    mGoogleApiClient, locationRequest, this);
+            Log.d("onResume", "Location update resumed .....................");
+        }
     }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, locationRequest, this);
+        if (myPos == null)
+            myPos = mMap.addMarker(new MarkerOptions().
+                    position(new LatLng(28.299221, -16.525690))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.my_pos))
+                            .title("myPos")
+            );
+        Log.v("Connected", "onConnected");
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.v("onConnectionSuspended", "Connection suspended!");
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        mCurrentLocation = location;
+
+        myPos.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
+        Log.v("Location", mCurrentLocation.toString());
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.v("Connection failed", "FAILED!");
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        if (googleMap != null) {
+            mMap = googleMap;
+            bd = new BaseDatos(getApplicationContext());
+            try {
+                bd.crearBaseDatos();
+                bd.abrirBD();
+                //Carga posicion inicial
+                setUpMap(googleMap);
+                enableTap = true;
+            }catch(SQLException sqle){
+                throw sqle;
+            } catch (IOException e) {
+                e.printStackTrace();
+                finish();
+            }
+        }
+    }
+
+    /*********************************************/
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (fragmentMap == null) {
@@ -89,6 +193,13 @@ public class MapsActivity extends Activity implements OnMapReadyCallback{
             fragmentMap.getMapAsync(this);
             //fragmentMap.getMap();
         }
+    }
+
+    protected void createLocationRequest(){
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     /**
@@ -137,43 +248,35 @@ public class MapsActivity extends Activity implements OnMapReadyCallback{
         CameraUpdate center = CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 10);
         googleMap.moveCamera(center);
         googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        googleMap.setMyLocationEnabled(true);
-
-        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-
-                int markerId = Integer.parseInt(marker.getSnippet());
-                Route route = getRoute(markerId);
-                clickAction(route, marker.getPosition());
-                //mMap.moveCamera(center);
+                if (!marker.getTitle().contentEquals("myPos")) {
+                    int markerId = Integer.parseInt(marker.getSnippet());
+                    Route route = getRoute(markerId);
+                    clickAction(route, marker.getPosition());
+                    //mMap.moveCamera(center);
+                }else{
+                   holaMundo(null);
+                }
                 return true;
             }
         });
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        if (googleMap != null) {
-            mMap = googleMap;
-            bd = new BaseDatos(getApplicationContext());
-            try {
-                bd.crearBaseDatos();
-                bd.abrirBD();
-                //Carga posicion inicial
-                setUpMap(googleMap);
-                enableTap = true;
-            }catch(SQLException sqle){
-                throw sqle;
-            } catch (IOException e) {
-                e.printStackTrace();
-                finish();
-            }
-        }
-    }
+
 
     /**************************************************************************/
+
+    private boolean isGooglePlayServicesAvailable() {
+        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (ConnectionResult.SUCCESS == status) {
+            return true;
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(status, this, 0).show();
+            return false;
+        }
+    }
 
     private Route getRoute(int id){
         int size = routesList.size();
