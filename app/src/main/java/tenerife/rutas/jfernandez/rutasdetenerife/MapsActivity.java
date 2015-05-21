@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Message;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Surface;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -54,7 +59,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 public class MapsActivity extends Activity implements OnMapReadyCallback, LocationListener,
         ConnectionCallbacks,
-        OnConnectionFailedListener {
+        OnConnectionFailedListener, SensorEventListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MapFragment fragmentMap;
@@ -70,11 +75,18 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
 
     private boolean enableTap = false;
 
-    //private FusedLocationProviderApi locator = LocationServices.FusedLocationApi;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest locationRequest;
     private Location mCurrentLocation;
     private Marker myPos;
+
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private Sensor magnetometer;
+
+    private float[] gravity;
+    private float[] geomagnetic;
+    private int lastAzimuth = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +111,10 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                     addOnConnectionFailedListener(this).
                     build();
         }
+        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
     }
 
     @Override
@@ -119,6 +134,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         super.onPause();
         LocationServices.FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this);
+        sensorManager.unregisterListener(this);
     }
 
     @Override
@@ -128,8 +144,11 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.requestLocationUpdates(
                     mGoogleApiClient, locationRequest, this);
+
             Log.d("onResume", "Location update resumed .....................");
         }
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -154,7 +173,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
 
-        myPos.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
+        myPos.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+        //myPos.setRotation(30);
         Log.v("Location", mCurrentLocation.toString());
     }
 
@@ -181,6 +201,61 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 finish();
             }
         }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+        if (myPos != null){
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+                gravity = event.values.clone();
+            }
+            if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD){
+                geomagnetic = event.values.clone();
+            }
+            if (gravity != null && geomagnetic != null){
+                float R[] = new float[9];
+                float I[]= new float[9];
+                boolean success = SensorManager.getRotationMatrix(R,I,gravity,geomagnetic);
+                if (success){
+                    float orientation[] = new float[3];
+                    SensorManager.getOrientation(R, orientation);
+                    float azimuth = (float) Math.toDegrees(orientation[0]);
+                    int azimuthFinal = Math.round(azimuth);
+                    if (azimuthFinal < 0)
+                        azimuthFinal = 360 + azimuthFinal;
+                    if (azimuthFinal != lastAzimuth){
+                        switch (getWindowManager().getDefaultDisplay()
+                                .getRotation()) {
+                            case Surface.ROTATION_90:
+                                azimuthFinal = (azimuthFinal + 90)%360;
+                                break;
+                            case Surface.ROTATION_180:
+                                azimuthFinal = azimuthFinal - 180;
+                                if (azimuthFinal< 0){
+                                    azimuthFinal = 360 - azimuthFinal;
+                                }
+                                break;
+                            case Surface.ROTATION_270:
+                                azimuthFinal = azimuthFinal - 90;
+                                if (azimuthFinal < 0)
+                                    azimuthFinal = 360 - azimuthFinal;
+                                break;
+
+                        }
+                        lastAzimuth = azimuthFinal;
+                        myPos.setRotation(azimuthFinal);
+                        Log.v("Orientation",""+azimuthFinal);
+                    }
+
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     /*********************************************/
@@ -417,4 +492,6 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     public void holaMundo(View v){
         Toast.makeText(getApplicationContext(),"hola mundo",Toast.LENGTH_LONG).show();
     }
+
+
 }
