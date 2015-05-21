@@ -263,9 +263,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
             }
         });
     }
-
-
-
+    
     /**************************************************************************/
 
     private boolean isGooglePlayServicesAvailable() {
