@@ -323,6 +323,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         CameraUpdate center = CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 10);
         googleMap.moveCamera(center);
         googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        googleMap.getUiSettings().setRotateGesturesEnabled(false);
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
