@@ -13,13 +13,16 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Surface;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,6 +75,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     private Route lastRouteShowed;
 
     private LinearLayout quickInfo;
+    private DrawerLayout drawerLayout;
+    private ListView drawerList;
 
     private boolean enableTap = false;
 
@@ -94,6 +99,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerList = (ListView) findViewById(R.id.left_drawer);
         handlerPath = new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -270,13 +277,6 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         }
     }
 
-    protected void createLocationRequest(){
-        locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
     /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
@@ -290,6 +290,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
             String nombre;
             //String dificultad;
             String kml = "";
+            ArrayList<DrawerItem> items = new ArrayList<DrawerItem>();
             while (c.moveToNext()){
                 nombre = c.getString(0);
                 double inicX = c.getDouble(1);
@@ -306,6 +307,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                         position(geopoint).
                         title(nombre).snippet(""+id));
                 //markerList.add(m);
+                //Update List
+                items.add(new DrawerItem(nombre, R.drawable.my_pos));
                 Route route = new Route(id,nombre,kml,dist,dific);
                 route.setPoint(geopoint);
                 if ((finX != 0) && (finY != 0)){
@@ -318,6 +321,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 }
                 routesList.add(route);
             }
+            drawerList.setAdapter(new DrawerListAdapter(getApplicationContext(),items));
         }
         c.close();
         CameraUpdate center = CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 10);
@@ -341,6 +345,13 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     }
     
     /**************************************************************************/
+
+    protected void createLocationRequest(){
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
 
     private boolean isGooglePlayServicesAvailable() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
@@ -491,7 +502,9 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     }
 
     public void holaMundo(View v){
-        Toast.makeText(getApplicationContext(),"hola mundo",Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),"hola mundo",Toast.LENGTH_LONG).show();
+
+        drawerLayout.openDrawer(Gravity.LEFT);
     }
 
 
