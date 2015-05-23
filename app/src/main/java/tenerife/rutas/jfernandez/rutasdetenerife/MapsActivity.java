@@ -180,6 +180,9 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                     position(new LatLng(28.299221, -16.525690))
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.my_pos))
                             .title("myPos")
+                            .anchor(0.5f, 0.5f)
+                            .flat(true)
+                            .draggable(false)
             );
         Log.v("Connected", "onConnected");
     }
