@@ -8,6 +8,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Message;
@@ -55,6 +57,7 @@ import org.xml.sax.XMLReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -84,6 +87,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     private LocationRequest locationRequest;
     private Location mCurrentLocation;
     private Marker myPos;
+    private Handler handlerGeocoder;
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
@@ -101,6 +105,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerLayout.setScrimColor(Color.TRANSPARENT);
         handlerPath = new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -108,6 +113,14 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 ArrayList<LatLng> path = (ArrayList<LatLng>) msg.obj;
                 drawPath(path);
                 enableTap = true;
+            }
+        };
+        handlerGeocoder = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                Address dir = (Address) msg.obj;
+                showCurrentAddress(dir);
             }
         };
         if (isGooglePlayServicesAvailable()) {
@@ -336,8 +349,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                     Route route = getRoute(markerId);
                     clickAction(route, marker.getPosition());
                     //mMap.moveCamera(center);
-                }else{
-                   holaMundo(null);
+                } else {
+                    getCurrentAddress(marker.getPosition());
                 }
                 return true;
             }
@@ -501,11 +514,44 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         }
     }
 
-    public void holaMundo(View v){
+    public void openDrawer(View v){
         //Toast.makeText(getApplicationContext(),"hola mundo",Toast.LENGTH_LONG).show();
 
         drawerLayout.openDrawer(Gravity.LEFT);
     }
 
+    private void getCurrentAddress(final LatLng myPos){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Geocoder geocoder = new Geocoder(getApplicationContext());
+                if (geocoder.isPresent()){
+                    try {
+                       List<Address> dirs = geocoder.getFromLocation(myPos.latitude, myPos.longitude, 1);
+                        if (!dirs.isEmpty()) {
+                            Address direction = dirs.get(0);
+                            Message msg = new Message();
+                            msg.obj = direction;
+                            handlerGeocoder.sendMessage(msg);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
 
+    private void showCurrentAddress(Address address){
+        int maxLines = address.getMaxAddressLineIndex();
+        if (maxLines > 0) {
+            String text = "";
+            text = text + address.getAddressLine(0);
+            for (int i = 1; i < maxLines; i++) {
+                text = text + ", ";
+                text = text + address.getAddressLine(i);
+            }
+            Toast.makeText(getApplicationContext(),text, Toast.LENGTH_LONG).show();
+        }
+    }
 }
