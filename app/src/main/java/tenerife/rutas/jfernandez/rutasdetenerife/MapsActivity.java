@@ -86,6 +86,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     private DrawerLayout drawerLayout;
     private ListView drawerList;
 
+    private ListView drawerListMenu;
+
     private boolean enableTap = false;
 
     private GoogleApiClient mGoogleApiClient;
@@ -109,17 +111,41 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         setUpMapIfNeeded();
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerList = (ListView) findViewById(R.id.right_drawer);
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               //Toast.makeText(getApplicationContext(),routesList.get(position).getName(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),routesList.get(position).getName(), Toast.LENGTH_LONG).show();
                 drawerLayout.closeDrawers();
                 Route r = routesList.get(position);
                 clickAction(r, r.getFirstPoint());
             }
         });
         drawerLayout.setScrimColor(Color.TRANSPARENT);
+        /*Menu*/
+        drawerListMenu = (ListView)findViewById(R.id.left_drawer);
+        ArrayList<DrawerItem> itemsMenu = new ArrayList<DrawerItem>();
+        itemsMenu.add(new DrawerItem("Item1", R.drawable.nivel_dificil, 0));
+        itemsMenu.add(new DrawerItem("Item2", R.mipmap.ic_launcher,1));
+        drawerListMenu.setAdapter(new MenuListAdapter(getApplicationContext(), itemsMenu));
+        TextView textView = new TextView(this);
+        textView.setText("Options");
+        textView.setTextColor(Color.WHITE);
+        textView.setGravity(Gravity.CENTER);
+        drawerListMenu.addHeaderView(textView);
+        drawerListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        Toast.makeText(getApplicationContext(),""+position,Toast.LENGTH_LONG).show();
+                        break;
+                    default:
+                        Toast.makeText(getApplicationContext(),""+position,Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        /*  */
         handlerPath = new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -553,7 +579,10 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
 
     public void openDrawer(View v){
         //Toast.makeText(getApplicationContext(),"hola mundo",Toast.LENGTH_LONG).show();
+        drawerLayout.openDrawer(Gravity.RIGHT);
+    }
 
+    public void openDrawerMenu(View v){
         drawerLayout.openDrawer(Gravity.LEFT);
     }
 
