@@ -11,6 +11,7 @@ import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 
@@ -20,8 +21,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Surface;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -45,6 +48,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -72,6 +76,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     //private ArrayList<Marker> markerList = new ArrayList<Marker>();
     private ArrayList<Route> routesList = new ArrayList<Route>();
     private BaseDatos bd;
+    private LatLngBounds latLngBounds;
 
     private Handler handlerPath;
     private Polyline pathShowed;
@@ -105,6 +110,15 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               //Toast.makeText(getApplicationContext(),routesList.get(position).getName(), Toast.LENGTH_LONG).show();
+                drawerLayout.closeDrawers();
+                Route r = routesList.get(position);
+                clickAction(r, r.getFirstPoint());
+            }
+        });
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         handlerPath = new Handler(){
             @Override
@@ -289,7 +303,22 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
             fragmentMap = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
             // Check if we were successful in obtaining the map.
             fragmentMap.getMapAsync(this);
-            //fragmentMap.getMap();
+            //Next code is for update camera with bounds limits
+            //http://stackoverflow.com/questions/13692579/movecamera-with-cameraupdatefactory-newlatlngbounds-crashes
+            View mapView = fragmentMap.getView();
+            if (mapView.getViewTreeObserver().isAlive()){
+                mapView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                            fragmentMap.getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }else
+                            fragmentMap.getView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds,20));
+                    }
+                });
+            }
         }
     }
 
@@ -302,6 +331,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     private void setUpMap(GoogleMap googleMap) {
         //googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         Cursor c = bd.getInfoMap(false, new String[]{"nombre", "inicX", "inicY", "finX", "finY", "duracion", "longitud", "dificultad", "kml", "id"}, null, null, null, null, null);
+        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
         if (c.getCount() > 0){
             String nombre;
             //String dificultad;
@@ -322,6 +352,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 Marker m = googleMap.addMarker(new MarkerOptions().
                         position(geopoint).
                         title(nombre).snippet(""+id));
+                boundsBuilder.include(geopoint);
                 //markerList.add(m);
                 //Update List
                 items.add(new DrawerItem(nombre, R.drawable.my_pos));
@@ -333,15 +364,19 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                             position(geopoint2).
                             title(nombre).snippet(""+id));
                     //markerList.add(m);
+                    boundsBuilder.include(geopoint2);
                     route.setPoint(geopoint2);
                 }
+
                 routesList.add(route);
             }
             drawerList.setAdapter(new DrawerListAdapter(getApplicationContext(),items));
         }
         c.close();
-        CameraUpdate center = CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 10);
-        googleMap.moveCamera(center);
+        //CameraUpdate center = CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 10);
+        latLngBounds = boundsBuilder.build();
+        //CameraUpdate center = CameraUpdateFactory.newLatLngBounds(latLngBounds,0);
+        //googleMap.moveCamera(center);
         googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -351,8 +386,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                     int markerId = Integer.parseInt(marker.getSnippet());
                     Route route = getRoute(markerId);
                     clickAction(route, marker.getPosition());
-                    //mMap.moveCamera(center);
-                } else {
+                } else {//Is my position
                     getCurrentAddress(marker.getPosition());
                 }
                 return true;

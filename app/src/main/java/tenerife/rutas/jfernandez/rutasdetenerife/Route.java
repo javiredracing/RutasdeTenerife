@@ -50,4 +50,8 @@ public class Route {
     public int getId(){
         return id;
     }
+
+    public LatLng getFirstPoint(){
+        return pointList.get(0);
+    }
 }
