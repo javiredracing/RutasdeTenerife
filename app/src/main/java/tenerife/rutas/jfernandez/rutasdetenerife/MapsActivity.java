@@ -1,6 +1,12 @@
 package tenerife.rutas.jfernandez.rutasdetenerife;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.graphics.Color;
@@ -19,6 +25,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -104,11 +111,14 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     private float[] geomagnetic;
     private int lastAzimuth = 0;
 
+    private SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+        prefs = this.getSharedPreferences("options", Context.MODE_PRIVATE);
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.right_drawer);
@@ -122,30 +132,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
             }
         });
         drawerLayout.setScrimColor(Color.TRANSPARENT);
-        /*Menu*/
-        drawerListMenu = (ListView)findViewById(R.id.left_drawer);
-        ArrayList<DrawerItem> itemsMenu = new ArrayList<DrawerItem>();
-        itemsMenu.add(new DrawerItem("Item1", R.drawable.nivel_dificil, 0));
-        itemsMenu.add(new DrawerItem("Item2", R.mipmap.ic_launcher,1));
-        drawerListMenu.setAdapter(new MenuListAdapter(getApplicationContext(), itemsMenu));
-        TextView textView = new TextView(this);
-        textView.setText("Options");
-        textView.setTextColor(Color.WHITE);
-        textView.setGravity(Gravity.CENTER);
-        drawerListMenu.addHeaderView(textView);
-        drawerListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    case 0:
-                        Toast.makeText(getApplicationContext(),""+position,Toast.LENGTH_LONG).show();
-                        break;
-                    default:
-                        Toast.makeText(getApplicationContext(),""+position,Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        /*  */
+        configureMenu();/*Menu*/
+
         handlerPath = new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -212,31 +200,74 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU){
+            //Toast.makeText(getApplicationContext(),"menu key", Toast.LENGTH_SHORT).show();
+            if (drawerLayout.isDrawerOpen(Gravity.LEFT))
+                drawerLayout.closeDrawers();
+            if (!drawerLayout.isDrawerOpen(Gravity.LEFT)){
+                if(drawerLayout.isDrawerOpen(Gravity.RIGHT)){
+                    drawerLayout.closeDrawer(Gravity.RIGHT);
+                }
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT) || drawerLayout.isDrawerOpen(Gravity.LEFT)){
+            drawerLayout.closeDrawers();
+        }else{
+            Dialog d = new AlertDialog.Builder(this)
+                    .setTitle(R.string.app_name)
+                    .setIcon(R.drawable.icon_my_pos64)
+                    .setMessage("Quit?")
+                    .setNegativeButton("No", null)
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MapsActivity.super.onBackPressed();
+                        }
+                    }).create();
+            d.show();
+        }
+    }
+
+    @Override
     public void onConnected(Bundle bundle) {
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, locationRequest, this);
-        if (myPos == null)
-            myPos = mMap.addMarker(new MarkerOptions().
-                    position(new LatLng(28.299221, -16.525690))
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.my_pos))
-                            .title("myPos")
-                            .anchor(0.5f, 0.5f)
-                            .flat(true)
-                            .draggable(false)
-            );
+
         Log.v("Connected", "onConnected");
     }
 
     @Override
     public void onConnectionSuspended(int i) {
         Log.v("onConnectionSuspended", "Connection suspended!");
+        if (myPos != null){
+            myPos.remove();
+            myPos = null;
+        }
     }
 
     @Override
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
-
-        myPos.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+        if (myPos == null)
+            myPos = mMap.addMarker(new MarkerOptions().
+                            position(new LatLng(28.299221, -16.525690))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.my_pos))
+                            .title("myPos")
+                            .anchor(0.5f, 0.5f)
+                            .flat(true)
+                            .draggable(false)
+            );
+        else
+            myPos.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
         //myPos.setRotation(30);
         Log.v("Location", mCurrentLocation.toString());
     }
@@ -244,6 +275,10 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.v("Connection failed", "FAILED!");
+        if (myPos != null){
+            myPos.remove();
+            myPos = null;
+        }
     }
 
     @Override
@@ -393,7 +428,6 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                     boundsBuilder.include(geopoint2);
                     route.setPoint(geopoint2);
                 }
-
                 routesList.add(route);
             }
             drawerList.setAdapter(new DrawerListAdapter(getApplicationContext(),items));
@@ -583,6 +617,13 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     }
 
     public void openDrawerMenu(View v){
+       /* if (myPos == null){
+            drawerListMenu.getChildAt(1).setEnabled(false);
+            drawerListMenu.getChildAt(1).setClickable(false);
+        }else{
+            drawerListMenu.getChildAt(1).setEnabled(true);
+            drawerListMenu.getChildAt(1).setClickable(true);
+        }*/
         drawerLayout.openDrawer(Gravity.LEFT);
     }
 
@@ -619,5 +660,68 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
             }
             Toast.makeText(getApplicationContext(),text, Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void configureMenu(){
+
+        drawerListMenu = (ListView)findViewById(R.id.left_drawer);
+        ArrayList<DrawerItem> itemsMenu = new ArrayList<DrawerItem>();
+
+        boolean hasGps = prefs.getBoolean("gps", false);
+/*        int icon = R.drawable.gps_off64;
+        if (hasGps)
+            icon = R.drawable.gps_on64;
+        itemsMenu.add(new DrawerItem("Item1",icon, 0));*/
+        itemsMenu.add(new DrawerItem("Item2",R.drawable.icon_my_pos64,1));
+        itemsMenu.add(new DrawerItem("Item3",R.drawable.map64,2));
+        itemsMenu.add(new DrawerItem("Item4",R.drawable.filter64,3));
+        itemsMenu.add(new DrawerItem("Item5",R.drawable.search64,4));
+        itemsMenu.add(new DrawerItem("Item6",R.drawable.info64,5));
+        itemsMenu.add(new DrawerItem("Item7",R.drawable.share64,6));
+        drawerListMenu.setAdapter(new MenuListAdapter(getApplicationContext(), itemsMenu));
+        TextView textView = new TextView(this);
+        textView.setText("Options");
+        textView.setTextColor(Color.WHITE);
+        textView.setGravity(Gravity.CENTER);
+        drawerListMenu.addHeaderView(textView);
+        drawerListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 1:
+                        if (myPos!= null){
+                            getCurrentAddress(myPos.getPosition());
+                            float zoom = mMap.getCameraPosition().zoom;
+                            if (zoom <14)
+                                zoom = 14;
+                            CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(myPos.getPosition(), zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
+                            mMap.animateCamera(cu);
+                            drawerLayout.closeDrawers();
+                        }
+                        break;
+                    case 2:
+                        int type = mMap.getMapType();
+                        type = (type%3) + 1;
+                        mMap.setMapType(type);
+                        break;
+                    case 3://TODO FILTER
+                        break;
+                    case 4://TODO SEARCH
+                        break;
+                    case 5: //TODO MORE INFO
+                        break;
+                    case 6:
+                        String url = "https://play.google.com/store/apps/details?id=com.rutas.java";
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "Rutas de Tenerife"+"\n"+url);
+                        sendIntent.setType("text/plain");
+                        startActivity(Intent.createChooser(sendIntent, "Comparte Rutas de Tenerife"));
+                        break;
+                    default:
+                        Toast.makeText(getApplicationContext(),""+position,Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

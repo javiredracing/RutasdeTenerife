@@ -100,9 +100,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/holo_blue_light"
+        android:divider="@color/lightGreen"
         android:dividerHeight="2dp"
-        android:background="#111"/>
+        android:background="@color/gris"/>
 
     <ListView
         android:id="@+id/left_drawer"
@@ -110,9 +110,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/holo_blue_light"
-        android:dividerHeight="2dp"
-        android:background="#111"
+        android:divider="@color/lightGreen"
+        android:dividerHeight="1dp"
+        android:background="@color/gris"
         ></ListView>
 
 </android.support.v4.widget.DrawerLayout>
