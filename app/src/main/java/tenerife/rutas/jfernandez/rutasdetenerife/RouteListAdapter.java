@@ -16,13 +16,13 @@ import java.util.List;
  */
 public class RouteListAdapter extends BaseAdapter {
 
-    private Context mContext;
+    //private Context mContext;
     private LayoutInflater inflater;
     private List<Route> routesList;
     private ArrayList<Route> arrayList;
 
     public RouteListAdapter(Context ctx, List<Route> routes){
-        mContext = ctx;
+        //mContext = ctx;
         this.routesList = routes;
         this.arrayList = new ArrayList<>();
         this.arrayList.addAll(routes);

@@ -117,6 +117,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     private int lastAzimuth = 0;
 
     private SharedPreferences prefs;
+    private Toast globalToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +125,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
         prefs = this.getSharedPreferences("options", Context.MODE_PRIVATE);
+        globalToast = Toast.makeText(getApplicationContext(),null, Toast.LENGTH_LONG);
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.right_drawer);
@@ -446,19 +448,20 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         latLngBounds = boundsBuilder.build();
         //CameraUpdate center = CameraUpdateFactory.newLatLngBounds(latLngBounds,0);
         //googleMap.moveCamera(center);
-        googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        int map_type = prefs.getInt(getString(R.string.MAP_TYPE),3);
+        googleMap.setMapType(map_type);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-            if (!marker.getTitle().contentEquals("myPos")) {
-                int markerId = Integer.parseInt(marker.getSnippet());
-                Route route = getRoute(markerId);
-                clickAction(route, marker.getPosition());
-            } else {//Is my position
-                getCurrentAddress(marker.getPosition());
-            }
-            return true;
+                if (!marker.getTitle().contentEquals("myPos")) {
+                    int markerId = Integer.parseInt(marker.getSnippet());
+                    Route route = getRoute(markerId);
+                    clickAction(route, marker.getPosition());
+                } else {//Is my position
+                    getCurrentAddress(marker.getPosition());
+                }
+                return true;
             }
         });
     }
@@ -661,7 +664,9 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 text = text + ", ";
                 text = text + address.getAddressLine(i);
             }
-            Toast.makeText(getApplicationContext(),text, Toast.LENGTH_LONG).show();
+            globalToast.setDuration(Toast.LENGTH_LONG);
+            globalToast.setText(text);
+            globalToast.show();
         }
     }
 
@@ -705,6 +710,26 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                         int type = mMap.getMapType();
                         type = (type%3) + 1;
                         mMap.setMapType(type);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putInt(getString(R.string.MAP_TYPE), type);
+                        editor.commit();
+                        String text="";
+                        switch (type){
+                            case 1:
+                                text = "Modo callejero";
+                                break;
+                            case 2:
+                                text = "Modo satélite";
+                                break;
+                            case 3:
+                                text = "Modo topográfico";
+                                break;
+                            default:
+                                text = ""+type;
+                        }
+                        globalToast.setDuration(Toast.LENGTH_SHORT);
+                        globalToast.setText(text);
+                        globalToast.show();
                         break;
                     case 3://TODO FILTER
                         break;
@@ -744,5 +769,4 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
             }
         });
     }
-
 }
