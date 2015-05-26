@@ -622,17 +622,11 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
 
     public void openDrawer(View v){
         //Toast.makeText(getApplicationContext(),"hola mundo",Toast.LENGTH_LONG).show();
+        et_search.setText("");
         drawerLayout.openDrawer(Gravity.RIGHT);
     }
 
     public void openDrawerMenu(View v){
-       /* if (myPos == null){
-            drawerListMenu.getChildAt(1).setEnabled(false);
-            drawerListMenu.getChildAt(1).setClickable(false);
-        }else{
-            drawerListMenu.getChildAt(1).setEnabled(true);
-            drawerListMenu.getChildAt(1).setClickable(true);
-        }*/
         drawerLayout.openDrawer(Gravity.LEFT);
     }
 
