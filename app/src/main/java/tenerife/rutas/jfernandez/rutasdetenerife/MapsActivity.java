@@ -23,6 +23,8 @@ import android.os.Message;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -32,6 +34,8 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -92,6 +96,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     private LinearLayout quickInfo;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
+    private EditText et_search;
 
     private ListView drawerListMenu;
 
@@ -131,6 +136,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 clickAction(r, r.getFirstPoint());
             }
         });
+        et_search = (EditText)findViewById(R.id.et_search);
+        configureSearch();
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         configureMenu();/*Menu*/
 
@@ -164,6 +171,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
     }
+
 
     @Override
     protected void onStart() {
@@ -393,11 +401,12 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         //googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         Cursor c = bd.getInfoMap(false, new String[]{"nombre", "inicX", "inicY", "finX", "finY", "duracion", "longitud", "dificultad", "kml", "id"}, null, null, null, null, null);
         LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+
         if (c.getCount() > 0){
             String nombre;
             //String dificultad;
             String kml = "";
-            ArrayList<DrawerItem> items = new ArrayList<DrawerItem>();
+            //ArrayList<Route> items = new ArrayList<Route>();
             while (c.moveToNext()){
                 nombre = c.getString(0);
                 double inicX = c.getDouble(1);
@@ -416,7 +425,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 boundsBuilder.include(geopoint);
                 //markerList.add(m);
                 //Update List
-                items.add(new DrawerItem(nombre, R.drawable.my_pos));
+               //items.add(new DrawerItem(nombre, R.drawable.my_pos));
                 Route route = new Route(id,nombre,kml,dist,dific);
                 route.setPoint(geopoint);
                 if ((finX != 0) && (finY != 0)){
@@ -430,7 +439,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 }
                 routesList.add(route);
             }
-            drawerList.setAdapter(new DrawerListAdapter(getApplicationContext(),items));
+            drawerList.setAdapter(new RouteListAdapter(getApplicationContext(),routesList));
         }
         c.close();
         //CameraUpdate center = CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 10);
@@ -442,14 +451,14 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                if (!marker.getTitle().contentEquals("myPos")) {
-                    int markerId = Integer.parseInt(marker.getSnippet());
-                    Route route = getRoute(markerId);
-                    clickAction(route, marker.getPosition());
-                } else {//Is my position
-                    getCurrentAddress(marker.getPosition());
-                }
-                return true;
+            if (!marker.getTitle().contentEquals("myPos")) {
+                int markerId = Integer.parseInt(marker.getSnippet());
+                Route route = getRoute(markerId);
+                clickAction(route, marker.getPosition());
+            } else {//Is my position
+                getCurrentAddress(marker.getPosition());
+            }
+            return true;
             }
         });
     }
@@ -675,9 +684,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         itemsMenu.add(new DrawerItem("Item2",R.drawable.icon_my_pos64,1));
         itemsMenu.add(new DrawerItem("Item3",R.drawable.map64,2));
         itemsMenu.add(new DrawerItem("Item4",R.drawable.filter64,3));
-        itemsMenu.add(new DrawerItem("Item5",R.drawable.search64,4));
-        itemsMenu.add(new DrawerItem("Item6",R.drawable.info64,5));
-        itemsMenu.add(new DrawerItem("Item7",R.drawable.share64,6));
+        itemsMenu.add(new DrawerItem("Item6",R.drawable.info64,4));
+        itemsMenu.add(new DrawerItem("Item7",R.drawable.share64,5));
         drawerListMenu.setAdapter(new MenuListAdapter(getApplicationContext(), itemsMenu));
         TextView textView = new TextView(this);
         textView.setText("Options");
@@ -692,7 +700,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                         if (myPos!= null){
                             getCurrentAddress(myPos.getPosition());
                             float zoom = mMap.getCameraPosition().zoom;
-                            if (zoom <14)
+                            if (zoom < 14)
                                 zoom = 14;
                             CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(myPos.getPosition(), zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
                             mMap.animateCamera(cu);
@@ -706,11 +714,9 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                         break;
                     case 3://TODO FILTER
                         break;
-                    case 4://TODO SEARCH
+                    case 4: //TODO MORE INFO
                         break;
-                    case 5: //TODO MORE INFO
-                        break;
-                    case 6:
+                    case 5:
                         String url = "https://play.google.com/store/apps/details?id=com.rutas.java";
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
@@ -724,4 +730,25 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
             }
         });
     }
+
+    private void configureSearch() {
+        et_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                RouteListAdapter rla = (RouteListAdapter)drawerList.getAdapter();
+                rla.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
 }

@@ -94,16 +94,30 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/right_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:choiceMode="singleChoice"
-        android:divider="@color/lightGreen"
-        android:dividerHeight="2dp"
-        android:background="@color/gris"/>
-
+        android:background="@color/gris"
+        android:orientation="vertical" >
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_gravity="right"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:hint="Buscar..."
+            android:inputType="textVisiblePassword"
+            />
+        <ListView
+            android:id="@+id/right_drawer"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:choiceMode="singleChoice"
+            android:divider="@color/lightGreen"
+            android:dividerHeight="2dp"
+            />
+    </LinearLayout>
     <ListView
         android:id="@+id/left_drawer"
         android:layout_width="100dp"
