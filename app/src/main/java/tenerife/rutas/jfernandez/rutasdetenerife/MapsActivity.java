@@ -3,6 +3,7 @@ package tenerife.rutas.jfernandez.rutasdetenerife;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -429,7 +430,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 //Update List
                //items.add(new DrawerItem(nombre, R.drawable.my_pos));
                 Route route = new Route(id,nombre,kml,dist,dific);
-                route.setPoint(geopoint);
+                route.setMarker(m);
                 if ((finX != 0) && (finY != 0)){
                     LatLng geopoint2 = new LatLng(finX, finY);
                     m = googleMap.addMarker(new MarkerOptions().
@@ -437,7 +438,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                             title(nombre).snippet(""+id));
                     //markerList.add(m);
                     boundsBuilder.include(geopoint2);
-                    route.setPoint(geopoint2);
+                    route.setMarker(m);
                 }
                 routesList.add(route);
             }
@@ -516,6 +517,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 pathShowed.remove();
 
             if ((route.isActive) && (route.getXmlRoute()!= "")){
+                route.setMarkersVisible();
                 showQuickInfo(route);
                 CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(pos, mMap.getCameraPosition().zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
                 mMap.animateCamera(cu);
@@ -680,22 +682,22 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
         if (hasGps)
             icon = R.drawable.gps_on64;
         itemsMenu.add(new DrawerItem("Item1",icon, 0));*/
-        itemsMenu.add(new DrawerItem("Item2",R.drawable.icon_my_pos64,1));
-        itemsMenu.add(new DrawerItem("Item3",R.drawable.map64,2));
-        itemsMenu.add(new DrawerItem("Item4",R.drawable.filter64,3));
-        itemsMenu.add(new DrawerItem("Item6",R.drawable.info64,4));
-        itemsMenu.add(new DrawerItem("Item7",R.drawable.share64,5));
+        itemsMenu.add(new DrawerItem("Item1",R.drawable.icon_my_pos64,1));
+        itemsMenu.add(new DrawerItem("Item2",R.drawable.map64,2));
+        itemsMenu.add(new DrawerItem("Item3",R.drawable.filter64,3));
+        itemsMenu.add(new DrawerItem("Item4",R.drawable.info64,4));
+        itemsMenu.add(new DrawerItem("Item5",R.drawable.share64,5));
         drawerListMenu.setAdapter(new MenuListAdapter(getApplicationContext(), itemsMenu));
-        TextView textView = new TextView(this);
+        /*TextView textView = new TextView(this);
         textView.setText("Options");
         textView.setTextColor(Color.WHITE);
         textView.setGravity(Gravity.CENTER);
-        drawerListMenu.addHeaderView(textView);
+        drawerListMenu.addHeaderView(textView);*/
         drawerListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
-                    case 1:
+                    case 0:
                         if (myPos!= null){
                             getCurrentAddress(myPos.getPosition());
                             float zoom = mMap.getCameraPosition().zoom;
@@ -706,7 +708,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                             drawerLayout.closeDrawers();
                         }
                         break;
-                    case 2:
+                    case 1:
                         int type = mMap.getMapType();
                         type = (type%3) + 1;
                         mMap.setMapType(type);
@@ -731,11 +733,15 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                         globalToast.setText(text);
                         globalToast.show();
                         break;
-                    case 3://TODO FILTER
+                    case 2://TODO FILTER
+                        DialogFragment dialogFilter = new DialogFilter();
+                        dialogFilter.setCancelable(true);
+
+                        dialogFilter.show(getFragmentManager(),"filter");
                         break;
-                    case 4: //TODO MORE INFO
+                    case 3: //TODO MORE INFO
                         break;
-                    case 5:
+                    case 4:
                         String url = "https://play.google.com/store/apps/details?id=com.rutas.java";
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);

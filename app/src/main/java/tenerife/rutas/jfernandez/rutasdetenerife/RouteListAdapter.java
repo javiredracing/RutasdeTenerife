@@ -29,8 +29,8 @@ public class RouteListAdapter extends BaseAdapter {
         this.inflater = inflater.from(ctx);
     }
     public class ViewHolder {
-        TextView name;
-        ImageView icon;
+        public TextView name;
+        public ImageView icon;
         //TextView population;
     }
 

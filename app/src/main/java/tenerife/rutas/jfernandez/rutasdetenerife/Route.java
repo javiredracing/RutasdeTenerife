@@ -1,6 +1,7 @@
 package tenerife.rutas.jfernandez.rutasdetenerife;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 
@@ -8,7 +9,8 @@ import java.util.ArrayList;
  * Created by jfernandez on 14/05/2015.
  */
 public class Route {
-    private ArrayList<LatLng> pointList;
+    private ArrayList<Marker> markersList;
+    //private ArrayList<LatLng> pointList;
     private String name;
     private String xmlRoute;
     public boolean isActive;
@@ -21,16 +23,14 @@ public class Route {
         xmlRoute = _xml;
         dist = _dist;
         difficulty = _difficulty;
-        pointList = new ArrayList<LatLng>();
+        //pointList = new ArrayList<LatLng>();
+        markersList = new ArrayList<Marker>();
     }
 
-    public void setPoint(LatLng point){
-        pointList.add(point);
+    public void setMarker(Marker marker){
+        markersList.add(marker);
     }
 
-    public ArrayList<LatLng> getPointList() {
-        return pointList;
-    }
     public String getName(){
         return name;
     }
@@ -52,6 +52,21 @@ public class Route {
     }
 
     public LatLng getFirstPoint(){
-        return pointList.get(0);
+        return markersList.get(0).getPosition();
+    }
+
+    public void setMarkersVisible(){
+        int size = markersList.size();
+        for (int i = 0; i < size; i++){
+            Marker m = markersList.get(i);
+            m.setVisible(true);
+        }
+    }
+    public void setMarkersHidden(){
+        int size = markersList.size();
+        for (int i = 0; i < size; i++){
+            Marker m = markersList.get(i);
+            m.setVisible(false);
+        }
     }
 }
