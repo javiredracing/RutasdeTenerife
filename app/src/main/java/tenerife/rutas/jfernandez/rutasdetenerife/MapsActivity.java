@@ -249,6 +249,16 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(getString(R.string.FILTER_LONG),0);
+        editor.putInt(getString(R.string.FILTER_DURAC),0);
+        editor.putInt(getString(R.string.FILTER_DIF), 0);
+        editor.commit();
+    }
+
+    @Override
     public void onConnected(Bundle bundle) {
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, locationRequest, this);
@@ -304,7 +314,10 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 setUpMap(googleMap);
                 enableTap = true;
             }catch(SQLException sqle){
-                throw sqle;
+                globalToast.setText("Error cargandado base de datos");
+                globalToast.show();
+                finish();
+                //throw sqle;
             } catch (IOException e) {
                 e.printStackTrace();
                 finish();
@@ -416,7 +429,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 double inicY = c.getDouble(2);
                 double finX = c.getDouble(3);
                 double finY = c.getDouble(4);
-                //float durac = c.getFloat(5);
+                float durac = c.getFloat(5);
                 float dist = c.getFloat(6);
                 int dific = c.getInt(7);
                 kml = c.getString(8);
@@ -429,7 +442,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 //markerList.add(m);
                 //Update List
                //items.add(new DrawerItem(nombre, R.drawable.my_pos));
-                Route route = new Route(id,nombre,kml,dist,dific);
+                Route route = new Route(id,nombre,kml,dist,dific, durac);
                 route.setMarker(m);
                 if ((finX != 0) && (finY != 0)){
                     LatLng geopoint2 = new LatLng(finX, finY);
@@ -517,7 +530,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 pathShowed.remove();
 
             if ((route.isActive) && (route.getXmlRoute()!= "")){
-                route.setMarkersVisible();
+                route.setMarkersVisibility(true);
                 showQuickInfo(route);
                 CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(pos, mMap.getCameraPosition().zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
                 mMap.animateCamera(cu);
@@ -774,5 +787,12 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
 
             }
         });
+    }
+
+    public ArrayList<Route> getRoutesList(){
+        return routesList;
+    }
+    public void closeNavigationDrawer(){
+        drawerLayout.closeDrawers();
     }
 }

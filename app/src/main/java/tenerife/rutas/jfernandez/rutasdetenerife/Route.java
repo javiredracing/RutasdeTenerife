@@ -9,21 +9,23 @@ import java.util.ArrayList;
  * Created by jfernandez on 14/05/2015.
  */
 public class Route {
+
     private ArrayList<Marker> markersList;
-    //private ArrayList<LatLng> pointList;
     private String name;
     private String xmlRoute;
     public boolean isActive;
     private float dist;
     private int difficulty;
     private int id;
-    Route(int _id, String _name, String _xml, float _dist, int _difficulty){
+    private float durac;
+
+    Route(int _id, String _name, String _xml, float _dist, int _difficulty, float durac){
         id = _id;
         name = _name;
         xmlRoute = _xml;
         dist = _dist;
         difficulty = _difficulty;
-        //pointList = new ArrayList<LatLng>();
+        this.durac = durac;
         markersList = new ArrayList<Marker>();
     }
 
@@ -43,6 +45,8 @@ public class Route {
         return dist;
     }
 
+    public float getDurac(){ return durac; }
+
     public int getDifficulty(){
         return difficulty;
     }
@@ -55,18 +59,11 @@ public class Route {
         return markersList.get(0).getPosition();
     }
 
-    public void setMarkersVisible(){
+    public void setMarkersVisibility(boolean visibility){
         int size = markersList.size();
         for (int i = 0; i < size; i++){
             Marker m = markersList.get(i);
-            m.setVisible(true);
-        }
-    }
-    public void setMarkersHidden(){
-        int size = markersList.size();
-        for (int i = 0; i < size; i++){
-            Marker m = markersList.get(i);
-            m.setVisible(false);
+            m.setVisible(visibility);
         }
     }
 }

@@ -2,6 +2,9 @@
     <string name="app_name">Rutas de Tenerife</string>
     <string name="title_activity_maps">Rutas de Tenerife</string>
     <string name="MAP_TYPE">map_type</string>
+    <string name="FILTER_LONG">filter_long</string>
+    <string name="FILTER_DIF">filter_dif</string>
+    <string name="FILTER_DURAC">filter_durac</string>
 
     <string-array name="opcionLong">
         <item>All</item>
