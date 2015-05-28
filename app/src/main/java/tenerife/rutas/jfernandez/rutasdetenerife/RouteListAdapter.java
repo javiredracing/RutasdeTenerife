@@ -18,12 +18,17 @@ public class RouteListAdapter extends BaseAdapter {
 
     //private Context mContext;
     private LayoutInflater inflater;
-    private List<Route> routesList;
+    private ArrayList<Route> routesList;
     private ArrayList<Route> arrayList;
 
     public RouteListAdapter(Context ctx, List<Route> routes){
         //mContext = ctx;
-        this.routesList = routes;
+        //this.routesList = routes;
+        int size = routes.size();
+        routesList = new ArrayList<>();
+        for (int i = 0; i < size; i++){
+            routesList.add(routes.get(i));
+        }
         this.arrayList = new ArrayList<>();
         this.arrayList.addAll(routes);
         this.inflater = inflater.from(ctx);
@@ -105,5 +110,9 @@ public class RouteListAdapter extends BaseAdapter {
             }
         }
         notifyDataSetChanged();
+    }
+
+    public ArrayList<Route> getArrayList() {
+        return routesList;
     }
 }

@@ -134,8 +134,12 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getApplicationContext(),routesList.get(position).getName(), Toast.LENGTH_LONG).show();
+                //et_search.clearFocus();
+                RouteListAdapter rla = (RouteListAdapter)drawerList.getAdapter();
+                int routeId = rla.getArrayList().get(position).getId();
                 drawerLayout.closeDrawers();
-                Route r = routesList.get(position);
+                //int routeId = routesList.get(position).getId();
+                Route r = getRoute(routeId);
                 clickAction(r, r.getFirstPoint());
             }
         });
@@ -369,7 +373,6 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                         myPos.setRotation(azimuthFinal);
                         Log.v("Orientation",""+azimuthFinal);
                     }
-
                 }
             }
         }
@@ -575,15 +578,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                     }
                 }).start();
             }else{
-                //Log.d("Action click", "close info or do nothing");
-                if (quickInfo.getVisibility() != View.GONE){
-                    quickInfo.setVisibility(View.GONE);
-                    Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_off);
-                    animation.setDuration(400);
-                    quickInfo.setAnimation(animation);
-                    quickInfo.animate();
-                    animation.start();
-                }
+                closeQuickInfo();
                 enableTap = true;
             }
         }
@@ -635,6 +630,17 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                 quickInfo.animate();
                 animation.start();
             }
+        }
+    }
+
+    private void closeQuickInfo(){
+        if (quickInfo.getVisibility() != View.GONE){
+            quickInfo.setVisibility(View.GONE);
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_off);
+            animation.setDuration(400);
+            quickInfo.setAnimation(animation);
+            quickInfo.animate();
+            animation.start();
         }
     }
 
@@ -723,7 +729,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                         break;
                     case 1:
                         int type = mMap.getMapType();
-                        type = (type%3) + 1;
+                        type = (type % 3) + 1;
                         mMap.setMapType(type);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putInt(getString(R.string.MAP_TYPE), type);
@@ -794,5 +800,20 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
     }
     public void closeNavigationDrawer(){
         drawerLayout.closeDrawers();
+    }
+
+
+    public void closeVisiblePath(){
+        if (lastRouteShowed != null){
+            lastRouteShowed.isActive = false;
+        }
+        int size = routesList.size();
+        for (int i = 0; i< size; i++){
+            routesList.get(i).isActive = false;
+        }
+
+        if (pathShowed != null)
+            pathShowed.remove();
+        closeQuickInfo();
     }
 }
