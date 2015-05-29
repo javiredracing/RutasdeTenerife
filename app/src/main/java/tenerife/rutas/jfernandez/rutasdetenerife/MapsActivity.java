@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
+//import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -79,7 +82,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-public class MapsActivity extends Activity implements OnMapReadyCallback, LocationListener,
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
         ConnectionCallbacks,
         OnConnectionFailedListener, SensorEventListener {
 
@@ -759,6 +762,10 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Locati
                         dialogFilter.show(getFragmentManager(),"filter");
                         break;
                     case 3: //TODO MORE INFO
+                        FragmentDialogInfo dialogInfo = new FragmentDialogInfo();
+                        dialogInfo.show(getSupportFragmentManager(),"faf");
+                        //getFragmentManager();
+                        //getSupportFragmentManager();
                         break;
                     case 4:
                         String url = "https://play.google.com/store/apps/details?id=com.rutas.java";
