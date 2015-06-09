@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <TextView
+        android:id="@+id/tvPathNameInfo"
+        android:text="Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pagerExtendedInfo"
+        android:layout_below="@+id/tvPathNameInfo"
+        android:layout_above="@+id/tabsExtendedInfo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"/>
+    <android.support.v4.app.FragmentTabHost
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tabsExtendedInfo"
+        android:layout_alignParentBottom="true"
+        >
+    </android.support.v4.app.FragmentTabHost>
+</RelativeLayout>

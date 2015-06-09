@@ -686,9 +686,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
 
                 animation.setDuration(400);
-                /*quickInfo.setAnimation(animation);
-                quickInfo.animate();
-                animation.start();*/
                 quickInfo.startAnimation(animation);
             }
         }
@@ -696,7 +693,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void closeQuickInfo(){
         if (quickInfo.getVisibility() != View.GONE){
-            //quickInfo.setVisibility(View.GONE);
             Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_off);
             animation.setFillEnabled(true);
             animation.setAnimationListener(new Animation.AnimationListener() {
@@ -717,10 +713,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
             animation.setDuration(400);
-           //quickInfo.setAnimation(animation);
-            //quickInfo.animate();
             quickInfo.startAnimation(animation);
-            //animation.start();
         }
     }
 
