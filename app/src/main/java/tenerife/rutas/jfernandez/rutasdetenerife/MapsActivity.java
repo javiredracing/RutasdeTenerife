@@ -129,11 +129,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
         prefs = this.getSharedPreferences("options", Context.MODE_PRIVATE);
+        //Configuring global toast
         globalToast = Toast.makeText(getApplicationContext(),null, Toast.LENGTH_LONG);
         View v = globalToast.getView();
         v.setBackgroundResource(R.drawable.border_toast);
+        TextView tv = (TextView) v.findViewById(android.R.id.message);
+        if( tv != null) tv.setGravity(Gravity.CENTER);
         globalToast.setView(v);
+        //Configuring quick info
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
+        quickInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"onClick", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.right_drawer);
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -261,6 +272,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        globalToast.cancel();
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(getString(R.string.FILTER_LONG),0);
         editor.putInt(getString(R.string.FILTER_DURAC),0);
@@ -508,12 +520,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private Route getRoute(int id){
+   /* private Route getRoute(int id){
         int size = routesList.size();
         for (int i = 0; i < size; i++ ){
             Route r = routesList.get(i);
             if (r.getId() == id){
                 return r;
+            }
+        }
+        return null;
+    }*/
+
+    /**
+     * Route's Binary search
+     * @param key id to search
+     * @return Route element if found, null otherwise
+     */
+    private Route getRoute(int key) {
+
+        int start = 0;
+        int end = routesList.size() - 1;
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            Route r = routesList.get(mid);
+            if (key == r.getId()) {
+                return r;
+            }
+            if (key < r.getId()) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
             }
         }
         return null;
@@ -629,24 +665,62 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             if (quickInfo.getVisibility()== View.GONE){
 
-                quickInfo.setVisibility(View.VISIBLE);
+
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_on);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        quickInfo.setVisibility(View.VISIBLE);
+                        quickInfo.setClickable(true);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
                 animation.setDuration(400);
-                quickInfo.setAnimation(animation);
+                /*quickInfo.setAnimation(animation);
                 quickInfo.animate();
-                animation.start();
+                animation.start();*/
+                quickInfo.startAnimation(animation);
             }
         }
     }
 
     private void closeQuickInfo(){
         if (quickInfo.getVisibility() != View.GONE){
-            quickInfo.setVisibility(View.GONE);
+            //quickInfo.setVisibility(View.GONE);
             Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_off);
+            animation.setFillEnabled(true);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    quickInfo.setVisibility(View.GONE);
+                    quickInfo.setClickable(false);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
             animation.setDuration(400);
-            quickInfo.setAnimation(animation);
-            quickInfo.animate();
-            animation.start();
+           //quickInfo.setAnimation(animation);
+            //quickInfo.animate();
+            quickInfo.startAnimation(animation);
+            //animation.start();
         }
     }
 
@@ -811,7 +885,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void closeNavigationDrawer(){
         drawerLayout.closeDrawers();
     }
-
 
     public void closeVisiblePath(){
         if (lastRouteShowed != null){
