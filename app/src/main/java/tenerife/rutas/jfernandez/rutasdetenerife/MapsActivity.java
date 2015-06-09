@@ -130,6 +130,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setUpMapIfNeeded();
         prefs = this.getSharedPreferences("options", Context.MODE_PRIVATE);
         globalToast = Toast.makeText(getApplicationContext(),null, Toast.LENGTH_LONG);
+        View v = globalToast.getView();
+        v.setBackgroundResource(R.drawable.border_toast);
+        globalToast.setView(v);
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.right_drawer);
