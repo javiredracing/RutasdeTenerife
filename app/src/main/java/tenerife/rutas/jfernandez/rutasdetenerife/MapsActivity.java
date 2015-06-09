@@ -763,7 +763,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         break;
                     case 3: //TODO MORE INFO
                         FragmentDialogInfo dialogInfo = new FragmentDialogInfo();
-                        dialogInfo.show(getSupportFragmentManager(),"faf");
+                        dialogInfo.show(getSupportFragmentManager(),"FragmentDialogInfo");
                         //getFragmentManager();
                         //getSupportFragmentManager();
                         break;

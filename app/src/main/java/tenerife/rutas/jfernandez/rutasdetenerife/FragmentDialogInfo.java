@@ -24,7 +24,7 @@ public class FragmentDialogInfo extends DialogFragment {
         pagerAdapterInfo = new PagerAdapterInfo(getChildFragmentManager());
         viewPager =(ViewPager) view.findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapterInfo);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
 
     }
 

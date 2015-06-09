@@ -15,21 +15,23 @@ public class PagerAdapterInfo extends FragmentPagerAdapter{
 
     @Override
     public Fragment getItem(int position) {
-        Fragment f;
+       FragmentInfo1 f;
         switch (position){
             case 0:
-                f = new FragmentInfo1();
-                break;
+                FragmentInfo1 f1 = new FragmentInfo1();
+                return f1;
             case 1:
-                f = new FragmentInfo2();
-                break;
+                FragmentInfo2 f2 = new FragmentInfo2();
+                return f2;
+                //break;
             case 2:
-                f = new FragmentInfo3();
-                break;
+                FragmentInfo3 f3 = new FragmentInfo3();
+                return f3;
             default:
                 f = new FragmentInfo1();
+
         }
-        return null;
+        return f;
     }
 
     @Override
