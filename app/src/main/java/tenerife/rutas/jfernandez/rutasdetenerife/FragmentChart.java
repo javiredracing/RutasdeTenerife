@@ -14,6 +14,7 @@ public class FragmentChart extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(R.layout.info_chart, container, false);
+        return v;
     }
 }

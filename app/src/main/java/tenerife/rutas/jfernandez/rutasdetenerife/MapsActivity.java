@@ -60,6 +60,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -141,7 +142,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         quickInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"onClick", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"onClick", Toast.LENGTH_SHORT).show();
+                FragmentDialogExtendedInfo extendedInfo = new FragmentDialogExtendedInfo();
+                extendedInfo.show(getSupportFragmentManager(), "FragmentDialogExtendedInfo");
             }
         });
 
@@ -344,6 +347,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 e.printStackTrace();
                 finish();
             }
+            finally {
+                bd.close();
+            }
         }
     }
 
@@ -444,6 +450,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //String dificultad;
             String kml = "";
             //ArrayList<Route> items = new ArrayList<Route>();
+            BitmapDescriptor iconPR = BitmapDescriptorFactory.fromResource(R.drawable.marker_sign_24);
             while (c.moveToNext()){
                 nombre = c.getString(0);
                 double inicX = c.getDouble(1);
@@ -456,9 +463,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 kml = c.getString(8);
                 int id = c.getInt(9);
                 LatLng geopoint = new LatLng(inicX, inicY);
-                Marker m = googleMap.addMarker(new MarkerOptions().
-                        position(geopoint).
-                        title(nombre).snippet(""+id));
+                Marker m = googleMap.addMarker(new MarkerOptions()
+                                .position(geopoint)
+                                .title(nombre)
+                                .snippet("" + id)
+                                .icon(iconPR)
+                );
                 boundsBuilder.include(geopoint);
                 //markerList.add(m);
                 //Update List
@@ -469,7 +479,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     LatLng geopoint2 = new LatLng(finX, finY);
                     m = googleMap.addMarker(new MarkerOptions().
                             position(geopoint2).
-                            title(nombre).snippet(""+id));
+                            title(nombre).snippet(""+id).icon(iconPR));
                     //markerList.add(m);
                     boundsBuilder.include(geopoint2);
                     route.setMarker(m);
@@ -577,7 +587,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if ((route.isActive) && (route.getXmlRoute()!= "")){
                 route.setMarkersVisibility(true);
                 showQuickInfo(route);
-                CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(pos, mMap.getCameraPosition().zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
+                float zoom = mMap.getCameraPosition().zoom;
+                if (zoom < 12)
+                    zoom = 12;
+                CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(pos, zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
                 mMap.animateCamera(cu);
                 new Thread(new Runnable() {
                     @Override

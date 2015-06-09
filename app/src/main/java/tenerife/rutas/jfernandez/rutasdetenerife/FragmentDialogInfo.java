@@ -62,7 +62,6 @@ public class FragmentDialogInfo extends DialogFragment {
             }
         });
         return view;
-
     }
 
     @Override
