@@ -6,6 +6,14 @@
     <string name="FILTER_DIF">filter_dif</string>
     <string name="FILTER_DURAC">filter_durac</string>
 
+    <string name="VALUE_NAME">value_name</string>
+    <string name="VALUE_XML_ROUTE">value_xml_route</string>
+    <string name="VALUE_DIST">value_distance</string>
+    <string name="VALUE_DIF">value_dif</string>
+    <string name="VALUE_TIME">value_time</string>
+    <string name="VALUE_ID">value_id</string>
+    <string name="VALUE_LATLNG">value_latlng</string>
+
     <string-array name="opcionLong">
         <item>All</item>
         <item>Short</item>

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * Created by jfernandez on 09/06/2015.
@@ -14,7 +15,12 @@ public class FragmentChart extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle b = getArguments();
+        String xmlPath = b.getString(getString(R.string.VALUE_XML_ROUTE),"");
         View v = inflater.inflate(R.layout.info_chart, container, false);
+        TextView tvChart = (TextView)v.findViewById(R.id.tvInfoChart);
+        tvChart.setText(xmlPath);
+        //getActivity().getAssets().open(xmlPath);
         return v;
     }
 }

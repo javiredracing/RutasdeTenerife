@@ -143,8 +143,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(),"onClick", Toast.LENGTH_SHORT).show();
-                FragmentDialogExtendedInfo extendedInfo = new FragmentDialogExtendedInfo();
-                extendedInfo.show(getSupportFragmentManager(), "FragmentDialogExtendedInfo");
+                if (lastRouteShowed.isActive){
+
+                    FragmentDialogExtendedInfo extendedInfo = new FragmentDialogExtendedInfo();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(getString(R.string.VALUE_NAME),lastRouteShowed.getName());
+                    bundle.putString(getString(R.string.VALUE_XML_ROUTE), lastRouteShowed.getXmlRoute());
+                    bundle.putFloat(getString(R.string.VALUE_DIST), lastRouteShowed.getDist());
+                    bundle.putFloat(getString(R.string.VALUE_TIME), lastRouteShowed.getDurac());
+                    bundle.putInt(getString(R.string.VALUE_ID), lastRouteShowed.getId());
+                    bundle.putInt(getString(R.string.VALUE_DIF), lastRouteShowed.getDifficulty());
+                    LatLng latLng = lastRouteShowed.getFirstPoint();
+                    double[] latLngDouble = new double[2];
+                    latLngDouble[0] = latLng.latitude;
+                    latLngDouble[1] = latLng.longitude;
+                    bundle.putDoubleArray(getString(R.string.VALUE_LATLNG),latLngDouble);
+                    extendedInfo.setArguments(bundle);
+                    extendedInfo.show(getSupportFragmentManager(), "FragmentDialogExtendedInfo");
+                }
             }
         });
 
@@ -496,6 +512,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int map_type = prefs.getInt(getString(R.string.MAP_TYPE),3);
         googleMap.setMapType(map_type);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -677,8 +694,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     difficult.setImageResource(R.drawable.nivel_intermedio);
             }
             if (quickInfo.getVisibility()== View.GONE){
-
-
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_on);
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 /**
  * Created by jfernandez on 09/06/2015.
@@ -26,7 +27,11 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle arguments = getArguments();
         View view = inflater.inflate(R.layout.dialog_extended_info, container);
+
+        TextView tvName = (TextView) view.findViewById(R.id.tvPathNameInfo);
+        tvName.setText(arguments.getString(getString(R.string.VALUE_NAME), "NAME"));
         tabHost = (FragmentTabHost)view.findViewById(R.id.tabsExtendedInfo);
 
         tabHost.setup(getActivity(), getChildFragmentManager());
@@ -34,7 +39,7 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
         tabHost.addTab(tabHost.newTabSpec("spect2").setIndicator("Chart"), Fragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("spect3").setIndicator("Weather"), Fragment.class, null);
 
-        PageAdapterExtendedInfo pagerAdapter = new PageAdapterExtendedInfo(getChildFragmentManager());
+        PageAdapterExtendedInfo pagerAdapter = new PageAdapterExtendedInfo(getChildFragmentManager(), arguments);
 
         viewPager = (ViewPager) view.findViewById(R.id.pagerExtendedInfo);
         viewPager.setAdapter(pagerAdapter);
@@ -75,22 +80,35 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
 
     /********************/
     protected class PageAdapterExtendedInfo extends FragmentPagerAdapter {
-
-        public PageAdapterExtendedInfo(FragmentManager fragmentManager){
+        private Bundle arguments;
+       /* public PageAdapterExtendedInfo(FragmentManager fragmentManager){
             super(fragmentManager);
+        }*/
+
+        public PageAdapterExtendedInfo(FragmentManager fm, Bundle b){
+            super(fm);
+            arguments = b;
         }
 
         @Override
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return new FragmentDescription();
+                    FragmentDescription fd = new FragmentDescription();
+                    fd.setArguments(arguments);
+                    return fd;
                 case 1:
-                    return new FragmentChart();
+                    FragmentChart fc = new FragmentChart();
+                    fc.setArguments(arguments);
+                    return fc;
                 case 2:
-                    return new FragmentWeather();
+                    FragmentWeather fw = new FragmentWeather();
+                    fw.setArguments(arguments);
+                    return fw;
                 default:
-                    return new FragmentDescription();
+                    FragmentDescription fd1 = new FragmentDescription();
+                    fd1.setArguments(arguments);
+                    return fd1;
                 }
             //return null;
         }
