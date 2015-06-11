@@ -18,6 +18,8 @@ public class Route {
     private int difficulty;
     private int id;
     private float durac;
+    private String weatherJson;
+    private long timeStamp;
 
     Route(int _id, String _name, String _xml, float _dist, int _difficulty, float durac){
         id = _id;
@@ -27,6 +29,8 @@ public class Route {
         difficulty = _difficulty;
         this.durac = durac;
         markersList = new ArrayList<Marker>();
+        weatherJson = null;
+        timeStamp = 0;
     }
 
     public void setMarker(Marker marker){
@@ -65,5 +69,25 @@ public class Route {
             Marker m = markersList.get(i);
             m.setVisible(visibility);
         }
+    }
+    public void setWeatherJson(String json){
+        weatherJson = json;
+        timeStamp = System.currentTimeMillis();
+    }
+    public String getWeatherJson(){
+        long nowTime = System.currentTimeMillis();
+        if (weatherJson != null){
+            if ((nowTime - timeStamp) <= 3600000){    //1 hour
+                return weatherJson;
+            }
+            else
+                clearWeather();
+        }
+        return null;
+    }
+
+    public void clearWeather(){
+        weatherJson = null;
+        timeStamp = 0;
     }
 }

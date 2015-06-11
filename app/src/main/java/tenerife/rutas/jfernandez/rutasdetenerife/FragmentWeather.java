@@ -50,12 +50,17 @@ public class FragmentWeather extends Fragment {
     private String jsonWeather;
     private View v;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         if (v == null){
-            Log.v("OnCreate","Recreating Weather Fragment");
+            Log.v("OnCreate", "Recreating Weather Fragment");
+            //Getting json weather from cache
+            MapsActivity mainActivity = (MapsActivity)getActivity();
+            jsonWeather = mainActivity.getLastRouteShowed().getWeatherJson();
+
             Bundle arguments = getArguments();
             myLatLng = arguments.getDoubleArray(getString(R.string.VALUE_LATLNG));
             v = inflater.inflate(R.layout.info_weather, container, false);
@@ -82,10 +87,6 @@ public class FragmentWeather extends Fragment {
                 public void handleMessage(Message msg) {
                     //super.handleMessage(msg);
                     String mensaje = (String) msg.obj;
-                    if (mensaje != null){
-                        Log.v("HANDLE MENSSAGE", mensaje);
-                    }else
-                        Log.v("HANDLE MENSSAGE", "NULL!!");
                     try {
                         JSONObject jObject = new JSONObject(mensaje);
                         JSONObject currentCond = jObject.getJSONObject("data").getJSONArray("current_condition").getJSONObject(0);
@@ -119,7 +120,6 @@ public class FragmentWeather extends Fragment {
                         iconWeather2.setImageResource(getDrawableResourceByName("i"+value2));
                         tvPrecip2.setText(getResources().getString(R.string.precip)+prevHourly.getString("precipMM")+" Lm2");
 
-
                         String paramTemp2 = prev.getString("maxtempC") + " ºC - "+prev.getString("mintempC")+" ºC";
                         if (Locale.getDefault() == Locale.US)
                             paramTemp2 = prev.getString("maxtempF")+ " ºF - "+prev.getString("mintempF")+" ºF";
@@ -137,6 +137,10 @@ public class FragmentWeather extends Fragment {
                         if ((Locale.getDefault() == Locale.UK) || (Locale.getDefault() == Locale.US))
                             cadena2 = prevHourly.getString("windspeedMiles") + " miles/h";
                         tvWindVel2.setText(cadena2);
+
+                        //Update weather Route
+                        MapsActivity mainActivity = (MapsActivity)getActivity();
+                        mainActivity.getLastRouteShowed().setWeatherJson(mensaje);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         //Log.e("Error!", e.toString());
@@ -158,12 +162,13 @@ public class FragmentWeather extends Fragment {
                             jsonWeather = reader.readLine();
                             in.close();
                             if (jsonWeather != null){
-                                Log.v("HTTP weather --->", jsonWeather);
+                                Log.v("gettingHttpRequest", jsonWeather);
                                 Message msg = new Message();
                                 msg.obj = jsonWeather;
                                 //Log.v("Thread weather", "Info NO cacheada!!");
                                 handlerWeather.sendMessage(msg);
                             }
+                            urlConnection.disconnect();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

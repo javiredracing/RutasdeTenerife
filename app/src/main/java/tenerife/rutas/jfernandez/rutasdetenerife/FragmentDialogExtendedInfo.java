@@ -24,6 +24,7 @@ import android.widget.TextView;
 public class FragmentDialogExtendedInfo extends DialogFragment {
     private FragmentTabHost tabHost;
     private ViewPager viewPager;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

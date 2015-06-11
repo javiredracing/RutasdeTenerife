@@ -419,6 +419,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        int size = routesList.size();
+        for (int i = 0; i< size; i++){
+            routesList.get(i).clearWeather();
+        }
+    }
+
     /*********************************************/
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -915,5 +924,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (pathShowed != null)
             pathShowed.remove();
         closeQuickInfo();
+    }
+
+    public Route getLastRouteShowed(){
+        return lastRouteShowed;
     }
 }
