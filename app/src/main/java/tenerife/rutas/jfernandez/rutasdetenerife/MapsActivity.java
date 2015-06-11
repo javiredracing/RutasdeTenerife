@@ -138,7 +138,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         quickInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(),"onClick", Toast.LENGTH_SHORT).show();
+                //TODO Close info, center in path, share path buttons
                 if (lastRouteShowed.isActive){
 
                     FragmentDialogExtendedInfo extendedInfo = new FragmentDialogExtendedInfo();
