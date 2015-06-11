@@ -11,9 +11,13 @@ import android.view.ViewGroup;
  * Created by jfernandez on 29/05/2015.
  */
 public class FragmentInfo1 extends Fragment {
+    private View v;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.info1, container, false);
+        if (v == null){
+            v = inflater.inflate(R.layout.info1, container, false);
+        }
+        return v;
     }
 }

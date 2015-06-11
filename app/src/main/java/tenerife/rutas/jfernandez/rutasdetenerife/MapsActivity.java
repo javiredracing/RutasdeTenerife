@@ -660,7 +660,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //pathShowed.remove();
         PolylineOptions polylineOptions = new PolylineOptions();
         polylineOptions.addAll(path);
-        polylineOptions.width(5).color(Color.BLUE);
+        polylineOptions.width(3).color(Color.BLUE);
 
         pathShowed = mMap.addPolyline(polylineOptions);
     }

@@ -73,8 +73,8 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog =  super.onCreateDialog(savedInstanceState);
-        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setTitle(getString(R.string.title_activity_maps));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //dialog.setTitle(getString(R.string.title_activity_maps));
         return dialog;
     }
 

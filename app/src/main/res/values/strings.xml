@@ -26,4 +26,63 @@
         <item>Difficult</item>
         <item>Closed</item>
     </string-array>
+
+    <string name="w395">Moderate or heavy snow in area with thunder</string>
+    <string name="w392">Patchy light snow in area with thunder</string>
+    <string name="w389">Moderate or heavy rain in area with thunder</string>
+    <string name="w386">Patchy light rain in area with thunder</string>
+    <string name="w377">Moderate or heavy showers of ice pellets</string>
+    <string name="w374">Light showers of ice pellets</string>
+    <string name="w371">Moderate or heavy snow showers</string>
+    <string name="w368">Light snow showers</string>
+    <string name="w365">Moderate or heavy sleet showers</string>
+    <string name="w362">Light sleet showers</string>
+    <string name="w359">Torrential rain shower</string>
+    <string name="w356">Moderate or heavy rain shower</string>
+    <string name="w353">Light rain shower</string>
+    <string name="w350">Ice pellets</string>
+    <string name="w338">Heavy snow</string>
+    <string name="w335">Patchy heavy snow</string>
+    <string name="w332">Moderate snow</string>
+    <string name="w329">Patchy moderate snow</string>
+    <string name="w326">Light snow</string>
+    <string name="w323">Patchy light snow</string>
+    <string name="w320">Moderate or heavy sleet</string>
+    <string name="w317">Light sleet</string>
+    <string name="w314">Moderate or Heavy freezing rain</string>
+    <string name="w311">Light freezing rain</string>
+    <string name="w308">Heavy rain</string>
+    <string name="w305">Heavy rain at times</string>
+    <string name="w302">Moderate rain</string>
+    <string name="w299">Moderate rain at times</string>
+    <string name="w296">Light rain</string>
+    <string name="w293">Patchy light rain</string>
+    <string name="w284">Heavy freezing drizzle</string>
+    <string name="w281">Freezing drizzle</string>
+    <string name="w266">Light drizzle</string>
+    <string name="w263">Patchy light drizzle</string>
+    <string name="w260">Freezing fog</string>
+    <string name="w248">Fog</string>
+    <string name="w230">Blizzard</string>
+    <string name="w227">Blowing snow</string>
+    <string name="w200">Thundery outbreaks in nearby</string>
+    <string name="w185">Patchy freezing drizzle nearby</string>
+    <string name="w182">Patchy sleet nearby</string>
+    <string name="w179">Patchy snow nearby</string>
+    <string name="w176">Patchy rain nearby</string>
+    <string name="w143">Mist</string>
+    <string name="w122">Overcast</string>
+    <string name="w119">Cloudy</string>
+    <string name="w116">Partly Cloudy</string>
+    <string name="w113">Clear/Sunny</string>
+    <string name="nubosidad">CloudCover: </string>
+    <string name="humedad">Humidity: </string>
+    <string name="precip">Precip: </string>
+    <string name="presion">Pressure: </string>
+    <string name="windDirec">Direction: </string>
+    <string name="windSpeed">Speed: </string>
+    <string name="atmosferico">Atmospheric conditions</string>
+    <string name="viento">Wind</string>
+    <string name="currentCond">Current conditions</string>
+    <string name="prevision">Forecast</string>
 </resources>
