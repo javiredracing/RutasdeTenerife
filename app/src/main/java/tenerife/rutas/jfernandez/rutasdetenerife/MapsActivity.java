@@ -140,22 +140,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View v) {
                 //TODO Close info, center in path, share path buttons
                 if (lastRouteShowed.isActive){
-
-                    FragmentDialogExtendedInfo extendedInfo = new FragmentDialogExtendedInfo();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(getString(R.string.VALUE_NAME),lastRouteShowed.getName());
-                    bundle.putString(getString(R.string.VALUE_XML_ROUTE), lastRouteShowed.getXmlRoute());
-                    bundle.putFloat(getString(R.string.VALUE_DIST), lastRouteShowed.getDist());
-                    bundle.putFloat(getString(R.string.VALUE_TIME), lastRouteShowed.getDurac());
-                    bundle.putInt(getString(R.string.VALUE_ID), lastRouteShowed.getId());
-                    bundle.putInt(getString(R.string.VALUE_DIF), lastRouteShowed.getDifficulty());
-                    LatLng latLng = lastRouteShowed.getFirstPoint();
-                    double[] latLngDouble = new double[2];
-                    latLngDouble[0] = latLng.latitude;
-                    latLngDouble[1] = latLng.longitude;
-                    bundle.putDoubleArray(getString(R.string.VALUE_LATLNG),latLngDouble);
-                    extendedInfo.setArguments(bundle);
-                    extendedInfo.show(getSupportFragmentManager(), "FragmentDialogExtendedInfo");
+                    if (getSupportFragmentManager().findFragmentByTag("FragmentDialogExtendedInfo") == null){
+                        FragmentDialogExtendedInfo extendedInfo = new FragmentDialogExtendedInfo();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(getString(R.string.VALUE_NAME),lastRouteShowed.getName());
+                        bundle.putString(getString(R.string.VALUE_XML_ROUTE), lastRouteShowed.getXmlRoute());
+                        bundle.putFloat(getString(R.string.VALUE_DIST), lastRouteShowed.getDist());
+                        bundle.putFloat(getString(R.string.VALUE_TIME), lastRouteShowed.getDurac());
+                        bundle.putInt(getString(R.string.VALUE_ID), lastRouteShowed.getId());
+                        bundle.putInt(getString(R.string.VALUE_DIF), lastRouteShowed.getDifficulty());
+                        LatLng latLng = lastRouteShowed.getFirstPoint();
+                        double[] latLngDouble = new double[2];
+                        latLngDouble[0] = latLng.latitude;
+                        latLngDouble[1] = latLng.longitude;
+                        bundle.putDoubleArray(getString(R.string.VALUE_LATLNG),latLngDouble);
+                        extendedInfo.setArguments(bundle);
+                        extendedInfo.show(getSupportFragmentManager(), "FragmentDialogExtendedInfo");
+                    }
                 }
             }
         });
@@ -683,7 +684,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             title.setText(route.getName());
             LinearLayout itemNested2 = (LinearLayout) quickInfo.getChildAt(1);
             TextView distance = (TextView) itemNested2.getChildAt(0);
-            distance.setText(""+route.getDist()+ " Km");
+            distance.setText("" + route.getDist() + " Km");
             ImageView difficult = (ImageView) itemNested2.getChildAt(1);
             switch (route.getDifficulty()){
                 case 1:
@@ -802,27 +803,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         drawerListMenu = (ListView)findViewById(R.id.left_drawer);
         ArrayList<DrawerItem> itemsMenu = new ArrayList<DrawerItem>();
 
-        boolean hasGps = prefs.getBoolean("gps", false);
-/*        int icon = R.drawable.gps_off64;
-        if (hasGps)
-            icon = R.drawable.gps_on64;
-        itemsMenu.add(new DrawerItem("Item1",icon, 0));*/
         itemsMenu.add(new DrawerItem("Item1",R.drawable.icon_my_pos64,1));
         itemsMenu.add(new DrawerItem("Item2",R.drawable.map64,2));
         itemsMenu.add(new DrawerItem("Item3",R.drawable.filter64,3));
         itemsMenu.add(new DrawerItem("Item4",R.drawable.info64,4));
         itemsMenu.add(new DrawerItem("Item5",R.drawable.share64,5));
         drawerListMenu.setAdapter(new MenuListAdapter(getApplicationContext(), itemsMenu));
-        /*TextView textView = new TextView(this);
-        textView.setText("Options");
-        textView.setTextColor(Color.WHITE);
-        textView.setGravity(Gravity.CENTER);
-        drawerListMenu.addHeaderView(textView);*/
+
         drawerListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
-                    case 0:
+                    case 0: //get current position
                         if (myPos!= null){
                             getCurrentAddress(myPos.getPosition());
                             float zoom = mMap.getCameraPosition().zoom;
@@ -833,7 +825,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             drawerLayout.closeDrawers();
                         }
                         break;
-                    case 1:
+                    case 1: //change map type
                         int type = mMap.getMapType();
                         type = (type % 3) + 1;
                         mMap.setMapType(type);
@@ -858,19 +850,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         globalToast.setText(text);
                         globalToast.show();
                         break;
-                    case 2://TODO FILTER
-                        DialogFragment dialogFilter = new DialogFilter();
-                        dialogFilter.setCancelable(true);
-
-                        dialogFilter.show(getFragmentManager(),"filter");
+                    case 2:     //Filter
+                        if (getFragmentManager().findFragmentByTag("filter") == null){
+                            DialogFragment dialogFilter = new DialogFilter();
+                            dialogFilter.setCancelable(true);
+                            dialogFilter.show(getFragmentManager(),"filter");
+                        }
                         break;
-                    case 3: //TODO MORE INFO
-                        FragmentDialogInfo dialogInfo = new FragmentDialogInfo();
-                        dialogInfo.show(getSupportFragmentManager(),"FragmentDialogInfo");
-                        //getFragmentManager();
-                        //getSupportFragmentManager();
+                    case 3: //MORE INFO
+                        if (getSupportFragmentManager().findFragmentByTag("FragmentDialogInfo") == null) {
+                            FragmentDialogInfo dialogInfo = new FragmentDialogInfo();
+                            dialogInfo.show(getSupportFragmentManager(), "FragmentDialogInfo");
+                            //getFragmentManager();
+                            //getSupportFragmentManager();
+                        }
                         break;
-                    case 4:
+                    case 4: //Share
                         String url = "https://play.google.com/store/apps/details?id=com.rutas.java";
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
