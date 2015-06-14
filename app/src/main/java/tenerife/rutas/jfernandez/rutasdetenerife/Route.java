@@ -20,8 +20,9 @@ public class Route {
     private float durac;
     private String weatherJson;
     private long timeStamp;
+    private int region;
 
-    Route(int _id, String _name, String _xml, float _dist, int _difficulty, float durac){
+    Route(int _id, String _name, String _xml, float _dist, int _difficulty, float durac, int reg){
         id = _id;
         name = _name;
         xmlRoute = _xml;
@@ -31,6 +32,7 @@ public class Route {
         markersList = new ArrayList<Marker>();
         weatherJson = null;
         timeStamp = 0;
+        region = reg;
     }
 
     public void setMarker(Marker marker){
@@ -89,5 +91,9 @@ public class Route {
     public void clearWeather(){
         weatherJson = null;
         timeStamp = 0;
+    }
+
+    public int getRegion(){
+        return region;
     }
 }

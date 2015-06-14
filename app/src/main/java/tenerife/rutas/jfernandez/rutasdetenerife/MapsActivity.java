@@ -169,11 +169,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //Toast.makeText(getApplicationContext(),routesList.get(position).getName(), Toast.LENGTH_LONG).show();
                 //et_search.clearFocus();
                 RouteListAdapter rla = (RouteListAdapter)drawerList.getAdapter();
-                int routeId = rla.getArrayList().get(position).getId();
+                //int routeId = rla.getArrayList().get(position).getId();
+                int routeId = rla.getItemIdAtPosition(position);
                 drawerLayout.closeDrawers();
                 //int routeId = routesList.get(position).getId();
-                Route r = getRoute(routeId);
-                clickAction(r, r.getFirstPoint());
+                if (routeId >= 0){
+                    Route r = getRoute(routeId);
+                    clickAction(r, r.getFirstPoint());
+                }
             }
         });
         et_search = (EditText)findViewById(R.id.et_search);
@@ -495,7 +498,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //markerList.add(m);
                 //Update List
                //items.add(new DrawerItem(nombre, R.drawable.my_pos));
-                Route route = new Route(id,nombre,kml,dist,dific, durac);
+                Route route = new Route(id,nombre,kml,dist,dific, durac, 0);    //TODO insert region at the end
                 route.setMarker(m);
                 if ((finX != 0) && (finY != 0)){
                     LatLng geopoint2 = new LatLng(finX, finY);
@@ -890,7 +893,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 RouteListAdapter rla = (RouteListAdapter)drawerList.getAdapter();
-                rla.filter(s.toString());
+               rla.filter(s.toString());
             }
 
             @Override
