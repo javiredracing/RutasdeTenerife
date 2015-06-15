@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +19,13 @@ import android.widget.Toast;
 public class FragmentDescription extends Fragment {
     private View v;
     private Bundle arguments;
-    private BaseDatos bdTab2;
+    //private BaseDatos bdTab2;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (v == null){
-            bdTab2 = new BaseDatos(getActivity());
+            BaseDatos bdTab2 = new BaseDatos(getActivity());
             try {
                 bdTab2.abrirBD();
             }catch(SQLException sqle){
@@ -61,7 +60,7 @@ public class FragmentDescription extends Fragment {
             tvDescription.setText(desc);
             bdTab2.close();
 
-            /*ImageButton btAction = (ImageButton) v.findViewById(R.id.tvClickAction);
+            Button btAction = (Button) v.findViewById(R.id.tvClickAction);
             btAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -75,11 +74,11 @@ public class FragmentDescription extends Fragment {
                     }else{
                         Toast toast = Toast.makeText(getActivity(), "My position not found, try enabling GPS!", Toast.LENGTH_SHORT);
                         View vista = toast.getView();
-                        v.setBackgroundResource(R.drawable.border_toast);
+                        vista.setBackgroundResource(R.drawable.border_toast);
                         toast.show();
                     }
                 }
-            });*/
+            });
         }
         return v;
     }

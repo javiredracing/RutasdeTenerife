@@ -20,14 +20,11 @@ public class RouteListAdapter extends BaseAdapter {
     private static final int NUMBER_OF_REGIONS = 5;
 
     private LayoutInflater inflater;
-    //private ArrayList<Route> routesList;
     private ArrayList<Route> arrayList;
 
     private ArrayList<ListItem> routesList;
 
     public RouteListAdapter(Context ctx, List<Route> routes){
-        //mContext = ctx;
-        //this.routesList = routes;
 
         routesList = new ArrayList<>();
         insertItems(routes);
