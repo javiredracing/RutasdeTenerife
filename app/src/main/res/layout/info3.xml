@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:background="@android:color/holo_blue_bright"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Tab 3"/>
+        android:gravity="center_horizontal"
+        android:layout_marginTop="5dip"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/filter72"
+            android:layout_gravity="center_vertical"
+            />
+        <TextView
+            android:id="@+id/tvInfoApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text="@string/app_name"
+            android:textStyle="bold"
+            android:layout_marginLeft="4dip"
+            android:layout_gravity="center_vertical"
+            ></TextView>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tvAutor"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_marginTop="5dip"
+        android:text="@string/desarrollado"
+        ></TextView>
     <Button
         android:id="@+id/btContact"
-        android:text="Contact"
+        android:gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Contact"
+        android:textStyle="bold"
+        android:textColor="#FF0000"
+        android:drawableLeft="@android:drawable/sym_action_email"
+        android:layout_gravity="center"
+        ></Button>
 </LinearLayout>

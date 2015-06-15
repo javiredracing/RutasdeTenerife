@@ -13,6 +13,8 @@
     <string name="VALUE_TIME">value_time</string>
     <string name="VALUE_ID">value_id</string>
     <string name="VALUE_LATLNG">value_latlng</string>
+    <string name="VALUE_LATLNG_POS">value_latlng_pos</string>
+    <string name="VALUE_IS_CONNECTED">value_is_connected</string>
 
     <string-array name="opcionLong">
         <item>All</item>
@@ -85,4 +87,7 @@
     <string name="viento">Wind</string>
     <string name="currentCond">Current conditions</string>
     <string name="prevision">Forecast</string>
+
+    <string name="informacion_app">Application information</string>
+    <string name="desarrollado">Developed by Javier Fernández</string>
 </resources>

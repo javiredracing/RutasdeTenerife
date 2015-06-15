@@ -1,6 +1,9 @@
 package tenerife.rutas.jfernandez.rutasdetenerife;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by jfernandez on 09/06/2015.
@@ -25,11 +29,20 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
     private FragmentTabHost tabHost;
     private ViewPager viewPager;
 
+    private boolean isConnected;
+    private int lastTab;
+    private Toast toast;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         View view = inflater.inflate(R.layout.dialog_extended_info, container);
+
+        ConnectivityManager cm = (ConnectivityManager)getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        arguments.putBoolean(getString(R.string.VALUE_IS_CONNECTED), isConnected);
 
         TextView tvName = (TextView) view.findViewById(R.id.tvPathNameInfo);
         tvName.setText(arguments.getString(getString(R.string.VALUE_NAME), "NAME"));
@@ -64,7 +77,19 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                viewPager.setCurrentItem(tabHost.getCurrentTab());
+                int tab = tabHost.getCurrentTab();
+                if ((!isConnected)&& (tab == 2)){
+                    tabHost.setCurrentTab(lastTab);
+                    toast = Toast.makeText(getActivity(), "No internet connection!", Toast.LENGTH_SHORT);
+                    View v = toast.getView();
+                    v.setBackgroundResource(R.drawable.border_toast);
+                    toast.show();
+                }else{
+                    if (toast != null)
+                        toast.cancel();
+                    lastTab = tab;
+                    viewPager.setCurrentItem(tab);
+                }
             }
         });
         return view;
@@ -82,13 +107,15 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
     /********************/
     protected class PageAdapterExtendedInfo extends FragmentPagerAdapter {
         private Bundle arguments;
-       /* public PageAdapterExtendedInfo(FragmentManager fragmentManager){
-            super(fragmentManager);
-        }*/
+        private int pageNumber;
 
         public PageAdapterExtendedInfo(FragmentManager fm, Bundle b){
             super(fm);
             arguments = b;
+            if (b.getBoolean(getString(R.string.VALUE_IS_CONNECTED),true)){
+                pageNumber = 3;
+            }else
+                pageNumber = 2; //prevent loading fragment weather if no connection available
         }
 
         @Override
@@ -116,7 +143,7 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
 
         @Override
         public int getCount() {
-            return 3;
+            return pageNumber;
         }
     }
 }

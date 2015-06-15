@@ -154,6 +154,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         latLngDouble[0] = latLng.latitude;
                         latLngDouble[1] = latLng.longitude;
                         bundle.putDoubleArray(getString(R.string.VALUE_LATLNG),latLngDouble);
+                        if (myPos != null){
+                            double[] latLngMyPos = new double[2];
+                            latLngMyPos[0] = myPos.getPosition().latitude;
+                            latLngMyPos[1] = myPos.getPosition().longitude;
+                            bundle.putDoubleArray(getString(R.string.VALUE_LATLNG_POS),latLngMyPos);
+                        }
                         extendedInfo.setArguments(bundle);
                         extendedInfo.show(getSupportFragmentManager(), "FragmentDialogExtendedInfo");
                     }

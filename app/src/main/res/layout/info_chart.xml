@@ -32,6 +32,6 @@
         androidPlot.legendWidget.iconSizeMetrics.widthMetric.value="20dp"
         androidPlot.legendWidget.heightMetric.value="20dp"
         androidPlot.legendWidget.positionMetrics.anchor="right_bottom"
-        androidPlot.graphWidget.gridLinePaint.color="#FFFFFF"/>
+       />
 
 </LinearLayout>
