@@ -196,9 +196,9 @@ public class BaseDatos extends SQLiteOpenHelper {
 	//Obtiene la fila con la informacion necesaria para ser mostrada
 	public String[] getInformacion(String nombreSendero){
 		Cursor c = null;
- 
-			String where = "nombre = '" + nombreSendero + "'";
-			String consulta = "SELECT nombre, descripcion, duracion, longitud, dificultad, kml, inicX, inicY FROM Senderos WHERE "+ where;
+
+		String where = "nombre = '" + nombreSendero + "'";
+		String consulta = "SELECT nombre, descripcion, duracion, longitud, dificultad, kml, inicX, inicY FROM Senderos WHERE "+ where;
 		try{
 			c = db.rawQuery(consulta, null);
 		}catch(Exception e){
@@ -213,6 +213,26 @@ public class BaseDatos extends SQLiteOpenHelper {
 		}
 		c.close();
 		return listaDatos;
+	}
+
+	public String getDescriptionById(int id){
+		Cursor c = null;
+
+		String where = "id = '" + id + "'";
+		String consulta = "SELECT descripcion FROM Senderos WHERE "+ where;
+		try{
+			c = db.rawQuery(consulta, null);
+		}catch(Exception e){
+			Log.d("BaseDatos.getInfo", e.toString());
+		}
+		String[] listaDatos = new String[c.getColumnCount()];
+		//Escogemos solo los valores de la primera fila, los demas seran repetidos
+		if (c.moveToFirst()){
+			int valor = c.getColumnCount();
+			listaDatos[0] = c.getString(0);
+		}
+		c.close();
+		return listaDatos[0];
 	}
 	
 	public String[] getDatos(Boolean distinct, String[] columns, String selection, String[] selectionArgs, String groupBy,

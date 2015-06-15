@@ -1,6 +1,7 @@
 package tenerife.rutas.jfernandez.rutasdetenerife;
 
 import android.content.Intent;
+import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,10 +20,18 @@ import android.widget.Toast;
 public class FragmentDescription extends Fragment {
     private View v;
     private Bundle arguments;
+    private BaseDatos bdTab2;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (v == null){
+            bdTab2 = new BaseDatos(getActivity());
+            try {
+                bdTab2.abrirBD();
+            }catch(SQLException sqle){
+                throw sqle;
+            }
             arguments = getArguments();
             v = inflater.inflate(R.layout.info_description, container, false);
             TextView tvDist = (TextView)v.findViewById(R.id.tvDist);
@@ -46,8 +55,13 @@ public class FragmentDescription extends Fragment {
             tvDif.setText(text);
             TextView tvTime = (TextView)v.findViewById(R.id.tvTime);
             tvTime.setText(""+arguments.getFloat(getString(R.string.VALUE_TIME),0));
-           /* Button btAction = (Button)v.findViewById(R.id.btAction);*/
-            ImageButton btAction = (ImageButton) v.findViewById(R.id.tvClickAction);
+
+            String desc = bdTab2.getDescriptionById(arguments.getInt(getString(R.string.VALUE_ID),0));
+            TextView tvDescription = (TextView)v.findViewById(R.id.tvTextDescriptor);
+            tvDescription.setText(desc);
+            bdTab2.close();
+
+            /*ImageButton btAction = (ImageButton) v.findViewById(R.id.tvClickAction);
             btAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -65,7 +79,7 @@ public class FragmentDescription extends Fragment {
                         toast.show();
                     }
                 }
-            });
+            });*/
         }
         return v;
     }
