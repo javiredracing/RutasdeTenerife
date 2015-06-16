@@ -36,6 +36,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.Locale;
 
@@ -56,7 +57,7 @@ public class FragmentWeather extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         if (v == null){
-            Log.v("OnCreate", "Recreating Weather Fragment");
+            //Log.v("OnCreate", "Recreating Weather Fragment");
             //Getting json weather from cache
             MapsActivity mainActivity = (MapsActivity)getActivity();
             jsonWeather = mainActivity.getLastRouteShowed().getWeatherJson();
@@ -156,6 +157,7 @@ public class FragmentWeather extends Fragment {
                         //String uri = "http://free.worldweatheronline.com/feed/weather.ashx?q="+ lat +","+ lon +"&format=json&num_of_days=1&key=da8292f4dd111341131401";
                         try {
                             URL url = new URL(uri);
+
                             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
                             urlConnection.setConnectTimeout(2000);
                             urlConnection.setReadTimeout(2000);
@@ -164,7 +166,7 @@ public class FragmentWeather extends Fragment {
                             jsonWeather = reader.readLine();
                             in.close();
                             if (jsonWeather != null){
-                                Log.v("gettingHttpRequest", jsonWeather);
+                                //Log.v("gettingHttpRequest", jsonWeather);
                                 Message msg = new Message();
                                 msg.obj = jsonWeather;
                                 //Log.v("Thread weather", "Info NO cacheada!!");
