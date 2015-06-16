@@ -157,6 +157,8 @@ public class FragmentWeather extends Fragment {
                         try {
                             URL url = new URL(uri);
                             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+                            urlConnection.setConnectTimeout(2000);
+                            urlConnection.setReadTimeout(2000);
                             InputStream in = urlConnection.getInputStream();
                             BufferedReader reader = new BufferedReader(new InputStreamReader(in,"UTF-8"),8);
                             jsonWeather = reader.readLine();
@@ -176,7 +178,7 @@ public class FragmentWeather extends Fragment {
                 };
                 weatherThread.start();
             }else{	//Si result existe en cache...
-                Log.v("onCreateView", "recicling view Weather");
+               // Log.v("onCreateView", "recicling view Weather");
                 Message msg = new Message();
                 msg.obj = jsonWeather;
                 handlerWeather.sendMessage(msg);
