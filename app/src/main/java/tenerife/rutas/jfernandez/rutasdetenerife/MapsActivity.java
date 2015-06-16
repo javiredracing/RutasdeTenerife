@@ -214,7 +214,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     addConnectionCallbacks(this).
                     addOnConnectionFailedListener(this).
                     build();
+        }else{
+            Toast.makeText(getApplicationContext(),"Error loading Google Play Services", Toast.LENGTH_SHORT).show();
+            finish();
         }
+
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -225,13 +229,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mGoogleApiClient.disconnect();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.disconnect();
     }
 
     @Override
@@ -246,14 +252,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
-        if (mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(
-                    mGoogleApiClient, locationRequest, this);
+        if (mGoogleApiClient != null){
+            if (mGoogleApiClient.isConnected()) {
+                LocationServices.FusedLocationApi.requestLocationUpdates(
+                        mGoogleApiClient, locationRequest, this);
 
-            Log.d("onResume", "Location update resumed .....................");
+                Log.d("onResume", "Location update resumed .....................");
+            }
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
         }
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -709,7 +717,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     difficult.setImageResource(R.drawable.nivel_intermedio);
             }
             if (quickInfo.getVisibility()== View.GONE){
-                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_on);
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in_screen);
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
@@ -736,7 +744,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void closeQuickInfo(){
         if (quickInfo.getVisibility() != View.GONE){
-            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_off);
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out_screen);
             animation.setFillEnabled(true);
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -899,7 +907,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 RouteListAdapter rla = (RouteListAdapter)drawerList.getAdapter();
-               rla.filter(s.toString());
+                rla.filter(s.toString());
             }
 
             @Override

@@ -74,12 +74,13 @@ public class ActivitySplash extends Activity{
     public void finish() {
         if (!isFinished)
             temporizador.cancel();
-        appTitle.clearAnimation();
-        splashMain.clearAnimation();
+
         super.finish();
     }
 
     public void skip(View v) {
+        appTitle.clearAnimation();
+        splashMain.clearAnimation();
         temporizador.cancel();
         startApp();
     }
