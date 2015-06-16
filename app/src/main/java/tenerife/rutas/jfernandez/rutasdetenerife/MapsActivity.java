@@ -417,7 +417,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                         lastAzimuth = azimuthFinal;
                         myPos.setRotation(azimuthFinal);
-                        Log.v("Orientation",""+azimuthFinal);
+                        //Log.v("Orientation",""+azimuthFinal);
                     }
                 }
             }
@@ -933,4 +933,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Route getLastRouteShowed(){
         return lastRouteShowed;
     }
+
 }

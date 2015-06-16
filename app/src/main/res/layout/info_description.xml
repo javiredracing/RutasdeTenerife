@@ -1,30 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gris"
+    android:id="@+id/layout_description"
     >
-    <TextView
-        android:id="@+id/tvDist"
+    <include
+        android:id="@+id/fieldDist"
+        layout="@layout/field_view"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tab 1"/>
-    <TextView
-        android:id="@+id/tvDific"
+        ></include>
+
+    <include
+        android:id="@+id/fieldDific"
+        layout="@layout/field_view"
+        android:layout_toRightOf="@+id/fieldDist"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tvTime"
+        android:layout_height="wrap_content"
+        ></include>
+
+    <include
+        android:id="@+id/fieldTime"
+        layout="@layout/field_view"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tvTextDescriptor"
+        android:layout_height="wrap_content"
+        ></include>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/tvClickAction"
-        android:text="Go to map"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fieldDific"
+        android:layout_above="@+id/btAction"
+        android:background="@drawable/border"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:layout_margin="6dp"
+            android:id="@+id/tvTextDescriptor"
+            android:text="HOLA"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    ></ScrollView>
+
+    <ImageView
+        android:id="@+id/btAction"
+        android:text="Go to Map"
+        android:src="@drawable/share72"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-</LinearLayout>
+</RelativeLayout>

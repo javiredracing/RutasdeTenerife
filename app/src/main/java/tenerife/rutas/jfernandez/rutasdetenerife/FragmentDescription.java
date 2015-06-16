@@ -2,6 +2,7 @@ package tenerife.rutas.jfernandez.rutasdetenerife;
 
 import android.content.Intent;
 import android.database.SQLException;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,34 +36,53 @@ public class FragmentDescription extends Fragment {
             }
             arguments = getArguments();
             v = inflater.inflate(R.layout.info_description, container, false);
-            TextView tvDist = (TextView)v.findViewById(R.id.tvDist);
-            tvDist.setText(""+arguments.getFloat(getString(R.string.VALUE_DIST),0));
-            TextView tvDif =(TextView)v.findViewById(R.id.tvDific);
-            int dific = arguments.getInt(getString(R.string.VALUE_DIF),0);
+            TextView tvDist = (TextView)v.findViewById(R.id.fieldDist).findViewById(R.id.view_value);
+            tvDist.setText("" + arguments.getFloat(getString(R.string.VALUE_DIST), 0));
+            TextView tvDistTitle = (TextView)v.findViewById(R.id.fieldDist).findViewById(R.id.view_title);
+            tvDistTitle.setText("Distance");
+            ImageView tvDistIcon = (ImageView)v.findViewById(R.id.fieldDific).findViewById(R.id.view_image);
+            //TODO tvDistIcon
+
+            TextView tvDif = (TextView)v.findViewById(R.id.fieldDific).findViewById(R.id.view_value);
+            TextView tvDifTitle = (TextView)v.findViewById(R.id.fieldDific).findViewById(R.id.view_title);
+            ImageView tvDifIcon = (ImageView)v.findViewById(R.id.fieldDific).findViewById(R.id.view_image);
+            tvDifTitle.setText("Difficulty");
+            int dific = arguments.getInt(getString(R.string.VALUE_DIF), 0);
             String text ="";
+            int iconDific;
             switch (dific){
                 case 1:
                     text = "easy";
+                    iconDific = R.drawable.nivel_facil;
                     break;
                 case 2:
                     text = "medium";
+                    iconDific = R.drawable.nivel_intermedio;
                     break;
                 case 3:
                     text = "Difficult";
+                    iconDific = R.drawable.nivel_dificil;
                     break;
                 default:
+                    iconDific = R.drawable.nivel_facil;
                     text = "Closed";
             }
             tvDif.setText(text);
-            TextView tvTime = (TextView)v.findViewById(R.id.tvTime);
-            tvTime.setText(""+arguments.getFloat(getString(R.string.VALUE_TIME),0));
+            tvDifIcon.setImageResource(iconDific);
+
+            TextView tvTime = (TextView)v.findViewById(R.id.fieldTime).findViewById(R.id.view_value);
+            tvTime.setText("" + arguments.getFloat(getString(R.string.VALUE_TIME), 0));
+            TextView tvTimeTitle = (TextView)v.findViewById(R.id.fieldTime).findViewById(R.id.view_title);
+            tvTimeTitle.setText("Time");
+            ImageView tvTimeIcon = (ImageView)v.findViewById(R.id.fieldTime).findViewById(R.id.view_image);
+            tvTimeIcon.setImageResource(R.drawable.info64);
 
             String desc = bdTab2.getDescriptionById(arguments.getInt(getString(R.string.VALUE_ID),0));
             TextView tvDescription = (TextView)v.findViewById(R.id.tvTextDescriptor);
             tvDescription.setText(desc);
             bdTab2.close();
 
-            Button btAction = (Button) v.findViewById(R.id.tvClickAction);
+            ImageView btAction = (ImageView)v.findViewById(R.id.btAction);
             btAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

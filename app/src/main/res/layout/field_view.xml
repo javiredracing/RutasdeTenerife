@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="6dp"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:background="@drawable/border"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/view_image"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/search64"
+        android:layout_gravity="center_vertical"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:paddingLeft="4sp"
+            android:text="Distancia"
+            android:textStyle="bold"
+            android:id="@+id/view_title"
+            android:singleLine="true"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:paddingLeft="4sp"
+            android:text="12,3 km"
+            android:textStyle="italic"
+            android:id="@+id/view_value"
+            android:singleLine="true"
+            android:layout_below="@id/view_title"/>
+    </RelativeLayout>
+</LinearLayout>
