@@ -1,5 +1,6 @@
 package tenerife.rutas.jfernandez.rutasdetenerife;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.Toast;
  */
 public class FragmentInfo3 extends Fragment {
     private View v;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -23,7 +25,18 @@ public class FragmentInfo3 extends Fragment {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Contact", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    //i.setType("text/plain");
+                    i.setType("message/rfc822");
+                    i.putExtra(Intent.EXTRA_EMAIL, new String[]{"javiredracing@gmail.com"});
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Rutas de Tenerife, User");
+                    //i.putExtra(Intent.EXTRA_TEXT, "Texto");
+                    try{
+                        String texto = "Select E-mail";
+                        startActivity(Intent.createChooser(i, texto));
+                    }catch (android.content.ActivityNotFoundException ex){
+                       Toast.makeText(getActivity(), "ERROR! Cliente de e-mail no instalado", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }

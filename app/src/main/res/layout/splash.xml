@@ -2,16 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@android:color/transparent"
     android:onClick="skip"
     >
 
+    <ImageView
+        android:id="@+id/iv_splash_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/antequera1"
+        android:cropToPadding="true"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        />
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tvSplashTitle"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:background="@drawable/border"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+
+        android:text="Rutas de Tenerife" />
+    <TextView
+        android:id="@+id/textView1"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:textStyle="italic|bold"
         android:text="Click para continuar" />
 
     <ImageView

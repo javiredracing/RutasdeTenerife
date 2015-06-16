@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * Created by jfernandez on 09/06/2015.
@@ -14,6 +18,8 @@ public class ActivitySplash extends Activity{
     private final long SPLASH_DISPLAY_LENGTH = 5000;
     private CountDownTimer temporizador;
     private boolean isFinished;
+    private ImageView splashMain;
+    private TextView appTitle;
     //private Typeface font;
 
     /*
@@ -31,6 +37,8 @@ public class ActivitySplash extends Activity{
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.splash);
+        splashMain = (ImageView)findViewById(R.id.iv_splash_view);
+        appTitle = (TextView)findViewById(R.id.tvSplashTitle);
        // final Typeface tf = Typeface.createFromAsset(getAssets(), "font/OpenSans-Regular.ttf");
 
         //((TextView) findViewById(R.id.mainActivityAietText)).setTypeface(font);
@@ -54,9 +62,20 @@ public class ActivitySplash extends Activity{
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        final Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fadein);
+        final Animation inScreen = AnimationUtils.loadAnimation(this, R.anim.in_screen);
+        splashMain.startAnimation(fadeIn);
+        appTitle.startAnimation(inScreen);
+    }
+
+    @Override
     public void finish() {
         if (!isFinished)
             temporizador.cancel();
+        appTitle.clearAnimation();
+        splashMain.clearAnimation();
         super.finish();
     }
 
