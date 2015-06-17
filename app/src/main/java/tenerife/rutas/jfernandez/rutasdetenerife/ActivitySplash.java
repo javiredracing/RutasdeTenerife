@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -19,7 +20,7 @@ public class ActivitySplash extends Activity{
     private CountDownTimer temporizador;
     private boolean isFinished;
     private ImageView splashMain;
-    private TextView appTitle;
+    private LinearLayout appTitle;
     //private Typeface font;
 
     /*
@@ -38,7 +39,7 @@ public class ActivitySplash extends Activity{
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.splash);
         splashMain = (ImageView)findViewById(R.id.iv_splash_view);
-        appTitle = (TextView)findViewById(R.id.tvSplashTitle);
+        appTitle = (LinearLayout)findViewById(R.id.llSplashTitle);
        // final Typeface tf = Typeface.createFromAsset(getAssets(), "font/OpenSans-Regular.ttf");
 
         //((TextView) findViewById(R.id.mainActivityAietText)).setTypeface(font);

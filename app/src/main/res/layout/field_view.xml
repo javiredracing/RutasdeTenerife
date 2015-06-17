@@ -17,27 +17,33 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp">
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        >
 
         <TextView
+            android:id="@+id/view_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:paddingLeft="4sp"
+            android:paddingLeft="6sp"
+            android:paddingRight="6sp"
             android:text="Distancia"
             android:textStyle="bold"
-            android:id="@+id/view_title"
             android:singleLine="true"
+            android:textColor="@android:color/white"
             android:layout_alignParentLeft="true"/>
 
         <TextView
+            android:id="@+id/view_value"
+            android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:paddingLeft="4sp"
+            android:paddingLeft="6sp"
+            android:paddingRight="6sp"
             android:text="12,3 km"
             android:textStyle="italic"
-            android:id="@+id/view_value"
             android:singleLine="true"
             android:layout_below="@id/view_title"/>
     </RelativeLayout>

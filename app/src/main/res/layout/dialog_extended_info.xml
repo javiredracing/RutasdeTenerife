@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/gris"
     >
     <TextView
         android:id="@+id/tvPathNameInfo"
@@ -11,8 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/white"
         android:gravity="center"
+        android:padding="5dp"
         />
     <android.support.v4.view.ViewPager
         android:id="@+id/pagerExtendedInfo"

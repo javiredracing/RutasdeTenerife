@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,6 @@ public class FragmentDescription extends Fragment {
     private Bundle arguments;
     //private BaseDatos bdTab2;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (v == null){
@@ -34,7 +32,7 @@ public class FragmentDescription extends Fragment {
             arguments = getArguments();
             v = inflater.inflate(R.layout.info_description, container, false);
             TextView tvDist = (TextView)v.findViewById(R.id.fieldDist).findViewById(R.id.view_value);
-            tvDist.setText("" + arguments.getFloat(getString(R.string.VALUE_DIST), 0));
+            tvDist.setText("" + arguments.getFloat(getString(R.string.VALUE_DIST), 0) + " Km");
             TextView tvDistTitle = (TextView)v.findViewById(R.id.fieldDist).findViewById(R.id.view_title);
             tvDistTitle.setText("Distance");
             ImageView tvDistIcon = (ImageView)v.findViewById(R.id.fieldDific).findViewById(R.id.view_image);
@@ -68,11 +66,11 @@ public class FragmentDescription extends Fragment {
             tvDifIcon.setImageResource(iconDific);
 
             TextView tvTime = (TextView)v.findViewById(R.id.fieldTime).findViewById(R.id.view_value);
-            tvTime.setText("" + arguments.getFloat(getString(R.string.VALUE_TIME), 0));
+            tvTime.setText("" + arguments.getFloat(getString(R.string.VALUE_TIME), 0)+ " h");
             TextView tvTimeTitle = (TextView)v.findViewById(R.id.fieldTime).findViewById(R.id.view_title);
             tvTimeTitle.setText("Time");
             ImageView tvTimeIcon = (ImageView)v.findViewById(R.id.fieldTime).findViewById(R.id.view_image);
-            tvTimeIcon.setImageResource(R.drawable.info64);
+            tvTimeIcon.setImageResource(R.drawable.timer);
 
             String desc = bdTab2.getDescriptionById(arguments.getInt(getString(R.string.VALUE_ID),0));
             TextView tvDescription = (TextView)v.findViewById(R.id.tvTextDescriptor);

@@ -35,6 +35,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,6 +43,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -133,6 +135,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         TextView tv = (TextView) v.findViewById(android.R.id.message);
         if( tv != null) tv.setGravity(Gravity.CENTER);
         globalToast.setView(v);
+
+        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.btActionMenu);
+        //button.setSize(FloatingActionButton.SIZE_NORMAL);
+        /*button.setColorNormalResId(R.color.gris);
+        button.setColorPressedResId(android.R.color.white);*/
+        button.setIcon(R.drawable.logo);
+        //button.setStrokeVisible(false);
+        FloatingActionButton button2 = (FloatingActionButton) findViewById(R.id.btActionList);
+        button2.setIcon(R.drawable.list_32);
+
         //Configuring quick info
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
         quickInfo.setOnClickListener(new View.OnClickListener() {
@@ -174,12 +186,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getApplicationContext(),routesList.get(position).getName(), Toast.LENGTH_LONG).show();
                 //et_search.clearFocus();
-                RouteListAdapter rla = (RouteListAdapter)drawerList.getAdapter();
+                RouteListAdapter rla = (RouteListAdapter) drawerList.getAdapter();
                 //int routeId = rla.getArrayList().get(position).getId();
                 int routeId = rla.getItemIdAtPosition(position);
                 drawerLayout.closeDrawers();
                 //int routeId = routesList.get(position).getId();
-                if (routeId >= 0){
+                if (routeId >= 0) {
                     Route r = getRoute(routeId);
                     clickAction(r, r.getFirstPoint());
                 }
@@ -215,7 +227,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     addOnConnectionFailedListener(this).
                     build();
         }else{
-            Toast.makeText(getApplicationContext(),"Error loading Google Play Services", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Error loading Google Play Services, try again", Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -286,9 +298,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (drawerLayout.isDrawerOpen(Gravity.RIGHT) || drawerLayout.isDrawerOpen(Gravity.LEFT)){
             drawerLayout.closeDrawers();
         }else{
-            Dialog d = new AlertDialog.Builder(this)
+            AlertDialog d = new AlertDialog.Builder(this)
                     .setTitle(R.string.app_name)
-                    .setIcon(R.drawable.icon_my_pos64)
+                    .setIcon(R.drawable.logo)
                     .setMessage("Quit?")
                     .setNegativeButton("No", null)
                     .setPositiveButton("Si", new DialogInterface.OnClickListener() {
@@ -298,6 +310,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             MapsActivity.super.onBackPressed();
                         }
                     }).create();
+
             d.show();
         }
     }
@@ -694,15 +707,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void showQuickInfo(Route route){
         if (route != null){
-            LinearLayout itemNested = (LinearLayout)quickInfo.getChildAt(0);
-            ImageView icon = (ImageView) itemNested.getChildAt(0);
-            //TODO set icon drawable
-            TextView title = (TextView) itemNested.getChildAt(1);
+            TextView title = (TextView) quickInfo.getChildAt(0);
             title.setText(route.getName());
-            LinearLayout itemNested2 = (LinearLayout) quickInfo.getChildAt(1);
-            TextView distance = (TextView) itemNested2.getChildAt(0);
+            LinearLayout itemNested = (LinearLayout) quickInfo.getChildAt(1);
+            ImageView icon = (ImageView) itemNested.getChildAt(0);//TODO set icon drawable
+            TextView distance = (TextView) itemNested.getChildAt(1);
             distance.setText("" + route.getDist() + " Km");
-            ImageView difficult = (ImageView) itemNested2.getChildAt(1);
+            ImageView difficult = (ImageView) itemNested.getChildAt(2);
             switch (route.getDifficulty()){
                 case 1:
                     difficult.setImageResource(R.drawable.nivel_facil);
@@ -906,7 +917,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                RouteListAdapter rla = (RouteListAdapter)drawerList.getAdapter();
+                RouteListAdapter rla = (RouteListAdapter) drawerList.getAdapter();
                 rla.filter(s.toString());
             }
 
@@ -941,5 +952,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Route getLastRouteShowed(){
         return lastRouteShowed;
     }
+    /*private void changeColorsDialog(Dialog d){
+        int dividerId = d.getContext().getResources().getIdentifier("android:id/titleDivider", null, null);
+        View divider = d.findViewById(dividerId);
+        divider.setBackgroundColor(getResources().getColor(R.color.lightGreen));
+        int textViewId = d.getContext().getResources().getIdentifier("android:id/alertTitle", null, null);
+        TextView tv = (TextView) d.findViewById(textViewId);
+        tv.setTextColor(getResources().getColor(R.color.lightGreen));
+        //tv.setGravity(Gravity.CENTER);
+        //tv.setTypeface(tf);
+        int textView2Id = d.getContext().getResources().getIdentifier("android:id/message", null, null);
+        TextView tv2 = (TextView) d.findViewById(textView2Id);
+        tv2.setTextColor(getResources().getColor(R.color.gris));
+        tv2.setGravity(Gravity.CENTER);
+        //tv2.setTypeface(tf);
+        int bt1ViewId = d.getContext().getResources().getIdentifier("android:id/button1", null, null);
+        Button bt1 = (Button) d.findViewById(bt1ViewId);
+        bt1.setTextColor(getResources().getColor(R.color.gris));
+        //bt1.setTypeface(tf);
+        int bt2ViewId = d.getContext().getResources().getIdentifier("android:id/button2", null, null);
+        Button bt2 = (Button) d.findViewById(bt2ViewId);
+        bt2.setTextColor(getResources().getColor(R.color.gris));
+        //bt2.setTypeface(tf);
+    }*/
 
 }

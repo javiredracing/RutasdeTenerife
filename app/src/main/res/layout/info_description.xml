@@ -1,57 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gris"
     android:id="@+id/layout_description"
     >
-    <include
-        android:id="@+id/fieldDist"
-        layout="@layout/field_view"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ></include>
 
-    <include
-        android:id="@+id/fieldDific"
-        layout="@layout/field_view"
-        android:layout_toRightOf="@+id/fieldDist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ></include>
-
-    <include
-        android:id="@+id/fieldTime"
-        layout="@layout/field_view"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ></include>
-
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fieldDific"
+        android:orientation="horizontal" >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="left"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+            <include
+                android:id="@+id/fieldDist"
+                layout="@layout/field_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ></include>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+            <include
+                android:id="@+id/fieldDific"
+                layout="@layout/field_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ></include>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearLayout2"
+
+        android:orientation="horizontal" >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="left"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+            <include
+                android:id="@+id/fieldTime"
+                layout="@layout/field_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ></include>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="456546546"
+                android:layout_gravity="right"
+                android:background="#8800FF00"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:padding="5dp"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/linearLayout3"
         android:layout_above="@+id/btAction"
         android:background="@drawable/border"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-
-        <TextView
-            android:layout_margin="6dp"
-            android:id="@+id/tvTextDescriptor"
-            android:text="HOLA"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    ></ScrollView>
+        android:id="@+id/tvTextDescriptor"
+        android:text="HOLA"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <ImageView
         android:id="@+id/btAction"
         android:text="Go to Map"
-        android:src="@drawable/share72"
+        android:src="@drawable/share64"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
