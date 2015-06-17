@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<kml xmlns="http://earth.google.com/kml/2.2">
+		<Document>
+			<LookAt>
+				<longitude>-16.7597812105</longitude>
+				<latitude>28.218786</latitude>
+				<range>3000</range>
+				<tilt>0</tilt>
+				<heading>0</heading>
+			</LookAt>
+			<Style id="examplePolyStyle">
+			   	<PolyStyle>
+			      	<color>ff0000cc</color>
+			      	<colorMode>random</colorMode>
+					<fill>1</fill>
+					<outline>0</outline>
+			  	 </PolyStyle>
+			</Style>
+			<Placemark>
+				<name></name>
+				<description></description>
+				<styleUrl>#examplePolyStyle</styleUrl><LineString><coordinates>-16.760286,28.21905,870.163157 -16.759815,28.218984,875.4893609999999 -16.759779,28.218944,876.327899 -16.75966,28.218566,880.9510149999999 -16.75964,28.218535,880.999854 -16.759594,28.218515,881.24226 -16.759341,28.218469,883.772284</coordinates></LineString></Placemark></Document></kml>

@@ -72,7 +72,7 @@ public class FragmentDescription extends Fragment {
             ImageView tvTimeIcon = (ImageView)v.findViewById(R.id.fieldTime).findViewById(R.id.view_image);
             tvTimeIcon.setImageResource(R.drawable.timer);
 
-            String desc = bdTab2.getDescriptionById(arguments.getInt(getString(R.string.VALUE_ID),0));
+            String desc = bdTab2.getDescriptionById(arguments.getInt(getString(R.string.VALUE_ID),0), "es");
             TextView tvDescription = (TextView)v.findViewById(R.id.tvTextDescriptor);
             tvDescription.setText(desc);
             bdTab2.close();

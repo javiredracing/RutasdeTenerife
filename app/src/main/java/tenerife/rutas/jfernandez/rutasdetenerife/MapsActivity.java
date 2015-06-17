@@ -494,7 +494,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void setUpMap(GoogleMap googleMap) {
         //googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        Cursor c = bd.getInfoMap(false, new String[]{"nombre", "inicX", "inicY", "finX", "finY", "duracion", "longitud", "dificultad", "kml", "id"}, null, null, null, null, null);
+        Cursor c = bd.getInfoMap(false, new String[]{"nombre", "inicX", "inicY", "finX", "finY", "duracion", "longitud", "dificultad", "kml", "id","homologado", "region"}, null, null, null, null, null);
         LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
 
         if (c.getCount() > 0){
@@ -514,6 +514,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 int dific = c.getInt(7);
                 kml = c.getString(8);
                 int id = c.getInt(9);
+                int approved = c.getInt(10);
+                int region = c.getInt(11);
                 LatLng geopoint = new LatLng(inicX, inicY);
                 Marker m = googleMap.addMarker(new MarkerOptions()
                                 .position(geopoint)
@@ -525,7 +527,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //markerList.add(m);
                 //Update List
                //items.add(new DrawerItem(nombre, R.drawable.my_pos));
-                Route route = new Route(id,nombre,kml,dist,dific, durac, 0);    //TODO insert region at the end
+                Route route = new Route(id,nombre,kml,dist,dific, durac,approved, region);    //TODO insert region at the end
                 route.setMarker(m);
                 if ((finX != 0) && (finY != 0)){
                     LatLng geopoint2 = new LatLng(finX, finY);

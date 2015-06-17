@@ -23,7 +23,7 @@ public class Route {
     private int region;
     private boolean isApproved;
 
-    Route(int _id, String _name, String _xml, float _dist, int _difficulty, float durac, int reg){
+    Route(int _id, String _name, String _xml, float _dist, int _difficulty, float durac, int approved, int reg){
         id = _id;
         name = _name;
         xmlRoute = _xml;
@@ -34,7 +34,10 @@ public class Route {
         weatherJson = null;
         timeStamp = 0;
         region = reg;
-        isApproved = false;
+        if (approved == 1)
+            isApproved = true;
+        else
+            isApproved = false;
     }
 
     public void setMarker(Marker marker){

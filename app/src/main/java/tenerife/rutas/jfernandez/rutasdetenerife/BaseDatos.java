@@ -38,7 +38,10 @@ public class BaseDatos extends SQLiteOpenHelper {
     "longitud REAL NOT NULL, "+
     "dificultad TEXT NOT NULL, "+
     "descripcion TEXT NOT NULL,
-    "kml TEXT);";*/
+    "kml TEXT,
+    "homologado INTEGER",
+    "region INTEGER"
+    );";*/
 
 	private SQLiteDatabase db;
 	private Context contexto;
@@ -215,11 +218,11 @@ public class BaseDatos extends SQLiteOpenHelper {
 		return listaDatos;
 	}
 
-	public String getDescriptionById(int id){
+	public String getDescriptionById(int id, String languaje){
 		Cursor c = null;
-
+		//TODO determine languaje
 		String where = "id = '" + id + "'";
-		String consulta = "SELECT descripcion FROM Senderos WHERE "+ where;
+		String consulta = "SELECT es FROM description WHERE "+ where;
 		try{
 			c = db.rawQuery(consulta, null);
 		}catch(Exception e){
