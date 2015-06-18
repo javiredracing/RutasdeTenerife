@@ -2,8 +2,6 @@
     <color name="gris">#DAAA</color>
     <color name="lightGreen">#BBEAB0</color>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-    </style>
+
 
 </resources>

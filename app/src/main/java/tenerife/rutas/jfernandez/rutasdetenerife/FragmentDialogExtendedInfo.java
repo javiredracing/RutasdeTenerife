@@ -2,6 +2,7 @@ package tenerife.rutas.jfernandez.rutasdetenerife;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -53,13 +54,19 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
         tabHost.addTab(tabHost.newTabSpec("spect1").setIndicator("Descript"), Fragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("spect2").setIndicator("Chart"), Fragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("spect3").setIndicator("Weather"), Fragment.class, null);
-       /* TabWidget widget = tabHost.getTabWidget();
-       http://android-holo-colors.com
-       http://stackoverflow.com/questions/14722654/tabwidget-current-tab-bottom-line-color
+        TabWidget widget = tabHost.getTabWidget();
+       /*http://android-holo-colors.com
+       http://stackoverflow.com/questions/14722654/tabwidget-current-tab-bottom-line-color*/
         int count = widget.getTabCount();
         for (int i = 0; i < count; i++){
-            widget.getChildAt(i).setBackgroundResource();
-        }*/
+            View v = widget.getChildAt(i);
+            v.setBackgroundResource(R.drawable.apptheme_tab_indicator_holo);
+            TextView tv = (TextView)v.findViewById(android.R.id.title);
+            if(tv != null) {
+                tv.setTextColor(Color.WHITE);
+            }
+
+        }
         PageAdapterExtendedInfo pagerAdapter = new PageAdapterExtendedInfo(getChildFragmentManager(), arguments);
 
         viewPager = (ViewPager) view.findViewById(R.id.pagerExtendedInfo);
