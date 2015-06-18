@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +53,13 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
         tabHost.addTab(tabHost.newTabSpec("spect1").setIndicator("Descript"), Fragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("spect2").setIndicator("Chart"), Fragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("spect3").setIndicator("Weather"), Fragment.class, null);
-
+       /* TabWidget widget = tabHost.getTabWidget();
+       http://android-holo-colors.com
+       http://stackoverflow.com/questions/14722654/tabwidget-current-tab-bottom-line-color
+        int count = widget.getTabCount();
+        for (int i = 0; i < count; i++){
+            widget.getChildAt(i).setBackgroundResource();
+        }*/
         PageAdapterExtendedInfo pagerAdapter = new PageAdapterExtendedInfo(getChildFragmentManager(), arguments);
 
         viewPager = (ViewPager) view.findViewById(R.id.pagerExtendedInfo);

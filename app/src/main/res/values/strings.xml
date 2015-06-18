@@ -14,6 +14,7 @@
     <string name="VALUE_ID">value_id</string>
     <string name="VALUE_LATLNG">value_latlng</string>
     <string name="VALUE_LATLNG_POS">value_latlng_pos</string>
+    <string name="VALUE_APPROVED">value_approved</string>
     <string name="VALUE_IS_CONNECTED">value_is_connected</string>
 
     <string-array name="opcionLong">

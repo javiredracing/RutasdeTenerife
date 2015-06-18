@@ -72,29 +72,33 @@
             android:gravity="center_horizontal"
             android:padding="5dp"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <include
+                android:id="@+id/fieldApproved"
+                layout="@layout/field_view"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="456546546"
-                android:layout_gravity="right"
-                android:background="#8800FF00"/>
+                ></include>
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_margin="10dp"
         android:layout_below="@+id/linearLayout3"
         android:layout_above="@+id/btAction"
         android:background="@drawable/border"
-        android:id="@+id/tvTextDescriptor"
-        android:text="HOLA"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        >
+        <TextView
+            android:id="@+id/tvTextDescriptor"
+            android:text="HOLA"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
 
     <ImageView
         android:id="@+id/btAction"

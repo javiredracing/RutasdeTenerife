@@ -77,6 +77,17 @@ public class FragmentDescription extends Fragment {
             tvDescription.setText(desc);
             bdTab2.close();
 
+            TextView tvApprovedTitle = (TextView) v.findViewById(R.id.fieldApproved).findViewById(R.id.view_title);
+            tvApprovedTitle.setText("Approved");
+            TextView tvApproved = (TextView) v.findViewById(R.id.fieldApproved).findViewById(R.id.view_value);
+            boolean isApproved = arguments.getBoolean(getString(R.string.VALUE_APPROVED), false);
+            String mytext = "No";
+            if (isApproved)
+                mytext = "Yes";
+            tvApproved.setText(mytext);
+            ImageView approvedIcon = (ImageView)v.findViewById(R.id.fieldApproved).findViewById(R.id.view_image);
+            approvedIcon.setImageResource(R.drawable.marker_sign_24);
+
             ImageView btAction = (ImageView)v.findViewById(R.id.btAction);
             btAction.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,7 +1,5 @@
 package tenerife.rutas.jfernandez.rutasdetenerife;
 
-
-//import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,7 +21,7 @@ public class BaseDatos extends SQLiteOpenHelper {
 	private final static String TABLA = "Senderos";
 	private final static String BASEDATOS = "BDRutas";
 	private final static String DB_PATH = "/data/data/tenerife.rutas.jfernandez.rutasdetenerife/databases/";
-	private final static int DB_VERSION = 2;	//cambiar cuando haya una nueva version de la bd
+	private final static int DB_VERSION = 3;	//cambiar cuando haya una nueva version de la bd
 	//private final static String DIRECCION = "ftp://colega:alrasaIN3@ftp.rutasdetenerife.com:20/"+ BASEDATOS;
 	
     /*String CREATE_TABLE = 

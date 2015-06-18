@@ -40,6 +40,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -161,6 +162,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         bundle.putFloat(getString(R.string.VALUE_TIME), lastRouteShowed.getDurac());
                         bundle.putInt(getString(R.string.VALUE_ID), lastRouteShowed.getId());
                         bundle.putInt(getString(R.string.VALUE_DIF), lastRouteShowed.getDifficulty());
+                        bundle.putBoolean(getString(R.string.VALUE_APPROVED), lastRouteShowed.isApproved());
                         LatLng latLng = lastRouteShowed.getFirstPoint();
                         double[] latLngDouble = new double[2];
                         latLngDouble[0] = latLng.latitude;
@@ -255,8 +257,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onPause() {
         super.onPause();
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, this);
+        if ((mGoogleApiClient != null) && mGoogleApiClient.isConnected())
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         sensorManager.unregisterListener(this);
     }
 
@@ -271,8 +273,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 Log.d("onResume", "Location update resumed .....................");
             }
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-            sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, accelerometer, 330000);
+            sensorManager.registerListener(this, magnetometer, 330000); //3 times per second
         }
     }
 
@@ -349,7 +351,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (myPos == null)
             myPos = mMap.addMarker(new MarkerOptions().
                             position(new LatLng(28.299221, -16.525690))
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.my_pos))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.my_pos2_24))
                             .title("myPos")
                             .anchor(0.5f, 0.5f)
                             .flat(true)
@@ -565,7 +567,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-    
+
     /**************************************************************************/
 
     protected void createLocationRequest(){
@@ -843,9 +845,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         drawerListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
                     case 0: //get current position
-                        if (myPos!= null){
+                        if (myPos != null) {
                             getCurrentAddress(myPos.getPosition());
                             float zoom = mMap.getCameraPosition().zoom;
                             if (zoom < 14)
@@ -862,8 +864,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putInt(getString(R.string.MAP_TYPE), type);
                         editor.commit();
-                        String text="";
-                        switch (type){
+                        String text = "";
+                        switch (type) {
                             case 1:
                                 text = "Modo callejero";
                                 break;
@@ -874,17 +876,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 text = "Modo topográfico";
                                 break;
                             default:
-                                text = ""+type;
+                                text = "" + type;
                         }
                         globalToast.setDuration(Toast.LENGTH_SHORT);
                         globalToast.setText(text);
                         globalToast.show();
                         break;
                     case 2:     //Filter
-                        if (getFragmentManager().findFragmentByTag("filter") == null){
+                        if (getFragmentManager().findFragmentByTag("filter") == null) {
                             DialogFragment dialogFilter = new DialogFilter();
                             dialogFilter.setCancelable(true);
-                            dialogFilter.show(getFragmentManager(),"filter");
+                            dialogFilter.show(getFragmentManager(), "filter");
                         }
                         break;
                     case 3: //MORE INFO
@@ -899,12 +901,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         String url = "https://play.google.com/store/apps/details?id=com.rutas.java";
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, "Rutas de Tenerife"+"\n"+url);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "Rutas de Tenerife" + "\n" + url);
                         sendIntent.setType("text/plain");
                         startActivity(Intent.createChooser(sendIntent, "Comparte Rutas de Tenerife"));
                         break;
                     default:
-                        Toast.makeText(getApplicationContext(),""+position,Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -954,28 +956,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Route getLastRouteShowed(){
         return lastRouteShowed;
     }
-    /*private void changeColorsDialog(Dialog d){
-        int dividerId = d.getContext().getResources().getIdentifier("android:id/titleDivider", null, null);
-        View divider = d.findViewById(dividerId);
-        divider.setBackgroundColor(getResources().getColor(R.color.lightGreen));
-        int textViewId = d.getContext().getResources().getIdentifier("android:id/alertTitle", null, null);
-        TextView tv = (TextView) d.findViewById(textViewId);
-        tv.setTextColor(getResources().getColor(R.color.lightGreen));
-        //tv.setGravity(Gravity.CENTER);
-        //tv.setTypeface(tf);
-        int textView2Id = d.getContext().getResources().getIdentifier("android:id/message", null, null);
-        TextView tv2 = (TextView) d.findViewById(textView2Id);
-        tv2.setTextColor(getResources().getColor(R.color.gris));
-        tv2.setGravity(Gravity.CENTER);
-        //tv2.setTypeface(tf);
-        int bt1ViewId = d.getContext().getResources().getIdentifier("android:id/button1", null, null);
-        Button bt1 = (Button) d.findViewById(bt1ViewId);
-        bt1.setTextColor(getResources().getColor(R.color.gris));
-        //bt1.setTypeface(tf);
-        int bt2ViewId = d.getContext().getResources().getIdentifier("android:id/button2", null, null);
-        Button bt2 = (Button) d.findViewById(bt2ViewId);
-        bt2.setTextColor(getResources().getColor(R.color.gris));
-        //bt2.setTypeface(tf);
-    }*/
+    /*private boolean isInRange(int azimuth, int angle){
+        int azimuthInverse = (360 - azimuth);
+        final int RANGE = 30;	//30 degrees in each side = 60
 
+        int from = azimuthInverse - RANGE;
+        if (from < 0)
+            from = 360 - from;
+        int to = (azimuthInverse + RANGE) % 360;
+
+        if(from > to){
+            return ((angle > from) || ( angle < to));
+        } else if ( to > from){
+            return ((angle < to) && ( angle > from));
+        } else // to == from
+            return (angle == to);
+        return true;
+    }*/
 }
