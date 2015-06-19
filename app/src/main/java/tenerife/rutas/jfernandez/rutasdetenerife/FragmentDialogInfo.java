@@ -2,6 +2,7 @@ package tenerife.rutas.jfernandez.rutasdetenerife;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TabHost;
+import android.widget.TabWidget;
+import android.widget.TextView;
 
 /**
  * Created by jfernandez on 29/05/2015.
@@ -35,6 +38,16 @@ public class FragmentDialogInfo extends DialogFragment {
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("indicator1"), Fragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("indicator2"), Fragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("indicator3"), Fragment.class, null);
+        TabWidget widget = tabHost.getTabWidget();
+        int count = widget.getTabCount();
+        for (int i = 0; i < count; i++){
+            View v = widget.getChildAt(i);
+            v.setBackgroundResource(R.drawable.apptheme_tab_indicator_holo);
+            TextView tv = (TextView)v.findViewById(android.R.id.title);
+            if(tv != null) {
+                tv.setTextColor(getResources().getColor(R.color.gris));
+            }
+        }
 
         PagerAdapterInfo pagerAdapterInfo = new PagerAdapterInfo(getChildFragmentManager());
 
@@ -70,7 +83,7 @@ public class FragmentDialogInfo extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog =  super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         return dialog;
     }
 

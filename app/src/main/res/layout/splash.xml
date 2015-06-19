@@ -44,7 +44,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_vertical"
-            android:text="Rutas de Tenerife" />
+            android:text="@string/title_activity_maps" />
     </LinearLayout>
 
 

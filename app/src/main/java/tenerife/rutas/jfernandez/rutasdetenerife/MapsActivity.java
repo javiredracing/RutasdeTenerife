@@ -314,6 +314,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }).create();
 
             d.show();
+            changeAlertDividerColor(d);
         }
     }
 
@@ -886,6 +887,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if (getFragmentManager().findFragmentByTag("filter") == null) {
                             DialogFragment dialogFilter = new DialogFilter();
                             dialogFilter.setCancelable(true);
+
                             dialogFilter.show(getFragmentManager(), "filter");
                         }
                         break;
@@ -913,6 +915,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void configureSearch() {
+        et_search.setTextColor(getResources().getColor(android.R.color.white));
         et_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -973,4 +976,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return (angle == to);
         return true;
     }*/
+    private void changeAlertDividerColor(Dialog dialog){
+        int titleDividerId = getResources().getIdentifier("titleDivider", "id", "android");
+        View titleDivider = dialog.findViewById(titleDividerId);
+        if (titleDivider != null)
+            titleDivider.setBackgroundColor(getResources().getColor(R.color.lightGreen));
+    }
 }

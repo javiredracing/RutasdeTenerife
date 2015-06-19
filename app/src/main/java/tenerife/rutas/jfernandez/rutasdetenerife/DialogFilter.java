@@ -97,6 +97,7 @@ public class DialogFilter extends DialogFragment {
         });
         AlertDialog ad = builder.create();
         ad.setCanceledOnTouchOutside(true);
+        ad.setIcon(R.drawable.filter64);
        // ad.requestWindowFeature(Window.FEATURE_NO_TITLE);
         return ad;
     }

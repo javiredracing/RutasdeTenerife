@@ -85,4 +85,9 @@ public class ActivitySplash extends Activity{
         temporizador.cancel();
         startApp();
     }
+
+    @Override
+    public void onBackPressed() {
+        skip(null);
+    }
 }

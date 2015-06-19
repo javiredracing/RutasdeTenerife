@@ -63,9 +63,8 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
             v.setBackgroundResource(R.drawable.apptheme_tab_indicator_holo);
             TextView tv = (TextView)v.findViewById(android.R.id.title);
             if(tv != null) {
-                tv.setTextColor(Color.WHITE);
+                tv.setTextColor(getResources().getColor(R.color.gris));
             }
-
         }
         PageAdapterExtendedInfo pagerAdapter = new PageAdapterExtendedInfo(getChildFragmentManager(), arguments);
 
