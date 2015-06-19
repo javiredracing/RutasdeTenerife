@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import android.view.Window;
 import android.widget.ArrayAdapter;
 
 import android.widget.Spinner;
@@ -97,8 +98,8 @@ public class DialogFilter extends DialogFragment {
         });
         AlertDialog ad = builder.create();
         ad.setCanceledOnTouchOutside(true);
-        ad.setIcon(R.drawable.filter64);
-       // ad.requestWindowFeature(Window.FEATURE_NO_TITLE);
+       // ad.setIcon(R.drawable.filter64);
+        ad.requestWindowFeature(Window.FEATURE_NO_TITLE);
         return ad;
     }
 

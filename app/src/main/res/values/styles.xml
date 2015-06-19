@@ -8,6 +8,7 @@
         <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
         <item name="android:dropDownSpinnerStyle">@style/SpinnerAppTheme</item>
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
     </style>
 
     <style name="Theme_Custom_Dialog_Alert" parent="@android:style/Theme.Holo.Light.Dialog">
@@ -73,9 +74,13 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_light</item>
     </style>
-    <!-- -->
+
     <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">@color/gris</item>
     </style>
 
+    <style name="SpinnerItem">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

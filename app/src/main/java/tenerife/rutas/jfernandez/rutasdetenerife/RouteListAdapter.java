@@ -17,7 +17,7 @@ import java.util.List;
 public class RouteListAdapter extends BaseAdapter {
 
     //private Context mContext;
-    private static final int NUMBER_OF_REGIONS = 5;
+    private static final int NUMBER_OF_REGIONS = 6;
 
     private LayoutInflater inflater;
     private ArrayList<Route> arrayList;
@@ -187,22 +187,22 @@ public class RouteListAdapter extends BaseAdapter {
         String regionName = "";
         switch (region){
             case 0:
-                regionName = "region 0";
+                regionName = "Anaga";
                 break;
             case 1:
-                regionName = "region 1";
+                regionName = "Zona norte";
                 break;
             case 2:
-                regionName = "region 2";
+                regionName = "Teno";
                 break;
             case 3:
-                regionName = "region3";
+                regionName = "Zona Sur";
                 break;
             case 4:
-                regionName = "region4";
+                regionName = "Parque Nacional";
                 break;
             case 5:
-                regionName="region5";
+                regionName="GR-131";
                 break;
             default:
                 regionName= "no region";
