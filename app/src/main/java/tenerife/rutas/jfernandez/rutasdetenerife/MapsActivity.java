@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -191,7 +192,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 RouteListAdapter rla = (RouteListAdapter) drawerList.getAdapter();
                 //int routeId = rla.getArrayList().get(position).getId();
                 int routeId = rla.getItemIdAtPosition(position);
-                drawerLayout.closeDrawers();
+                closeNavigationDrawer();
+                //drawerLayout.closeDrawers();
                 //int routeId = routesList.get(position).getId();
                 if (routeId >= 0) {
                     Route r = getRoute(routeId);
@@ -283,7 +285,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (keyCode == KeyEvent.KEYCODE_MENU){
             //Toast.makeText(getApplicationContext(),"menu key", Toast.LENGTH_SHORT).show();
             if (drawerLayout.isDrawerOpen(Gravity.LEFT))
-                drawerLayout.closeDrawers();
+                //drawerLayout.closeDrawers();
+                closeNavigationDrawer();
             if (!drawerLayout.isDrawerOpen(Gravity.LEFT)){
                 if(drawerLayout.isDrawerOpen(Gravity.RIGHT)){
                     drawerLayout.closeDrawer(Gravity.RIGHT);
@@ -298,7 +301,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(Gravity.RIGHT) || drawerLayout.isDrawerOpen(Gravity.LEFT)){
-            drawerLayout.closeDrawers();
+            //drawerLayout.closeDrawers();
+            closeNavigationDrawer();
         }else{
             AlertDialog d = new AlertDialog.Builder(this)
                     .setTitle(R.string.app_name)
@@ -855,7 +859,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 zoom = 14;
                             CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(myPos.getPosition(), zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
                             mMap.animateCamera(cu);
-                            drawerLayout.closeDrawers();
+                            //drawerLayout.closeDrawers();
+                            closeNavigationDrawer();
                         }
                         break;
                     case 1: //change map type
@@ -939,7 +944,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return routesList;
     }
     public void closeNavigationDrawer(){
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+//txtName is a reference of an EditText Field
+        imm.hideSoftInputFromWindow(et_search.getWindowToken(), 0);
         drawerLayout.closeDrawers();
+    }
+    public void clearSearch(View v){
+        if (!et_search.getText().equals(""))
+            et_search.setText("");
     }
 
     public void closeVisiblePath(){

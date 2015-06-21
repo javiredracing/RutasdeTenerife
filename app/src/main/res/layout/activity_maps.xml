@@ -94,7 +94,6 @@
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
                     android:textStyle="italic"
-
                     />
                 <ImageView
                     android:id="@+id/ivDificult"
@@ -114,17 +113,35 @@
         android:layout_gravity="right"
         android:background="@color/gris"
         android:orientation="vertical" >
-        <EditText
-            android:id="@+id/et_search"
-            android:layout_gravity="right"
+        <RelativeLayout
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:hint="Buscar..."
-            android:inputType="textVisiblePassword"
-            android:focusableInTouchMode="true"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textCursorDrawable="@null"
-            />
+            android:orientation="horizontal"
+            >
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_toLeftOf="@+id/ibClearSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Buscar..."
+                android:inputType="textVisiblePassword"
+                android:focusableInTouchMode="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textCursorDrawable="@null"
+                android:layout_alignBottom="@+id/ibClearSearch"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                />
+            <ImageButton
+                android:id="@+id/ibClearSearch"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/close"
+                android:scaleType="fitCenter"
+                android:onClick="clearSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
         <ListView
             android:id="@+id/right_drawer"
             android:layout_width="240dp"
