@@ -521,11 +521,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyMarker>() {
                 @Override
                 public boolean onClusterClick(Cluster<MyMarker> cluster) {
-                    float  zoom = mMap.getCameraPosition().zoom;
+                  /*  float  zoom = mMap.getCameraPosition().zoom;
                     if (zoom < 20 )
                         zoom++;
                     CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(cluster.getPosition(), zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
-                    mMap.animateCamera(cu);
+                    mMap.animateCamera(cu);*/
+                    mMap.animateCamera(CameraUpdateFactory.zoomIn());
                     return true;
                 }
             });
