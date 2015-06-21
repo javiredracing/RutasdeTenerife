@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Route {
 
-    private ArrayList<Marker> markersList;
+    private ArrayList<MyMarker> markersList;
     private String name;
     private String xmlRoute;
     public boolean isActive;
@@ -30,7 +30,7 @@ public class Route {
         dist = _dist;
         difficulty = _difficulty;
         this.durac = durac;
-        markersList = new ArrayList<Marker>();
+        markersList = new ArrayList<MyMarker>();
         weatherJson = null;
         timeStamp = 0;
         region = reg;
@@ -40,7 +40,7 @@ public class Route {
             isApproved = false;
     }
 
-    public void setMarker(Marker marker){
+    public void setMarker(MyMarker marker){
         markersList.add(marker);
     }
 
@@ -73,7 +73,7 @@ public class Route {
     public void setMarkersVisibility(boolean visibility){
         int size = markersList.size();
         for (int i = 0; i < size; i++){
-            Marker m = markersList.get(i);
+            MyMarker m = markersList.get(i);
             m.setVisible(visibility);
         }
     }
@@ -104,5 +104,9 @@ public class Route {
 
     public boolean isApproved(){
         return isApproved;
+    }
+
+    public ArrayList<MyMarker> getMarkersList() {
+        return markersList;
     }
 }

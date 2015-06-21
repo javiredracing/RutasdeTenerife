@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 
 import android.widget.Spinner;
 
+import com.google.maps.android.clustering.ClusterManager;
+
 import java.util.ArrayList;
 
 /**
@@ -27,10 +29,12 @@ public class DialogFilter extends DialogFragment {
     private Spinner spinnerDif;
     private SharedPreferences preferences;
     private MapsActivity mapsActivity;
+    ClusterManager<MyMarker> cm;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mapsActivity = (MapsActivity) getActivity();
+        cm  = mapsActivity.getClusterManager();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_filter, null);
@@ -68,6 +72,7 @@ public class DialogFilter extends DialogFragment {
                 editor.putInt(getString(R.string.FILTER_DIF), spnDif);
                 editor.commit();
                 ArrayList<Route> list = mapsActivity.getRoutesList();
+
                 filterRoute(spnLong, spnDif, spnDurac, list);
                 mapsActivity.closeVisiblePath();
                 //Log.v("DialogFilter", "OK " + spnLong + " " + spnDurac + " " + spnDif);
@@ -111,6 +116,7 @@ public class DialogFilter extends DialogFragment {
 
     private void filterRoute(int lon, int dif, int durac, ArrayList<Route> list){
         int size = list.size();
+        cm.clearItems();
         for (int i = 0; i < size; i++){
             Route r = list.get(i);
             boolean lonCond = false;
@@ -181,6 +187,12 @@ public class DialogFilter extends DialogFragment {
             else
                 Log.v("filterFalse",""+result);*/
             r.setMarkersVisibility(result);
+            ArrayList<MyMarker> listPoints = r.getMarkersList();
+            int size2 = listPoints.size();
+            for (int j = 0; j < size2; j++){
+                cm.addItem(listPoints.get(j));
+            }
         }
+        cm.cluster();
     }
 }

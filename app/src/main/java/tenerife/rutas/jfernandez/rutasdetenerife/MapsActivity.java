@@ -67,6 +67,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -75,6 +77,7 @@ import org.xml.sax.XMLReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -88,6 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MapFragment fragmentMap;
     //private ArrayList<Marker> markerList = new ArrayList<Marker>();
+    private ClusterManager<MyMarker> clusterManager;
     private ArrayList<Route> routesList = new ArrayList<Route>();
     private BaseDatos bd;
     private LatLngBounds latLngBounds;
@@ -232,6 +236,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(getApplicationContext(),"Error loading Google Play Services, try again", Toast.LENGTH_SHORT).show();
             finish();
         }
+
 
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 
@@ -398,6 +403,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             finally {
                 bd.close();
             }
+                    /*ClusterManager*/
+
+            //mMap.setOnMarkerClickListener(clusterManager);
+        /**/
         }
     }
 
@@ -507,13 +516,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //String dificultad;
             String kml = "";
             //ArrayList<Route> items = new ArrayList<Route>();
-            BitmapDescriptor iconPR = BitmapDescriptorFactory.fromResource(R.drawable.marker_sign_24);
+            clusterManager = new ClusterManager<MyMarker>(getApplicationContext(), mMap);
+            clusterManager.setRenderer(new MarkerRenderer(getApplicationContext(), mMap, clusterManager));
+            clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyMarker>() {
+                @Override
+                public boolean onClusterClick(Cluster<MyMarker> cluster) {
+                    float  zoom = mMap.getCameraPosition().zoom;
+                    if (zoom < 20 )
+                        zoom++;
+                    CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(cluster.getPosition(), zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
+                    mMap.animateCamera(cu);
+                    return true;
+                }
+            });
+            clusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyMarker>() {
+                @Override
+                public boolean onClusterItemClick(MyMarker myMarker) {
+                    //Toast.makeText(getApplicationContext(), myMarker.getName(), Toast.LENGTH_LONG).show();
+                    int markerId = (myMarker.getId());
+                    Route route = getRoute(markerId);
+                    clickAction(route, myMarker.getPosition());
+                    return true;
+                }
+            });
+            //clusterManager.getMarkerCollection().getMarkers();
+            mMap.setOnCameraChangeListener(clusterManager);
+            mMap.setOnMarkerClickListener(clusterManager);
+            //BitmapDescriptor iconPR = BitmapDescriptorFactory.fromResource(R.drawable.marker_sign_24);
             while (c.moveToNext()){
                 nombre = c.getString(0);
-                double inicX = c.getDouble(1);
-                double inicY = c.getDouble(2);
-                double finX = c.getDouble(3);
-                double finY = c.getDouble(4);
+                double inicLat = c.getDouble(1);
+                double inicLong = c.getDouble(2);
+                double finLat = c.getDouble(3);
+                double finLon = c.getDouble(4);
                 float durac = c.getFloat(5);
                 float dist = c.getFloat(6);
                 int dific = c.getInt(7);
@@ -521,31 +556,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 int id = c.getInt(9);
                 int approved = c.getInt(10);
                 int region = c.getInt(11);
-                LatLng geopoint = new LatLng(inicX, inicY);
-                Marker m = googleMap.addMarker(new MarkerOptions()
+                LatLng geopoint = new LatLng(inicLat, inicLong);
+               /* Marker m = googleMap.addMarker(new MarkerOptions()
                                 .position(geopoint)
                                 .title(nombre)
                                 .snippet("" + id)
                                 .icon(iconPR)
-                );
+                );*/
+                MyMarker m = new MyMarker(inicLat, inicLong, nombre, id, R.drawable.marker_sign_24);
+                clusterManager.addItem(m);
                 boundsBuilder.include(geopoint);
-                //markerList.add(m);
-                //Update List
-               //items.add(new DrawerItem(nombre, R.drawable.my_pos));
-                Route route = new Route(id,nombre,kml,dist,dific, durac,approved, region);    //TODO insert region at the end
+                Route route = new Route(id,nombre,kml,dist,dific, durac,approved, region);    //insert region at the end
                 route.setMarker(m);
-                if ((finX != 0) && (finY != 0)){
-                    LatLng geopoint2 = new LatLng(finX, finY);
-                    m = googleMap.addMarker(new MarkerOptions().
+                if ((finLat != 0) && (finLon != 0)){
+                    LatLng geopoint2 = new LatLng(finLat, finLon);
+                    /*m = googleMap.addMarker(new MarkerOptions().
                             position(geopoint2).
-                            title(nombre).snippet(""+id).icon(iconPR));
+                            title(nombre).snippet(""+id).icon(iconPR));*/
                     //markerList.add(m);
+                    MyMarker m2 = new MyMarker(finLat, finLon, nombre, id, R.drawable.marker_sign_24);
+                    clusterManager.addItem(m2);
                     boundsBuilder.include(geopoint2);
-                    route.setMarker(m);
+                    route.setMarker(m2);
                 }
                 routesList.add(route);
             }
-            drawerList.setAdapter(new RouteListAdapter(getApplicationContext(),routesList));
+            drawerList.setAdapter(new RouteListAdapter(getApplicationContext(), routesList));
         }
         c.close();
         //CameraUpdate center = CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 10);
@@ -556,9 +592,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googleMap.setMapType(map_type);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+       /* googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+
                 if (!marker.getTitle().contentEquals("myPos")) {
                     int markerId = Integer.parseInt(marker.getSnippet());
                     Route route = getRoute(markerId);
@@ -568,7 +605,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 return true;
             }
-        });
+        });*/
     }
 
     /**************************************************************************/
@@ -969,6 +1006,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public Route getLastRouteShowed(){
         return lastRouteShowed;
+    }
+
+    public ClusterManager<MyMarker> getClusterManager(){
+        return clusterManager;
     }
     /*private boolean isInRange(int azimuth, int angle){
         int azimuthInverse = (360 - azimuth);
