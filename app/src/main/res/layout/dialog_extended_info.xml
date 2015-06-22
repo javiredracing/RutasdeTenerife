@@ -14,7 +14,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/gris"
         android:gravity="center"
-        android:padding="5dp"
+        android:padding="8dp"
         android:textStyle="bold"
         android:background="@android:color/white"
         />
