@@ -3,22 +3,55 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <TextView
-        android:id="@+id/tvInfoChart"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayoutDesnivel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tab 2"/>
+        android:orientation="horizontal" >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="left"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+            <include
+                android:id="@+id/fieldAcum"
+                layout="@layout/field_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ></include>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+            <include
+                android:id="@+id/fieldMax"
+                layout="@layout/field_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ></include>
+        </LinearLayout>
+
+    </LinearLayout>
     <com.androidplot.xy.XYPlot
         android:id="@+id/mySimpleXYPlot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         androidPlot.domainLabel="Domain"
         androidPlot.rangeLabel="Range"
         androidPlot.titleWidget.labelPaint.textSize="@dimen/title_font_size"
         androidPlot.domainLabelWidget.labelPaint.textSize="@dimen/domain_label_font_size"
         androidPlot.rangeLabelWidget.labelPaint.textSize="@dimen/range_label_font_size"
-        androidPlot.graphWidget.marginTop="15dp"
+        androidPlot.graphWidget.marginTop="10dp"
         androidPlot.graphWidget.marginLeft="30dp"
         androidPlot.graphWidget.marginBottom="30dp"
         androidPlot.graphWidget.marginRight="10dp"

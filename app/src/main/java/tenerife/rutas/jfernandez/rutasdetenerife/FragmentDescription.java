@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,7 +89,7 @@ public class FragmentDescription extends Fragment {
             ImageView approvedIcon = (ImageView)v.findViewById(R.id.fieldApproved).findViewById(R.id.view_image);
             approvedIcon.setImageResource(R.drawable.marker_sign_24);
 
-            ImageView btAction = (ImageView)v.findViewById(R.id.btAction);
+            Button btAction = (Button)v.findViewById(R.id.btAction);
             btAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

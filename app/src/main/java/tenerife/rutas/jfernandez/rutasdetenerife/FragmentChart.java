@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidplot.xy.BoundaryMode;
@@ -41,6 +42,7 @@ public class FragmentChart extends Fragment {
     private float dist = 0;
     private View v;
     private boolean isLoaded;
+    private TextView tvDesnivelAcum;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,17 +64,31 @@ public class FragmentChart extends Fragment {
                     int tam = serieY.size();
                     double max = 0;
                     double min = 3900;
+
+                    int netAlt = 0;
                     for (int i = 0; i < tam;i++){
-                        double var = serieY.get(i);
-                        if (var > max){
-                            max = var;
+                        double altitude = serieY.get(i);
+                        if (altitude > max){
+                            max = altitude;
                         }
-                        if (var < min){
-                            min = var;
+                        if (altitude < min){
+                            min = altitude;
                         }
+
+                        /*Calculate cumulate elevation*/
+                        if (i > 0){
+                            int oldAlt = serieY.get(i-1);
+                            int newAlt = serieY.get(i);
+                            int diff = newAlt - oldAlt;
+                            netAlt = netAlt + Math.max(0,diff);
+                        }
+                        /**/
                         serieX.add(sum);
                         sum += dist;
                     }
+                    /**/
+                    tvDesnivelAcum.setText(""+netAlt +" m");
+
                     double upperRangeBoundary = 1500;
                     double lowRangeBoundary = 500;
                     if (max > upperRangeBoundary){
@@ -105,6 +121,8 @@ public class FragmentChart extends Fragment {
                     plot.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.WHITE);
                     plot.getBackgroundPaint().setColor(Color.TRANSPARENT);
                     plot.getBorderPaint().setColor(getResources().getColor(R.color.lightGreen));
+                    plot.getBorderPaint().setAlpha(255);
+                    plot.getBorderPaint().setStrokeWidth(4);
                     plot.getTitleWidget().getLabelPaint().setColor(Color.WHITE);
                     plot.getLegendWidget().getTextPaint().setColor(Color.WHITE);
                     plot.getRangeLabelWidget().getLabelPaint().setColor(Color.WHITE);
@@ -120,8 +138,12 @@ public class FragmentChart extends Fragment {
         if (v == null){
             Log.v("OnCreateView fragment", xmlPath);
             v = inflater.inflate(R.layout.info_chart, container, false);
-            TextView tvChart = (TextView)v.findViewById(R.id.tvInfoChart);
-            tvChart.setText(xmlPath);
+            View field = v.findViewById(R.id.fieldAcum);
+            tvDesnivelAcum = (TextView)field.findViewById(R.id.view_value);
+            TextView tvTimeTitle = (TextView)field.findViewById(R.id.view_title);
+            tvTimeTitle.setText("Desnivel acumulado");
+            ImageView tvTimeIcon = (ImageView)field.findViewById(R.id.view_image);
+            tvTimeIcon.setImageResource(R.drawable.statistics);
             plot = (XYPlot) v.findViewById(R.id.mySimpleXYPlot);
         }
         return v;

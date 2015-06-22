@@ -29,7 +29,7 @@ public class DialogFilter extends DialogFragment {
     private Spinner spinnerDif;
     private SharedPreferences preferences;
     private MapsActivity mapsActivity;
-    ClusterManager<MyMarker> cm;
+    private ClusterManager<MyMarker> cm;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

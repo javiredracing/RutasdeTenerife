@@ -360,7 +360,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             myPos = mMap.addMarker(new MarkerOptions().
                             position(new LatLng(28.299221, -16.525690))
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.my_pos2_24))
-                            .title("myPos")
+                            .title("My position")
                             .anchor(0.5f, 0.5f)
                             .flat(true)
                             .draggable(false)
@@ -368,7 +368,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else
             myPos.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
         //myPos.setRotation(30);
-        Log.v("Location", mCurrentLocation.toString());
+        //Log.v("Location", mCurrentLocation.toString());
     }
 
     @Override
@@ -492,8 +492,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             fragmentMap.getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
                         }else
                             fragmentMap.getView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds,20));
+                        if (mMap != null && latLngBounds != null)
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds,20));
                     }
                 });
             }
@@ -521,12 +521,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyMarker>() {
                 @Override
                 public boolean onClusterClick(Cluster<MyMarker> cluster) {
-                  /*  float  zoom = mMap.getCameraPosition().zoom;
+                  float  zoom = mMap.getCameraPosition().zoom;
                     if (zoom < 20 )
                         zoom++;
-                    CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(cluster.getPosition(), zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
-                    mMap.animateCamera(cu);*/
-                    mMap.animateCamera(CameraUpdateFactory.zoomIn());
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(cluster.getPosition(),zoom);
+                    mMap.animateCamera(cu);
                     return true;
                 }
             });
@@ -543,6 +542,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //clusterManager.getMarkerCollection().getMarkers();
             mMap.setOnCameraChangeListener(clusterManager);
             mMap.setOnMarkerClickListener(clusterManager);
+
             //BitmapDescriptor iconPR = BitmapDescriptorFactory.fromResource(R.drawable.marker_sign_24);
             while (c.moveToNext()){
                 nombre = c.getString(0);

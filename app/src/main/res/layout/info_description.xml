@@ -97,14 +97,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </ScrollView>
+    <Button
+        android:id="@+id/btAction"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Como llegar"
+        android:textColor="@android:color/white"
+        android:drawableLeft="@android:drawable/ic_dialog_map"
+         />
 
-
-    <ImageView
+    <!--<ImageView
         android:id="@+id/btAction"
         android:text="Go to Map"
         android:src="@drawable/share64"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
 
 </RelativeLayout>
