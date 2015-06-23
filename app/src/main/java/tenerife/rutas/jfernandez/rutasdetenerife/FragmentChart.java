@@ -42,7 +42,7 @@ public class FragmentChart extends Fragment {
     private float dist = 0;
     private View v;
     private boolean isLoaded;
-    private TextView tvDesnivelAcum;
+    private TextView tvDesnivelAcum, tvDesnivelDown;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +66,7 @@ public class FragmentChart extends Fragment {
                     double min = 3900;
 
                     int netAlt = 0;
+                    int netDown = 0;
                     for (int i = 0; i < tam;i++){
                         double altitude = serieY.get(i);
                         if (altitude > max){
@@ -81,6 +82,7 @@ public class FragmentChart extends Fragment {
                             int newAlt = serieY.get(i);
                             int diff = newAlt - oldAlt;
                             netAlt = netAlt + Math.max(0,diff);
+                            netDown = netDown - Math.min(0,diff);
                         }
                         /**/
                         serieX.add(sum);
@@ -88,7 +90,7 @@ public class FragmentChart extends Fragment {
                     }
                     /**/
                     tvDesnivelAcum.setText(""+netAlt +" m");
-
+                    tvDesnivelDown.setText(""+Math.abs(netDown) +" m");
                     double upperRangeBoundary = 1500;
                     double lowRangeBoundary = 500;
                     if (max > upperRangeBoundary){
@@ -136,14 +138,21 @@ public class FragmentChart extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (v == null){
-            Log.v("OnCreateView fragment", xmlPath);
+            //Log.v("OnCreateView fragment", xmlPath);
             v = inflater.inflate(R.layout.info_chart, container, false);
+
             View field = v.findViewById(R.id.fieldAcum);
             tvDesnivelAcum = (TextView)field.findViewById(R.id.view_value);
             TextView tvTimeTitle = (TextView)field.findViewById(R.id.view_title);
-            tvTimeTitle.setText("Desnivel acumulado");
+            tvTimeTitle.setText("Desnivel acumulado subida");
             ImageView tvTimeIcon = (ImageView)field.findViewById(R.id.view_image);
             tvTimeIcon.setImageResource(R.drawable.statistics);
+
+            field = v.findViewById(R.id.fieldMax);
+            TextView tvDownTitle = (TextView)field.findViewById(R.id.view_title);
+            tvDownTitle.setText("Desnivel acumulado bajada");
+            tvDesnivelDown = (TextView) field.findViewById(R.id.view_value);
+
             plot = (XYPlot) v.findViewById(R.id.mySimpleXYPlot);
         }
         return v;
