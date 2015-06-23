@@ -12,5 +12,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/nivel_dificil"
         android:layout_gravity="center"
+        android:scaleType="fitCenter"
         />
 </LinearLayout>

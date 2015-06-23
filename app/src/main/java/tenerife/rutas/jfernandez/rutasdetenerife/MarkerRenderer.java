@@ -12,11 +12,14 @@ import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 
+import java.util.Set;
+
 /**
  * Created by Javi on 21/06/2015.
  */
 
 public class MarkerRenderer extends DefaultClusterRenderer {
+
     public MarkerRenderer(Context context, GoogleMap map, ClusterManager clusterManager) {
         super(context, map, clusterManager);
     }
@@ -45,7 +48,6 @@ public class MarkerRenderer extends DefaultClusterRenderer {
         marker.setAlpha(alpha);
         super.onClusterItemRendered(clusterItem, marker);
     }
-
 
     @Override
     protected void onBeforeClusterRendered(Cluster cluster, MarkerOptions markerOptions) {

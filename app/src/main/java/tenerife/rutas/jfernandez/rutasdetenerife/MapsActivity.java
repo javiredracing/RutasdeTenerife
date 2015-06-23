@@ -166,6 +166,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         bundle.putInt(getString(R.string.VALUE_ID), lastRouteShowed.getId());
                         bundle.putInt(getString(R.string.VALUE_DIF), lastRouteShowed.getDifficulty());
                         bundle.putBoolean(getString(R.string.VALUE_APPROVED), lastRouteShowed.isApproved());
+                        int drawable = getIconBigger(lastRouteShowed);
+                        bundle.putInt(getString(R.string.VALUE_ICON), drawable);
                         LatLng latLng = lastRouteShowed.getFirstPoint();
                         double[] latLngDouble = new double[2];
                         latLngDouble[0] = latLng.latitude;
@@ -521,11 +523,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyMarker>() {
                 @Override
                 public boolean onClusterClick(Cluster<MyMarker> cluster) {
-                  float  zoom = mMap.getCameraPosition().zoom;
+                    float  zoom = mMap.getCameraPosition().zoom;
                     if (zoom < 20 )
                         zoom++;
                     CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(cluster.getPosition(),zoom);
-                    mMap.animateCamera(cu);
+                    mMap.moveCamera(cu);
                     return true;
                 }
             });
@@ -543,7 +545,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setOnCameraChangeListener(clusterManager);
             mMap.setOnMarkerClickListener(clusterManager);
 
-            //BitmapDescriptor iconPR = BitmapDescriptorFactory.fromResource(R.drawable.marker_sign_24);
             while (c.moveToNext()){
                 nombre = c.getString(0);
                 double inicLat = c.getDouble(1);
@@ -557,25 +558,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 int id = c.getInt(9);
                 int approved = c.getInt(10);
                 int region = c.getInt(11);
+
                 LatLng geopoint = new LatLng(inicLat, inicLong);
-               /* Marker m = googleMap.addMarker(new MarkerOptions()
-                                .position(geopoint)
-                                .title(nombre)
-                                .snippet("" + id)
-                                .icon(iconPR)
-                );*/
-                MyMarker m = new MyMarker(inicLat, inicLong, nombre, id, R.drawable.marker_sign_24);
+                int icon = R.drawable.marker_sign_16_normal;
+                if (approved == 1){
+                    if ((region == 5)|| dist > 50 ){
+                        icon = R.drawable.marker_sign_16_red;
+                    }else{
+                        if ( dist > 6){
+                            icon = R.drawable.marker_sign_16_yellow;
+                        }else
+                            if (dist <= 6)
+                                icon = R.drawable.marker_sign_16_green;
+                    }
+                }
+
+                MyMarker m = new MyMarker(inicLat, inicLong, nombre, id, icon);
                 clusterManager.addItem(m);
                 boundsBuilder.include(geopoint);
                 Route route = new Route(id,nombre,kml,dist,dific, durac,approved, region);    //insert region at the end
                 route.setMarker(m);
                 if ((finLat != 0) && (finLon != 0)){
                     LatLng geopoint2 = new LatLng(finLat, finLon);
-                    /*m = googleMap.addMarker(new MarkerOptions().
-                            position(geopoint2).
-                            title(nombre).snippet(""+id).icon(iconPR));*/
-                    //markerList.add(m);
-                    MyMarker m2 = new MyMarker(finLat, finLon, nombre, id, R.drawable.marker_sign_24);
+                    MyMarker m2 = new MyMarker(finLat, finLon, nombre, id, icon);
                     clusterManager.addItem(m2);
                     boundsBuilder.include(geopoint2);
                     route.setMarker(m2);
@@ -585,28 +590,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             drawerList.setAdapter(new RouteListAdapter(getApplicationContext(), routesList));
         }
         c.close();
-        //CameraUpdate center = CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 10);
         latLngBounds = boundsBuilder.build();
-        //CameraUpdate center = CameraUpdateFactory.newLatLngBounds(latLngBounds,0);
-        //googleMap.moveCamera(center);
         int map_type = prefs.getInt(getString(R.string.MAP_TYPE),3);
         googleMap.setMapType(map_type);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-       /* googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-
-                if (!marker.getTitle().contentEquals("myPos")) {
-                    int markerId = Integer.parseInt(marker.getSnippet());
-                    Route route = getRoute(markerId);
-                    clickAction(route, marker.getPosition());
-                } else {//Is my position
-                    getCurrentAddress(marker.getPosition());
-                }
-                return true;
-            }
-        });*/
     }
 
     /**************************************************************************/
@@ -756,6 +744,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             title.setText(route.getName());
             LinearLayout itemNested = (LinearLayout) quickInfo.getChildAt(1);
             ImageView icon = (ImageView) itemNested.getChildAt(0);//TODO set icon drawable
+            int drawable = getIconBigger(route);
+            icon.setImageResource(drawable);
             TextView distance = (TextView) itemNested.getChildAt(1);
             distance.setText("" + route.getDist() + " Km");
             ImageView difficult = (ImageView) itemNested.getChildAt(2);
@@ -1035,4 +1025,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (titleDivider != null)
             titleDivider.setBackgroundColor(getResources().getColor(R.color.lightGreen));
     }
+
+    private int getIconBigger(Route route){
+        int drawable = route.getMarkersList().get(0).getIcon();
+        switch (drawable){
+            case R.drawable.marker_sign_16_normal:
+                drawable = R.drawable.marker_sign_24_normal;
+                break;
+            case R.drawable.marker_sign_16_green:
+                drawable = R.drawable.marker_sign_24_green;
+                break;
+            case R.drawable.marker_sign_16_red:
+                drawable = R.drawable.marker_sign_24_red;
+                break;
+            case R.drawable.marker_sign_16_yellow:
+                drawable = R.drawable.marker_sign_24_yellow;
+        }
+        return drawable;
+    }
+
 }

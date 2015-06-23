@@ -5,11 +5,13 @@ import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,16 +34,20 @@ public class FragmentDescription extends Fragment {
             }
             arguments = getArguments();
             v = inflater.inflate(R.layout.info_description, container, false);
-            TextView tvDist = (TextView)v.findViewById(R.id.fieldDist).findViewById(R.id.view_value);
-            tvDist.setText("" + arguments.getFloat(getString(R.string.VALUE_DIST), 0) + " Km");
-            TextView tvDistTitle = (TextView)v.findViewById(R.id.fieldDist).findViewById(R.id.view_title);
-            tvDistTitle.setText("Distance");
-            ImageView tvDistIcon = (ImageView)v.findViewById(R.id.fieldDific).findViewById(R.id.view_image);
-            //TODO tvDistIcon
 
-            TextView tvDif = (TextView)v.findViewById(R.id.fieldDific).findViewById(R.id.view_value);
-            TextView tvDifTitle = (TextView)v.findViewById(R.id.fieldDific).findViewById(R.id.view_title);
-            ImageView tvDifIcon = (ImageView)v.findViewById(R.id.fieldDific).findViewById(R.id.view_image);
+            View viewNested = v.findViewById(R.id.fieldDist);
+            TextView tvDist = (TextView)viewNested.findViewById(R.id.view_value);
+            float dist = arguments.getFloat(getString(R.string.VALUE_DIST), 0);
+            tvDist.setText("" + dist + " Km");
+            TextView tvDistTitle = (TextView)viewNested.findViewById(R.id.view_title);
+            tvDistTitle.setText("Distance");
+
+            //ImageView tvDistIcon = (ImageView)v.findViewById(R.id.fieldDific).findViewById(R.id.view_image);
+            //TODO tvDistIcon
+            viewNested = v.findViewById(R.id.fieldDific);
+            TextView tvDif = (TextView)viewNested.findViewById(R.id.view_value);
+            TextView tvDifTitle = (TextView)viewNested.findViewById(R.id.view_title);
+            ImageView tvDifIcon = (ImageView)viewNested.findViewById(R.id.view_image);
             tvDifTitle.setText("Difficulty");
             int dific = arguments.getInt(getString(R.string.VALUE_DIF), 0);
             String text ="";
@@ -66,28 +72,34 @@ public class FragmentDescription extends Fragment {
             tvDif.setText(text);
             tvDifIcon.setImageResource(iconDific);
 
-            TextView tvTime = (TextView)v.findViewById(R.id.fieldTime).findViewById(R.id.view_value);
+            viewNested = v.findViewById(R.id.fieldTime);
+            TextView tvTime = (TextView) viewNested.findViewById(R.id.view_value);
             tvTime.setText("" + arguments.getFloat(getString(R.string.VALUE_TIME), 0)+ " h");
-            TextView tvTimeTitle = (TextView)v.findViewById(R.id.fieldTime).findViewById(R.id.view_title);
+            TextView tvTimeTitle = (TextView) viewNested.findViewById(R.id.view_title);
             tvTimeTitle.setText("Time");
-            ImageView tvTimeIcon = (ImageView)v.findViewById(R.id.fieldTime).findViewById(R.id.view_image);
+            ImageView tvTimeIcon = (ImageView) viewNested.findViewById(R.id.view_image);
             tvTimeIcon.setImageResource(R.drawable.timer);
+
+            viewNested = v.findViewById(R.id.fieldApproved);
+            TextView tvApprovedTitle = (TextView) viewNested.findViewById(R.id.view_title);
+            tvApprovedTitle.setText("Approved");
+            TextView tvApproved = (TextView) viewNested.findViewById(R.id.view_value);
+            boolean isApproved = arguments.getBoolean(getString(R.string.VALUE_APPROVED), false);
+            String mytext = "No";
+            int icon = arguments.getInt(getString(R.string.VALUE_ICON),R.drawable.marker_sign_24_normal);
+            if (isApproved)
+                mytext = "Yes";
+            tvApproved.setText(mytext);
+            ImageView approvedIcon = (ImageView) viewNested.findViewById(R.id.view_image);
+            ViewGroup.LayoutParams params = approvedIcon.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            params.width = ViewGroup.LayoutParams.WRAP_CONTENT;;
+            approvedIcon.setImageResource(icon);
 
             String desc = bdTab2.getDescriptionById(arguments.getInt(getString(R.string.VALUE_ID),0), "es");
             TextView tvDescription = (TextView)v.findViewById(R.id.tvTextDescriptor);
             tvDescription.setText(desc);
             bdTab2.close();
-
-            TextView tvApprovedTitle = (TextView) v.findViewById(R.id.fieldApproved).findViewById(R.id.view_title);
-            tvApprovedTitle.setText("Approved");
-            TextView tvApproved = (TextView) v.findViewById(R.id.fieldApproved).findViewById(R.id.view_value);
-            boolean isApproved = arguments.getBoolean(getString(R.string.VALUE_APPROVED), false);
-            String mytext = "No";
-            if (isApproved)
-                mytext = "Yes";
-            tvApproved.setText(mytext);
-            ImageView approvedIcon = (ImageView)v.findViewById(R.id.fieldApproved).findViewById(R.id.view_image);
-            approvedIcon.setImageResource(R.drawable.marker_sign_24);
 
             Button btAction = (Button)v.findViewById(R.id.btAction);
             btAction.setOnClickListener(new View.OnClickListener() {
