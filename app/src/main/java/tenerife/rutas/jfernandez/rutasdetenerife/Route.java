@@ -22,6 +22,8 @@ public class Route {
     private long timeStamp;
     private int region;
     private boolean isApproved;
+    //type{0 gr,1 pr,2 sl,3 regular};
+    private int type;
 
     Route(int _id, String _name, String _xml, float _dist, int _difficulty, float durac, int approved, int reg){
         id = _id;
@@ -38,6 +40,19 @@ public class Route {
             isApproved = true;
         else
             isApproved = false;
+        //determine path type
+        if (approved == 1){
+            if ((region == 5)|| dist > 50 ){
+                type = 0;   //GR
+            }else{
+                if ( dist > 6){
+                    type = 1;   //PR
+                }else
+                if (dist <= 6)
+                    type = 2;   //SL
+            }
+        }else
+            type = 3;   //regular
     }
 
     public void setMarker(MyMarker marker){
@@ -108,5 +123,13 @@ public class Route {
 
     public ArrayList<MyMarker> getMarkersList() {
         return markersList;
+    }
+
+    /**
+     * Return path type
+     * @return type{0 GR, 1 PR, 2 SL ,3 REGULAR};
+     */
+    public int getType(){
+        return type;
     }
 }

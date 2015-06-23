@@ -88,6 +88,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ConnectionCallbacks,
         OnConnectionFailedListener, SensorEventListener {
 
+    private final static int TYPE_GR = 0;
+    private final static int TYPE_PR = 1;
+    private final static int TYPE_SL = 2;
+    private final static int TYPE_REGULAR = 3;
+
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MapFragment fragmentMap;
     //private ArrayList<Marker> markerList = new ArrayList<Marker>();
@@ -343,12 +348,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, locationRequest, this);
 
-        Log.v("Connected", "onConnected");
+        //Log.v("Connected", "onConnected");
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.v("onConnectionSuspended", "Connection suspended!");
+        //Log.v("onConnectionSuspended", "Connection suspended!");
         if (myPos != null){
             myPos.remove();
             myPos = null;
@@ -375,7 +380,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.v("Connection failed", "FAILED!");
+        //Log.v("Connection failed", "FAILED!");
         if (myPos != null){
             myPos.remove();
             myPos = null;
@@ -560,27 +565,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 int region = c.getInt(11);
 
                 LatLng geopoint = new LatLng(inicLat, inicLong);
-                int icon = R.drawable.marker_sign_16_normal;
-                if (approved == 1){
-                    if ((region == 5)|| dist > 50 ){
-                        icon = R.drawable.marker_sign_16_red;
-                    }else{
-                        if ( dist > 6){
-                            icon = R.drawable.marker_sign_16_yellow;
-                        }else
-                            if (dist <= 6)
-                                icon = R.drawable.marker_sign_16_green;
-                    }
-                }
-
-                MyMarker m = new MyMarker(inicLat, inicLong, nombre, id, icon);
+                Route route = new Route(id,nombre,kml,dist,dific, durac,approved, region);
+                MyMarker m = new MyMarker(inicLat, inicLong, nombre, id, route.getType());
                 clusterManager.addItem(m);
                 boundsBuilder.include(geopoint);
-                Route route = new Route(id,nombre,kml,dist,dific, durac,approved, region);    //insert region at the end
+           //insert region at the end
                 route.setMarker(m);
                 if ((finLat != 0) && (finLon != 0)){
                     LatLng geopoint2 = new LatLng(finLat, finLon);
-                    MyMarker m2 = new MyMarker(finLat, finLon, nombre, id, icon);
+                    MyMarker m2 = new MyMarker(finLat, finLon, nombre, id, route.getType());
                     clusterManager.addItem(m2);
                     boundsBuilder.include(geopoint2);
                     route.setMarker(m2);
@@ -615,17 +608,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return false;
         }
     }
-
-   /* private Route getRoute(int id){
-        int size = routesList.size();
-        for (int i = 0; i < size; i++ ){
-            Route r = routesList.get(i);
-            if (r.getId() == id){
-                return r;
-            }
-        }
-        return null;
-    }*/
 
     /**
      * Route's Binary search
@@ -676,7 +658,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 float zoom = mMap.getCameraPosition().zoom;
                 if (zoom < 12)
                     zoom = 12;
-                CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(pos, zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
+                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(pos, zoom);
                 mMap.animateCamera(cu);
                 new Thread(new Runnable() {
                     @Override
@@ -731,9 +713,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void drawPath(ArrayList<LatLng> path){
         //pathShowed.remove();
+        int color = Color.BLUE;
+        if (lastRouteShowed!= null)
+            color = selectColor(lastRouteShowed.getType());
         PolylineOptions polylineOptions = new PolylineOptions();
         polylineOptions.addAll(path);
-        polylineOptions.width(3).color(Color.BLUE);
+        polylineOptions.width(3).color(color);
 
         pathShowed = mMap.addPolyline(polylineOptions);
     }
@@ -1027,21 +1012,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private int getIconBigger(Route route){
-        int drawable = route.getMarkersList().get(0).getIcon();
+        int drawable = route.getType();
         switch (drawable){
-            case R.drawable.marker_sign_16_normal:
-                drawable = R.drawable.marker_sign_24_normal;
-                break;
-            case R.drawable.marker_sign_16_green:
-                drawable = R.drawable.marker_sign_24_green;
-                break;
-            case R.drawable.marker_sign_16_red:
+            case TYPE_GR:
                 drawable = R.drawable.marker_sign_24_red;
                 break;
-            case R.drawable.marker_sign_16_yellow:
+            case TYPE_PR:
                 drawable = R.drawable.marker_sign_24_yellow;
+                break;
+            case TYPE_SL:
+                drawable = R.drawable.marker_sign_24_green;
+                break;
+            case TYPE_REGULAR:
+                drawable = R.drawable.marker_sign_24_normal;
+                break;
+            default:
+                drawable = R.drawable.marker_sign_24_normal;
         }
         return drawable;
+    }
+
+    private int selectColor(int type){
+        int color = Color.BLUE;
+        switch (type){
+            case TYPE_GR:
+                color = getResources().getColor(R.color.pathRed);
+                break;
+            case TYPE_PR:
+                color = getResources().getColor(R.color.pathYellow);
+                break;
+            case TYPE_SL:
+                color = getResources().getColor(R.color.pathGreen);
+                break;
+            case TYPE_REGULAR:
+                color = getResources().getColor(R.color.pathBrown);
+                break;
+        }
+        return color;
     }
 
 }

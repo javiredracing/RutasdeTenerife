@@ -1,6 +1,10 @@
 <resources>
     <color name="gris">#DAAA</color>
     <color name="lightGreen">#BBEAB0</color>
+    <color name="pathGreen">#009241</color>
+    <color name="pathYellow">#ffff00</color>
+    <color name="pathRed">#f80909</color>
+    <color name="pathBrown">#a55a35</color>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar">
         <item name="android:alertDialogTheme">@style/Theme_Custom_Dialog_Alert</item>
