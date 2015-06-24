@@ -718,7 +718,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             color = selectColor(lastRouteShowed.getType());
         PolylineOptions polylineOptions = new PolylineOptions();
         polylineOptions.addAll(path);
-        polylineOptions.width(3).color(color);
+        polylineOptions.width(2).color(color);
 
         pathShowed = mMap.addPolyline(polylineOptions);
     }
