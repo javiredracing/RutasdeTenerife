@@ -13,9 +13,10 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:background="@drawable/border"
-            android:padding="10dp"
+            android:padding="4dp"
+            android:layout_margin="10dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:layout_height="wrap_content">
@@ -24,23 +25,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Titulo"
+                android:text="@string/currentCond"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content" android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:padding="2dp"
                 android:layout_height="wrap_content">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/iconWeather"
-                    android:src="@drawable/i116"
+                    android:src="@drawable/close"
                     android:layout_gravity="center_vertical"/>
 
                 <RelativeLayout
@@ -56,7 +58,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:paddingLeft="6sp"
                         android:paddingRight="6sp"
-                        android:text="Distancia"
+                        android:text="@string/nodata"
                         android:textStyle="bold"
                         android:singleLine="true"
                         android:textColor="@android:color/white"
@@ -70,7 +72,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:paddingLeft="6sp"
                         android:paddingRight="6sp"
-                        android:text="12,3 km"
+                        android:text="@string/nodata"
                         android:textStyle="italic"
                         android:singleLine="true"
                         android:layout_below="@id/tvTemperatura"/>
@@ -93,9 +95,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/viento"
-                    android:textStyle="bold|italic"
+                    android:textStyle="italic"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="2dip"
                     />
@@ -108,20 +110,20 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_marginLeft="5dip"
                     android:layout_gravity="center_vertical"
-                    android:text="winveloc"
+                    android:text="@string/nodata"
                     />
                 <TextView
                     android:id="@+id/tvWindDirec"
-                    android:layout_marginLeft="5dip"
+                    android:layout_marginLeft="4dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_gravity="center_vertical"
-                    android:text="WINDIR"
+                    android:text="-"
                     ></TextView>
                 <ImageView
-                    android:layout_marginLeft="5dip"
+                    android:layout_marginLeft="4dip"
                     android:id="@+id/iconWindDir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -141,6 +143,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:text="@string/atmosferico"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textStyle="bold|italic"
                     />
 
@@ -163,8 +166,8 @@
                         android:layout_height="wrap_content"
                         android:textColor="#FFFFFF"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:layout_marginLeft="5dip"
-                        android:text="pressure"
+                        android:layout_marginLeft="4dip"
+                        android:text="@string/presion"
                         />
                 </LinearLayout>
 
@@ -179,8 +182,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#FFFFFF"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:layout_marginLeft="5dip"
-                        android:text="Hummidiy"
+                        android:text="@string/humedad"
                         />
                     <TextView
                         android:id="@+id/tvPrecip"
@@ -188,20 +190,25 @@
                         android:layout_height="wrap_content"
                         android:textColor="#FFFFFF"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:layout_marginLeft="5dip"
-                        android:text="precip"
+                        android:layout_marginLeft="4dip"
+                        android:text="@string/precip"
                         />
             </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <!-- -->
 
-
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:background="@drawable/border"
-            android:padding="10dp"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="2dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:layout_height="wrap_content">
@@ -211,16 +218,17 @@
                 android:textColor="#FFFFFF"
                 android:text="@string/prevision"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content" android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:padding="4dp"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/iconWeather2"
-                    android:src="@drawable/i374"
+                    android:src="@drawable/close"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"/>
@@ -239,7 +247,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:paddingLeft="6sp"
                         android:paddingRight="6sp"
-                        android:text="Distancia"
+                        android:text="@string/nodata"
                         android:textStyle="bold"
                         android:singleLine="true"
                         android:textColor="@android:color/white"
@@ -253,7 +261,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:paddingLeft="6sp"
                         android:paddingRight="6sp"
-                        android:text="12,3 km"
+                        android:text="@string/nodata"
                         android:textStyle="italic"
                         android:singleLine="true"
                         android:layout_below="@id/tvTemperatura2"/>
@@ -276,9 +284,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/viento"
-                    android:textStyle="bold|italic"
+                    android:textStyle="italic"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="2dip"
                     />
@@ -291,20 +299,20 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_marginLeft="5dip"
                     android:layout_gravity="center_vertical"
-                    android:text="winveloc"
+                    android:text="@string/nodata"
                     />
                 <TextView
                     android:id="@+id/tvWindDirec2"
-                    android:layout_marginLeft="5dip"
+                    android:layout_marginLeft="4dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_gravity="center_vertical"
-                    android:text="WINDIR"
+                    android:text="-"
                     ></TextView>
                 <ImageView
-                    android:layout_marginLeft="5dip"
+                    android:layout_marginLeft="4dip"
                     android:id="@+id/iconWindDir2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -315,7 +323,8 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content" android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:padding="2dp"
                 android:gravity="center"
                 android:layout_height="wrap_content">
                 <TextView
@@ -324,8 +333,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:layout_marginLeft="5dip"
-                    android:text="precip"
+                    android:text="@string/nodata"
                     />
             </LinearLayout>
         </LinearLayout>

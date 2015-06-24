@@ -94,7 +94,7 @@ public class FragmentWeather extends Fragment {
                         if (Locale.getDefault() == Locale.US)
                             paramTemp = currentCond.getString("temp_F")+" ºF";
                         tvTemp.setText(paramTemp);
-                        tvWindDir.setText(currentCond.getString("winddir16Point") + " |");
+                        tvWindDir.setText("(" + currentCond.getString("winddir16Point") + ")");
                         Drawable d1 = rotateIcon(currentCond.getInt("winddirDegree"), flechaBitmap);
                         //d1.setBounds(0, 0, d1.getIntrinsicWidth(), d1.getIntrinsicHeight());
 
@@ -118,7 +118,8 @@ public class FragmentWeather extends Fragment {
 
                         tvWeatherDesc2.setText(getStringResourceByName("w"+value2));
 
-                        tvWindDir2.setText(prevHourly.getString("winddir16Point")+ " |");
+                        tvWindDir2.setText("(" + prevHourly.getString("winddir16Point") + ")");
+
                         Drawable d2 = rotateIcon(prevHourly.getInt("winddirDegree"), flechaBitmap);
                         //d2.setBounds(0, 0, d2.getIntrinsicWidth(), d2.getIntrinsicHeight());
                         //tvWindDir2.setCompoundDrawables(d2, null, null, null);

@@ -90,6 +90,8 @@
     <string name="currentCond">Current conditions</string>
     <string name="prevision">Forecast</string>
 
+    <string name="nodata">No data</string>
+
     <string name="informacion_app">Application information</string>
     <string name="desarrollado">Developed by Javier Fernández</string>
 </resources>
