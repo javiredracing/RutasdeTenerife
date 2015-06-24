@@ -41,9 +41,9 @@ public class FragmentDescription extends Fragment {
             tvDist.setText("" + dist + " Km");
             TextView tvDistTitle = (TextView)viewNested.findViewById(R.id.view_title);
             tvDistTitle.setText("Distance");
+            ImageView tvDistIcon = (ImageView)viewNested.findViewById(R.id.view_image);
+            tvDistIcon.setImageResource(R.drawable.distance32);
 
-            //ImageView tvDistIcon = (ImageView)v.findViewById(R.id.fieldDific).findViewById(R.id.view_image);
-            //TODO tvDistIcon
             viewNested = v.findViewById(R.id.fieldDific);
             TextView tvDif = (TextView)viewNested.findViewById(R.id.view_value);
             TextView tvDifTitle = (TextView)viewNested.findViewById(R.id.view_title);

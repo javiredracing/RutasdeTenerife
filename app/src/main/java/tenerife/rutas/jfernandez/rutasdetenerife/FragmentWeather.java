@@ -54,7 +54,7 @@ public class FragmentWeather extends Fragment {
 
             Bundle arguments = getArguments();
             myLatLng = arguments.getDoubleArray(getString(R.string.VALUE_LATLNG));
-            v = inflater.inflate(R.layout.info_weather, container, false);
+            v = inflater.inflate(R.layout.infoweather2, container, false);
             tvWeatherDesc = (TextView) v.findViewById(R.id.tvWeatherDesc);
             iconWeather = (ImageView) v.findViewById(R.id.iconWeather);
             tvCloudCover = (TextView) v.findViewById(R.id.tvCloudCover);

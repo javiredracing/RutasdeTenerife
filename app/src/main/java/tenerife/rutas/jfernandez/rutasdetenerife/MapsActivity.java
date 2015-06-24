@@ -853,9 +853,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         itemsMenu.add(new DrawerItem("Item1",R.drawable.icon_my_pos64,1));
         itemsMenu.add(new DrawerItem("Item2",R.drawable.map64,2));
-        itemsMenu.add(new DrawerItem("Item3",R.drawable.filter64,3));
+        itemsMenu.add(new DrawerItem("Item3",R.drawable.simple_filter_64,3));
         itemsMenu.add(new DrawerItem("Item4",R.drawable.info64,4));
-        itemsMenu.add(new DrawerItem("Item5",R.drawable.share64,5));
+        itemsMenu.add(new DrawerItem("Item5",R.drawable.custom_share_64,5));
         drawerListMenu.setAdapter(new MenuListAdapter(getApplicationContext(), itemsMenu));
 
         drawerListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {

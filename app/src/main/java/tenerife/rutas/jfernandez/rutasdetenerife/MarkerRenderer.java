@@ -34,7 +34,7 @@ public class MarkerRenderer extends DefaultClusterRenderer {
         MyMarker m = (MyMarker)item;
         float alpha = 1;
         if (!m.isVisible())
-            alpha = 0.4f;
+            alpha = 0.5f;
         markerOptions.alpha(alpha);
         super.onBeforeClusterItemRendered(item, markerOptions);
     }

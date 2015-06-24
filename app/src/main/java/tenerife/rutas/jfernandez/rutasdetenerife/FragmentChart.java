@@ -101,9 +101,9 @@ public class FragmentChart extends Fragment {
                     }
                     XYSeries serie = new SimpleXYSeries(serieX, serieY,"Desnivel");
                     LineAndPointFormatter series1Format = new LineAndPointFormatter(
-                            Color.rgb(0, 200, 0),                   // line color
+                            Color.rgb(188, 231, 94),                   // line color
                             null, // point color
-                            Color.argb(150, 150, 190, 150),     //fill color
+                            Color.argb(150, 187, 234, 176),     //fill color
                             null);  //point text color
                     series1Format.getLinePaint().setStrokeWidth(2);
                     series1Format.getLinePaint().setStrokeJoin(Paint.Join.ROUND);
