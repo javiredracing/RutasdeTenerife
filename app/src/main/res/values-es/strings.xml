@@ -81,9 +81,9 @@
     <string name="w116">Partly Cloudy</string>
     <string name="w113">Clear/Sunny</string>
     <string name="nubosidad">CloudCover: </string>
-    <string name="humedad">Humidty: </string>
+    <string name="humedad">Humedad: </string>
     <string name="precip">Precip: </string>
-    <string name="presion">Pressure: </string>
+    <string name="presion">Presión: </string>
     <string name="windDirec">Dirección:</string>
     <string name="windSpeed">Veloc:</string>
     <string name="atmosferico">Condiciones atmosféricas</string>
@@ -96,8 +96,8 @@
     <string name="informacion_app">Application information</string>
     <string name="desarrollado">Desarollado por Javier Fernández</string>
 
-    <string name="info">The Tenerife Network of Footpaths boasts three types of route:\n\n
-    ►<b>Long-distance Footpaths.</b> Identified in red and white and bearing the acronym <i>GR</i>. These long-distance routes take several days to complete, given a length of over 50 kilometres.\n\n
-    ►<b>Short-distance Footpaths.</b> Identified in white and yellow and bearing the acronym <i>PR</i>. The length of these footpaths varies between 10 and 50 kilometres. A number of these routes are actually shorter that 10 kilometres; however, that have been classified as PR footpaths due to their steep gradient, which increases difficulty.\n\n
-    ►<b>Local Footpaths.</b> Identified in white and green and bearing the acronym <i>SL</i>. These footpaths are less than 10 kilometres long.</string>
+    <string name="info">La Red de Senderos de Tenerife cuenta con tres tipos de rutas:\n\n
+        ►<b> Sendero de Gran Recorrido.</b> Se identifica con los colores blanco y rojo, y con las siglas <i>GR</i>. Estos grandes trayectos se realizan en varias jornadas, dado que su longitud es superior a los 50 kilómetros.\n\n
+    ►<b>Sendero de Pequeño Recorrido.</b> Se identifica con los colores blanco y amarillo, y con las siglas <i>PR</i>. Su longitud oscila entre los 10 y los 50 kilómetros; alguno de estos senderos poseen menos de 10 kilómetros, pero se han clasificado como PR debido a la pendiente del terreno, que añade mayor dificultad para la realización de la ruta.\n\n
+    ►<b>Sendero Local.</b> Se identifica con los colores blanco y verde, y con las siglas <i>SL</i>. Su longitud es de menos de 10 kilómetros.</string>
 </resources>
