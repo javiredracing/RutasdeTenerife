@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rutas de Tenerife</string>
+    <string name="title_activity_maps">Rutas de Tenerife</string>
+    <string name="MAP_TYPE">map_type</string>
+    <string name="FILTER_LONG">filter_long</string>
+    <string name="FILTER_DIF">filter_dif</string>
+    <string name="FILTER_DURAC">filter_durac</string>
+
+    <string name="VALUE_NAME">value_name</string>
+    <string name="VALUE_XML_ROUTE">value_xml_route</string>
+    <string name="VALUE_DIST">value_distance</string>
+    <string name="VALUE_DIF">value_dif</string>
+    <string name="VALUE_TIME">value_time</string>
+    <string name="VALUE_ID">value_id</string>
+    <string name="VALUE_LATLNG">value_latlng</string>
+    <string name="VALUE_LATLNG_POS">value_latlng_pos</string>
+    <string name="VALUE_APPROVED">value_approved</string>
+    <string name="VALUE_IS_CONNECTED">value_is_connected</string>
+    <string name="VALUE_ICON">value_icon</string>
+
+    <string-array name="opcionLong">
+        <item>All</item>
+        <item>Short</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+    <string-array name="opcionDific"><item>All</item>
+        <item>Easy</item>
+        <item>Moderate</item>
+        <item>Difficult</item>
+        <item>Closed</item>
+    </string-array>
+
+    <string name="w395">Moderate or heavy snow in area with thunder</string>
+    <string name="w392">Patchy light snow in area with thunder</string>
+    <string name="w389">Moderate or heavy rain in area with thunder</string>
+    <string name="w386">Patchy light rain in area with thunder</string>
+    <string name="w377">Moderate or heavy showers of ice pellets</string>
+    <string name="w374">Light showers of ice pellets</string>
+    <string name="w371">Moderate or heavy snow showers</string>
+    <string name="w368">Light snow showers</string>
+    <string name="w365">Moderate or heavy sleet showers</string>
+    <string name="w362">Light sleet showers</string>
+    <string name="w359">Torrential rain shower</string>
+    <string name="w356">Moderate or heavy rain shower</string>
+    <string name="w353">Light rain shower</string>
+    <string name="w350">Ice pellets</string>
+    <string name="w338">Heavy snow</string>
+    <string name="w335">Patchy heavy snow</string>
+    <string name="w332">Moderate snow</string>
+    <string name="w329">Patchy moderate snow</string>
+    <string name="w326">Light snow</string>
+    <string name="w323">Patchy light snow</string>
+    <string name="w320">Moderate or heavy sleet</string>
+    <string name="w317">Light sleet</string>
+    <string name="w314">Moderate or Heavy freezing rain</string>
+    <string name="w311">Light freezing rain</string>
+    <string name="w308">Heavy rain</string>
+    <string name="w305">Heavy rain at times</string>
+    <string name="w302">Moderate rain</string>
+    <string name="w299">Moderate rain at times</string>
+    <string name="w296">Light rain</string>
+    <string name="w293">Patchy light rain</string>
+    <string name="w284">Heavy freezing drizzle</string>
+    <string name="w281">Freezing drizzle</string>
+    <string name="w266">Light drizzle</string>
+    <string name="w263">Patchy light drizzle</string>
+    <string name="w260">Freezing fog</string>
+    <string name="w248">Fog</string>
+    <string name="w230">Blizzard</string>
+    <string name="w227">Blowing snow</string>
+    <string name="w200">Thundery outbreaks in nearby</string>
+    <string name="w185">Patchy freezing drizzle nearby</string>
+    <string name="w182">Patchy sleet nearby</string>
+    <string name="w179">Patchy snow nearby</string>
+    <string name="w176">Patchy rain nearby</string>
+    <string name="w143">Mist</string>
+    <string name="w122">Overcast</string>
+    <string name="w119">Cloudy</string>
+    <string name="w116">Partly Cloudy</string>
+    <string name="w113">Clear/Sunny</string>
+    <string name="nubosidad">CloudCover: </string>
+    <string name="humedad">Humidty: </string>
+    <string name="precip">Precip: </string>
+    <string name="presion">Pressure: </string>
+    <string name="windDirec">Dirección:</string>
+    <string name="windSpeed">Veloc:</string>
+    <string name="atmosferico">Condiciones atmosféricas</string>
+    <string name="viento">Wind</string>
+    <string name="currentCond">Condiciones actuales</string>
+    <string name="prevision">Forecast</string>
+
+    <string name="nodata">No data</string>
+
+    <string name="informacion_app">Application information</string>
+    <string name="desarrollado">Desarollado por Javier Fernández</string>
+
+    <string name="info">The Tenerife Network of Footpaths boasts three types of route:\n\n
+    ►<b>Long-distance Footpaths.</b> Identified in red and white and bearing the acronym <i>GR</i>. These long-distance routes take several days to complete, given a length of over 50 kilometres.\n\n
+    ►<b>Short-distance Footpaths.</b> Identified in white and yellow and bearing the acronym <i>PR</i>. The length of these footpaths varies between 10 and 50 kilometres. A number of these routes are actually shorter that 10 kilometres; however, that have been classified as PR footpaths due to their steep gradient, which increases difficulty.\n\n
+    ►<b>Local Footpaths.</b> Identified in white and green and bearing the acronym <i>SL</i>. These footpaths are less than 10 kilometres long.</string>
+</resources>

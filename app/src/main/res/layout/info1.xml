@@ -6,17 +6,26 @@
     >
     <LinearLayout
         android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tab 1"/>
+
         <ImageView
             android:id="@+id/senalesImagen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/senalizacion"
+            android:layout_margin="10dp"
             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white"
+            android:text="@string/info"/>
     </LinearLayout>
 </ScrollView>

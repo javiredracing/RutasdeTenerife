@@ -1,22 +1,22 @@
 <resources>
-    <string name="app_name">Rutas de Tenerife</string>
+    <string name="app_name">Hiking in Tenerife</string>
     <string name="title_activity_maps">Rutas de Tenerife</string>
-    <string name="MAP_TYPE">map_type</string>
-    <string name="FILTER_LONG">filter_long</string>
-    <string name="FILTER_DIF">filter_dif</string>
-    <string name="FILTER_DURAC">filter_durac</string>
+    <string name="MAP_TYPE" translatable="false">map_type</string>
+    <string name="FILTER_LONG" translatable="false">filter_long</string>
+    <string name="FILTER_DIF" translatable="false">filter_dif</string>
+    <string name="FILTER_DURAC" translatable="false">filter_durac</string>
 
-    <string name="VALUE_NAME">value_name</string>
-    <string name="VALUE_XML_ROUTE">value_xml_route</string>
-    <string name="VALUE_DIST">value_distance</string>
-    <string name="VALUE_DIF">value_dif</string>
-    <string name="VALUE_TIME">value_time</string>
-    <string name="VALUE_ID">value_id</string>
-    <string name="VALUE_LATLNG">value_latlng</string>
-    <string name="VALUE_LATLNG_POS">value_latlng_pos</string>
-    <string name="VALUE_APPROVED">value_approved</string>
-    <string name="VALUE_IS_CONNECTED">value_is_connected</string>
-    <string name="VALUE_ICON">value_icon</string>
+    <string name="VALUE_NAME" translatable="false">value_name</string>
+    <string name="VALUE_XML_ROUTE" translatable="false">value_xml_route</string>
+    <string name="VALUE_DIST" translatable="false">value_distance</string>
+    <string name="VALUE_DIF" translatable="false">value_dif</string>
+    <string name="VALUE_TIME" translatable="false">value_time</string>
+    <string name="VALUE_ID" translatable="false">value_id</string>
+    <string name="VALUE_LATLNG" translatable="false">value_latlng</string>
+    <string name="VALUE_LATLNG_POS" translatable="false">value_latlng_pos</string>
+    <string name="VALUE_APPROVED" translatable="false">value_approved</string>
+    <string name="VALUE_IS_CONNECTED" translatable="false">value_is_connected</string>
+    <string name="VALUE_ICON" translatable="false">value_icon</string>
 
     <string-array name="opcionLong">
         <item>All</item>
@@ -80,7 +80,7 @@
     <string name="w116">Partly Cloudy</string>
     <string name="w113">Clear/Sunny</string>
     <string name="nubosidad">CloudCover: </string>
-    <string name="humedad">Humidity: </string>
+    <string name="humedad">Humidty: </string>
     <string name="precip">Precip: </string>
     <string name="presion">Pressure: </string>
     <string name="windDirec">Direction: </string>
@@ -94,4 +94,9 @@
 
     <string name="informacion_app">Application information</string>
     <string name="desarrollado">Developed by Javier Fernández</string>
+
+    <string name="info">The Tenerife Network of Footpaths boasts three types of route:\n\n
+    ►<b>Long-distance Footpaths.</b> Identified in red and white and bearing the acronym <i>GR</i>. These long-distance routes take several days to complete, given a length of over 50 kilometres.\n\n
+    ►<b>Short-distance Footpaths.</b> Identified in white and yellow and bearing the acronym <i>PR</i>. The length of these footpaths varies between 10 and 50 kilometres. A number of these routes are actually shorter that 10 kilometres; however, that have been classified as PR footpaths due to their steep gradient, which increases difficulty.\n\n
+    ►<b>Local Footpaths.</b> Identified in white and green and bearing the acronym <i>SL</i>. These footpaths are less than 10 kilometres long.</string>
 </resources>
