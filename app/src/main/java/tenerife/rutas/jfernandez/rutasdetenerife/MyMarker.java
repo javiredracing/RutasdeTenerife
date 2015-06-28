@@ -18,16 +18,16 @@ public class MyMarker implements ClusterItem {
         name = _name;
         id = _id;
         switch (type){
-            case 0: //gr
+            case 3: //gr
                 icon = R.drawable.marker_sign_16_red;
                 break;
-            case 1: //pr
+            case 2: //pr
                 icon = R.drawable.marker_sign_16_yellow;
                 break;
-            case 2: //sl
+            case 1: //sl
                 icon = R.drawable.marker_sign_16_green;
                 break;
-            case 3: //regular
+            case 0: //regular
                 icon = R.drawable.marker_sign_16_normal;
                 break;
             default:

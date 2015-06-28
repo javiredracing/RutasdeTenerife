@@ -88,10 +88,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ConnectionCallbacks,
         OnConnectionFailedListener, SensorEventListener {
 
-    private final static int TYPE_GR = 0;
-    private final static int TYPE_PR = 1;
-    private final static int TYPE_SL = 2;
-    private final static int TYPE_REGULAR = 3;
+    private final static int TYPE_GR = 3;
+    private final static int TYPE_PR = 2;
+    private final static int TYPE_SL = 1;
+    private final static int TYPE_REGULAR = 0;
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MapFragment fragmentMap;
@@ -170,7 +170,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         bundle.putFloat(getString(R.string.VALUE_TIME), lastRouteShowed.getDurac());
                         bundle.putInt(getString(R.string.VALUE_ID), lastRouteShowed.getId());
                         bundle.putInt(getString(R.string.VALUE_DIF), lastRouteShowed.getDifficulty());
-                        bundle.putBoolean(getString(R.string.VALUE_APPROVED), lastRouteShowed.isApproved());
+                        bundle.putInt(getString(R.string.VALUE_APPROVED), lastRouteShowed.approved());
                         int drawable = getIconBigger(lastRouteShowed);
                         bundle.putInt(getString(R.string.VALUE_ICON), drawable);
                         LatLng latLng = lastRouteShowed.getFirstPoint();
@@ -566,14 +566,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 LatLng geopoint = new LatLng(inicLat, inicLong);
                 Route route = new Route(id,nombre,kml,dist,dific, durac,approved, region);
-                MyMarker m = new MyMarker(inicLat, inicLong, nombre, id, route.getType());
+                MyMarker m = new MyMarker(inicLat, inicLong, nombre, id, approved);
                 clusterManager.addItem(m);
                 boundsBuilder.include(geopoint);
            //insert region at the end
                 route.setMarker(m);
                 if ((finLat != 0) && (finLon != 0)){
                     LatLng geopoint2 = new LatLng(finLat, finLon);
-                    MyMarker m2 = new MyMarker(finLat, finLon, nombre, id, route.getType());
+                    MyMarker m2 = new MyMarker(finLat, finLon, nombre, id, approved);
                     clusterManager.addItem(m2);
                     boundsBuilder.include(geopoint2);
                     route.setMarker(m2);
@@ -715,7 +715,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //pathShowed.remove();
         int color = Color.BLUE;
         if (lastRouteShowed!= null)
-            color = selectColor(lastRouteShowed.getType());
+            color = selectColor(lastRouteShowed.approved());
         PolylineOptions polylineOptions = new PolylineOptions();
         polylineOptions.addAll(path);
         polylineOptions.width(2).color(color);
@@ -1012,7 +1012,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private int getIconBigger(Route route){
-        int drawable = route.getType();
+        int drawable = route.approved();
         switch (drawable){
             case TYPE_GR:
                 drawable = R.drawable.marker_sign_24_red;

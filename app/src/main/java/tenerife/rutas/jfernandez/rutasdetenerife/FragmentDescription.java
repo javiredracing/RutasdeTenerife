@@ -84,10 +84,10 @@ public class FragmentDescription extends Fragment {
             TextView tvApprovedTitle = (TextView) viewNested.findViewById(R.id.view_title);
             tvApprovedTitle.setText("Approved");
             TextView tvApproved = (TextView) viewNested.findViewById(R.id.view_value);
-            boolean isApproved = arguments.getBoolean(getString(R.string.VALUE_APPROVED), false);
+            int approved = arguments.getInt(getString(R.string.VALUE_APPROVED), 0);
             String mytext = "No";
             int icon = arguments.getInt(getString(R.string.VALUE_ICON),R.drawable.marker_sign_24_normal);
-            if (isApproved)
+            if (approved != 0)
                 mytext = "Yes";
             tvApproved.setText(mytext);
             ImageView approvedIcon = (ImageView) viewNested.findViewById(R.id.view_image);

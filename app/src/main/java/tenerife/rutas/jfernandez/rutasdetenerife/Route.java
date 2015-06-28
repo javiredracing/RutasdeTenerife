@@ -21,11 +21,11 @@ public class Route {
     private String weatherJson;
     private long timeStamp;
     private int region;
-    private boolean isApproved;
+    private int approved;
     //type{0 gr,1 pr,2 sl,3 regular};
     private int type;
 
-    Route(int _id, String _name, String _xml, float _dist, int _difficulty, float durac, int approved, int reg){
+    Route(int _id, String _name, String _xml, float _dist, int _difficulty, float durac, int _approved, int reg){
         id = _id;
         name = _name;
         xmlRoute = _xml;
@@ -36,7 +36,8 @@ public class Route {
         weatherJson = null;
         timeStamp = 0;
         region = reg;
-        if (approved == 1)
+        approved = _approved;
+       /* if (approved == 1)
             isApproved = true;
         else
             isApproved = false;
@@ -52,7 +53,7 @@ public class Route {
                     type = 2;   //SL
             }
         }else
-            type = 3;   //regular
+            type = 3;   //regular*/
     }
 
     public void setMarker(MyMarker marker){
@@ -117,8 +118,8 @@ public class Route {
         return region;
     }
 
-    public boolean isApproved(){
-        return isApproved;
+    public int approved(){
+        return approved;
     }
 
     public ArrayList<MyMarker> getMarkersList() {
