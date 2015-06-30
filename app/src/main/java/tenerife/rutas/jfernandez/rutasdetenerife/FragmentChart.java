@@ -99,7 +99,7 @@ public class FragmentChart extends Fragment {
                     if (min < lowRangeBoundary){
                         lowRangeBoundary = 0;
                     }
-                    XYSeries serie = new SimpleXYSeries(serieX, serieY,"Desnivel");
+                    XYSeries serie = new SimpleXYSeries(serieX, serieY,getString(R.string.desnivel));
                     LineAndPointFormatter series1Format = new LineAndPointFormatter(
                             Color.rgb(188, 231, 94),                   // line color
                             null, // point color
@@ -112,8 +112,8 @@ public class FragmentChart extends Fragment {
                     plot.setRangeBoundaries(lowRangeBoundary, upperRangeBoundary, BoundaryMode.FIXED);
                     plot.setTicksPerRangeLabel(1);
                     plot.setTicksPerDomainLabel(3);
-                    plot.setRangeLabel("altitud");
-                    plot.setDomainLabel("distancia");
+                    plot.setRangeLabel(getString(R.string.altitud));
+                    plot.setDomainLabel(getString(R.string.distancia));
                     plot.getGraphWidget().setDomainLabelOrientation(-45);
 
                     plot.getGraphWidget().getGridBackgroundPaint().setColor(Color.WHITE);
@@ -144,13 +144,13 @@ public class FragmentChart extends Fragment {
             View field = v.findViewById(R.id.fieldAcum);
             tvDesnivelAcum = (TextView)field.findViewById(R.id.view_value);
             TextView tvTimeTitle = (TextView)field.findViewById(R.id.view_title);
-            tvTimeTitle.setText("Acumulado");
+            tvTimeTitle.setText(getString(R.string.cumulative));
             ImageView tvTimeIcon = (ImageView)field.findViewById(R.id.view_image);
             tvTimeIcon.setImageResource(R.drawable.statistics);
 
             field = v.findViewById(R.id.fieldMax);
             TextView tvDownTitle = (TextView)field.findViewById(R.id.view_title);
-            tvDownTitle.setText("Acumulado");
+            tvDownTitle.setText(getString(R.string.cumulative));
             tvDesnivelDown = (TextView) field.findViewById(R.id.view_value);
             ImageView tvDownIcon = (ImageView)field.findViewById(R.id.view_image);
             tvDownIcon.setImageResource(R.drawable.down);

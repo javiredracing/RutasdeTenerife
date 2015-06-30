@@ -2,6 +2,18 @@
 <resources>
     <string name="app_name">Rutas de Tenerife</string>
     <string name="atmosferico"></string>
+    <string-array name="opcionLong">
+        <item>All</item>
+        <item>Short</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+    <string-array name="opcionDific"><item>All</item>
+        <item>Easy</item>
+        <item>Moderate</item>
+        <item>Difficult</item>
+        <item>Closed</item>
+    </string-array>
     <string name="info">
         Das Wanderwegnetzwerk von Teneriffa verfügt über drei verschiedene Arten von Routen:\n\n
 

@@ -26,7 +26,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Surface;
@@ -58,7 +57,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -77,7 +75,6 @@ import org.xml.sax.XMLReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -240,7 +237,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     addOnConnectionFailedListener(this).
                     build();
         }else{
-            Toast.makeText(getApplicationContext(),"Error loading Google Play Services, try again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),getString(R.string.error_loading), Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -283,7 +280,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 LocationServices.FusedLocationApi.requestLocationUpdates(
                         mGoogleApiClient, locationRequest, this);
 
-                Log.d("onResume", "Location update resumed .....................");
+                //Log.d("onResume", "Location update resumed .....................");
             }
             sensorManager.registerListener(this, accelerometer, 330000);
             sensorManager.registerListener(this, magnetometer, 330000); //3 times per second
@@ -317,9 +314,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             AlertDialog d = new AlertDialog.Builder(this)
                     .setTitle(R.string.app_name)
                     .setIcon(R.drawable.logo)
-                    .setMessage("Quit?")
-                    .setNegativeButton("No", null)
-                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    .setMessage(getString(R.string.quit_app))
+                    .setNegativeButton(getString(R.string.No), null)
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -367,7 +364,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             myPos = mMap.addMarker(new MarkerOptions().
                             position(new LatLng(28.299221, -16.525690))
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.my_pos2_24))
-                            .title("My position")
+                            .title(getString(R.string.my_position))
                             .anchor(0.5f, 0.5f)
                             .flat(true)
                             .draggable(false)
@@ -399,7 +396,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 setUpMap(googleMap);
                 enableTap = true;
             }catch(SQLException sqle){
-                globalToast.setText("Error cargandado base de datos");
+                globalToast.setText(getString(R.string.error_loading_db));
                 globalToast.show();
                 finish();
                 //throw sqle;
@@ -884,13 +881,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         String text = "";
                         switch (type) {
                             case 1:
-                                text = "Modo callejero";
+                                text = getString(R.string.road_map);
+
                                 break;
                             case 2:
-                                text = "Modo satélite";
+                                text = getString(R.string.satellite_map);
                                 break;
                             case 3:
-                                text = "Modo topográfico";
+                                text = getString(R.string.terrain_map);
                                 break;
                             default:
                                 text = "" + type;
@@ -919,12 +917,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         String url = "https://play.google.com/store/apps/details?id=com.rutas.java";
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, "Rutas de Tenerife" + "\n" + url);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.shareText) + "\n" + url);
                         sendIntent.setType("text/plain");
-                        startActivity(Intent.createChooser(sendIntent, "Comparte Rutas de Tenerife"));
+                        startActivity(Intent.createChooser(sendIntent, getString(R.string.selectShare)));
                         break;
                     default:
-                        Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
                 }
             }
         });

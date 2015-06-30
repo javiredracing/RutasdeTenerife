@@ -32,10 +32,10 @@ public class FragmentInfo3 extends Fragment {
                     i.putExtra(Intent.EXTRA_SUBJECT, "Rutas de Tenerife, User");
                     //i.putExtra(Intent.EXTRA_TEXT, "Texto");
                     try{
-                        String texto = "Select E-mail";
+                        String texto = getString(R.string.selecciona_cliente);
                         startActivity(Intent.createChooser(i, texto));
                     }catch (android.content.ActivityNotFoundException ex){
-                       Toast.makeText(getActivity(), "ERROR! Cliente de e-mail no instalado", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(getActivity(), getString(R.string.error_mail_client), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

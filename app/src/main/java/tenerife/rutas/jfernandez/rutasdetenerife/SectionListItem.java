@@ -19,7 +19,7 @@ public class SectionListItem implements ListItem {
     public String getName(){
         return name;
     }
-    public int getRegion(){
+    /*public int getRegion(){
         return region;
-    }
+    }*/
 }

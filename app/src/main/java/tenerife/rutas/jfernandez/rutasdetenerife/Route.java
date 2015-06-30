@@ -23,7 +23,7 @@ public class Route {
     private int region;
     private int approved;
     //type{0 gr,1 pr,2 sl,3 regular};
-    private int type;
+    //private int type;
 
     Route(int _id, String _name, String _xml, float _dist, int _difficulty, float durac, int _approved, int reg){
         id = _id;
@@ -118,6 +118,10 @@ public class Route {
         return region;
     }
 
+    /**
+     * Return path type
+     * @return type{0 GR, 1 PR, 2 SL ,3 REGULAR};
+     */
     public int approved(){
         return approved;
     }
@@ -126,11 +130,8 @@ public class Route {
         return markersList;
     }
 
-    /**
-     * Return path type
-     * @return type{0 GR, 1 PR, 2 SL ,3 REGULAR};
-     */
-    public int getType(){
+
+   /* public int getType(){
         return type;
-    }
+    }*/
 }

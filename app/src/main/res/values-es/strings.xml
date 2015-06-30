@@ -20,84 +20,127 @@
     <string name="VALUE_ICON">value_icon</string>
 
     <string-array name="opcionLong">
-        <item>All</item>
-        <item>Short</item>
-        <item>Medium</item>
-        <item>Large</item>
+        <item>Todos</item>
+        <item>Corto</item>
+        <item>Medio</item>
+        <item>Largo</item>
     </string-array>
-    <string-array name="opcionDific"><item>All</item>
-        <item>Easy</item>
-        <item>Moderate</item>
-        <item>Difficult</item>
-        <item>Closed</item>
+    <string-array name="opcionDific">
+        <item>Todos</item>
+        <item>Fácil</item>
+        <item>Moderado</item>
+        <item>Difícil</item>
+        <item>Cerrado</item>
     </string-array>
 
-    <string name="w395">Moderate or heavy snow in area with thunder</string>
-    <string name="w392">Patchy light snow in area with thunder</string>
-    <string name="w389">Moderate or heavy rain in area with thunder</string>
-    <string name="w386">Patchy light rain in area with thunder</string>
-    <string name="w377">Moderate or heavy showers of ice pellets</string>
-    <string name="w374">Light showers of ice pellets</string>
-    <string name="w371">Moderate or heavy snow showers</string>
-    <string name="w368">Light snow showers</string>
-    <string name="w365">Moderate or heavy sleet showers</string>
-    <string name="w362">Light sleet showers</string>
-    <string name="w359">Torrential rain shower</string>
-    <string name="w356">Moderate or heavy rain shower</string>
-    <string name="w353">Light rain shower</string>
-    <string name="w350">Ice pellets</string>
-    <string name="w338">Heavy snow</string>
-    <string name="w335">Patchy heavy snow</string>
-    <string name="w332">Moderate snow</string>
-    <string name="w329">Patchy moderate snow</string>
-    <string name="w326">Light snow</string>
-    <string name="w323">Patchy light snow</string>
-    <string name="w320">Moderate or heavy sleet</string>
-    <string name="w317">Light sleet</string>
-    <string name="w314">Moderate or Heavy freezing rain</string>
-    <string name="w311">Light freezing rain</string>
-    <string name="w308">Heavy rain</string>
-    <string name="w305">Heavy rain at times</string>
-    <string name="w302">Moderate rain</string>
-    <string name="w299">Moderate rain at times</string>
-    <string name="w296">Light rain</string>
-    <string name="w293">Patchy light rain</string>
-    <string name="w284">Heavy freezing drizzle</string>
-    <string name="w281">Freezing drizzle</string>
-    <string name="w266">Light drizzle</string>
-    <string name="w263">Patchy light drizzle</string>
-    <string name="w260">Freezing fog</string>
-    <string name="w248">Fog</string>
-    <string name="w230">Blizzard</string>
-    <string name="w227">Blowing snow</string>
-    <string name="w200">Thundery outbreaks in nearby</string>
-    <string name="w185">Patchy freezing drizzle nearby</string>
-    <string name="w182">Patchy sleet nearby</string>
-    <string name="w179">Patchy snow nearby</string>
-    <string name="w176">Patchy rain nearby</string>
-    <string name="w143">Mist</string>
-    <string name="w122">Overcast</string>
-    <string name="w119">Cloudy</string>
-    <string name="w116">Partly Cloudy</string>
-    <string name="w113">Clear/Sunny</string>
-    <string name="nubosidad">CloudCover: </string>
+    <string name="desnivel">Desnivel</string>
+    <string name="altitud">Altitud(mt)</string>
+    <string name="distancia">Distancia(km)</string>
+
+    <string name="w395">Moderada o fuerte nevada irregular con truenos</string>
+    <string name="w392">Nevada irregular con truenos</string>
+    <string name="w389">Fuerte o moderada lluvia irregular con truenos</string>
+    <string name="w386">Llovizna irregular con truenos</string>
+    <string name="w377">Granizada moderada o fuerte</string>
+    <string name="w374">Granizada aislada</string>
+    <string name="w371">Nevada moderada o fuerte</string>
+    <string name="w368">Nevada</string>
+    <string name="w365">Fuertes chubascos de aguanieve</string>
+    <string name="w362">Chubascos de aguanieve</string>
+    <string name="w359">Chubascos torrenciales</string>
+    <string name="w356">Chubascos moderados o fuertes</string>
+    <string name="w353">Chubascos ligero</string>
+    <string name="w350">Granizo</string>
+    <string name="w338">Fuerte nevada</string>
+    <string name="w335">Nevada fuerte irregular</string>
+    <string name="w332">Nevada moderada</string>
+    <string name="w329">Nevada moderada irregular</string>
+    <string name="w326">Ligera nevada</string>
+    <string name="w323">Nevada ligera irregular</string>
+    <string name="w320">Aguanieve moderada o fuerte</string>
+    <string name="w317">Aguanieve ligera</string>
+    <string name="w314">Lluvia helada moderada o fuerte</string>
+    <string name="w311">Ligera lluvia helada</string>
+    <string name="w308">Lluvia fuerte</string>
+    <string name="w305">Lluvia fuerte en ocasiones</string>
+    <string name="w302">Lluvia moderada</string>
+    <string name="w299">Lluvia moderada en ocasiones</string>
+    <string name="w296">Lluvia ligera</string>
+    <string name="w293">Lluvia ligera irregular</string>
+    <string name="w284">Llovizna fuerte con heladas</string>
+    <string name="w281">Llovizna helada</string>
+    <string name="w266">Llovizna ligera</string>
+    <string name="w263">Llovizna</string>
+    <string name="w260">Niebla helada</string>
+    <string name="w248">Niebla</string>
+    <string name="w230">Tempestad de nieve</string>
+    <string name="w227">Nieve en suspensión</string>
+    <string name="w200">Brotes de tormenta en las inmediaciones</string>
+    <string name="w185">Niebla helada llovizna irregular</string>
+    <string name="w182">AguaNieve irregular</string>
+    <string name="w179">Nieve cercano</string>
+    <string name="w176">Llovizna</string>
+    <string name="w143">Bruma</string>
+    <string name="w122">Cubierto</string>
+    <string name="w119">Nublado</string>
+    <string name="w116">Parcialmente nublado</string>
+    <string name="w113">Despejado/Soleado</string>
+    <string name="nubosidad">Nubosidad: </string>
     <string name="humedad">Humedad: </string>
-    <string name="precip">Precip: </string>
+    <string name="precip">Lluvia: </string>
     <string name="presion">Presión: </string>
-    <string name="windDirec">Dirección:</string>
-    <string name="windSpeed">Veloc:</string>
-    <string name="atmosferico">Condiciones atmosféricas</string>
-    <string name="viento">Wind</string>
-    <string name="currentCond">Condiciones actuales</string>
-    <string name="prevision">Forecast</string>
+    <string name="windDirec">Dirección: </string>
+    <string name="windSpeed">Velocidad: </string>
+    <string name="atmosferico">Cond. atmosféricas</string>
+    <string name="viento">Viento</string>
+    <string name="currentCond">Condic. actuales</string>
+    <string name="prevision">Previsión</string>
 
-    <string name="nodata">No data</string>
+    <string name="nodata">Sin datos</string>
 
-    <string name="informacion_app">Application information</string>
+    <string name="informacion_app">Información de la app</string>
     <string name="desarrollado">Desarollado por Javier Fernández</string>
+
+    <string name="selectShare">Compartir app con...</string>
+    <string name="shareText">¡Me voy de senderismo con Rutas de Tenerife para Android!</string>
 
     <string name="info">La Red de Senderos de Tenerife cuenta con tres tipos de rutas:\n\n
         ►<b> Sendero de Gran Recorrido.</b> Se identifica con los colores blanco y rojo, y con las siglas <i>GR</i>. Estos grandes trayectos se realizan en varias jornadas, dado que su longitud es superior a los 50 kilómetros.\n\n
     ►<b>Sendero de Pequeño Recorrido.</b> Se identifica con los colores blanco y amarillo, y con las siglas <i>PR</i>. Su longitud oscila entre los 10 y los 50 kilómetros; alguno de estos senderos poseen menos de 10 kilómetros, pero se han clasificado como PR debido a la pendiente del terreno, que añade mayor dificultad para la realización de la ruta.\n\n
     ►<b>Sendero Local.</b> Se identifica con los colores blanco y verde, y con las siglas <i>SL</i>. Su longitud es de menos de 10 kilómetros.</string>
+    <string name="tap_continue">Toca para continuar</string>
+    <string name="error_loading">Error cargando Google Play Services, intentalo de nuevo</string>
+    <string name="quit_app">¿Desea salir de la aplicación?</string>
+    <string name="yes">Sí</string>
+    <string name="No">No</string>
+    <string name="my_position">Mi posición</string>
+    <string name="error_loading_db">Error cargando la base de datos</string>
+    <string name="road_map">Modo callejero</string>
+    <string name="satellite_map">Modo satélite</string>
+    <string name="terrain_map">Modo topográfico</string>
+    <string name="filter">Filtro</string>
+    <string name="search">Buscar...</string>
+    <string name="cancel">Cancelar</string>
+    <string name="clear">Limpiar</string>
+    <string name="filtered">Filtrar</string>
+    <string name="longitude">Distancia</string>
+    <string name="time">Duración</string>
+    <string name="difficulty">Dificultad</string>
+    <string name="cumulative">Acumulado</string>
+    <string name="approved">Homologado</string>
+    <string name="error_my_position">¡Error, posición no disponible! Intenta habilitar el GPS</string>
+    <string name="how_to_get">Cómo llegar</string>
+    <string name="description">Info</string>
+    <string name="altitude">Altitud</string>
+    <string name="weather">Meteo</string>
+    <string name="error_no_internet">Error, no hay conexión a Internet</string>
+    <string name="info_path">Informacion</string>
+    <string name="info_recomendation">Consejos</string>
+    <string name="info_credits">Créditos</string>
+    <string name="selecciona_cliente">Selecciona cliente de correo</string>
+    <string name="error_mail_client">Error, cliente de correo no instalado</string>
+    <string name="contact">Contacta</string>
+    <string name="north_zone">Zona norte</string>
+    <string name="south_zone">Zona sur</string>
+    <string name="teide">P. N. Teide</string>
 </resources>

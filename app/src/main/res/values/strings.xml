@@ -24,12 +24,17 @@
         <item>Medium</item>
         <item>Large</item>
     </string-array>
-    <string-array name="opcionDific"><item>All</item>
+    <string-array name="opcionDific">
+        <item>All</item>
         <item>Easy</item>
         <item>Moderate</item>
         <item>Difficult</item>
         <item>Closed</item>
     </string-array>
+
+    <string name="desnivel">Elevation</string>
+    <string name="altitud">Elevation(mt)</string>
+    <string name="distancia">Distance(km)</string>
 
     <string name="w395">Moderate or heavy snow in area with thunder</string>
     <string name="w392">Patchy light snow in area with thunder</string>
@@ -95,8 +100,46 @@
     <string name="informacion_app">Application information</string>
     <string name="desarrollado">Developed by Javier Fernández</string>
 
+    <string name="selectShare">Share app with...</string>
+    <string name="shareText">I hiking with "Hiking in Tenerife" for Android!</string>
+
     <string name="info">The Tenerife Network of Footpaths boasts three types of route:\n\n
     ►<b>Long-distance Footpaths.</b> Identified in red and white and bearing the acronym <i>GR</i>. These long-distance routes take several days to complete, given a length of over 50 kilometres.\n\n
     ►<b>Short-distance Footpaths.</b> Identified in white and yellow and bearing the acronym <i>PR</i>. The length of these footpaths varies between 10 and 50 kilometres. A number of these routes are actually shorter that 10 kilometres; however, that have been classified as PR footpaths due to their steep gradient, which increases difficulty.\n\n
     ►<b>Local Footpaths.</b> Identified in white and green and bearing the acronym <i>SL</i>. These footpaths are less than 10 kilometres long.</string>
+    <string name="tap_continue">Tap to continue</string>
+    <string name="error_loading">Error loading Google Play Services, try again</string>
+    <string name="quit_app">Do you want to quit the app?</string>
+    <string name="yes">Yes</string>
+    <string name="No">No</string>
+    <string name="my_position">My position</string>
+    <string name="error_loading_db">Error loading database</string>
+    <string name="road_map">Road map</string>
+    <string name="satellite_map">Satellite map</string>
+    <string name="terrain_map">Terrain map</string>
+    <string name="filter">Filter</string>
+    <string name="search">Search...</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear">Clear</string>
+    <string name="filtered">Set</string>
+    <string name="longitude">Distance</string>
+    <string name="time">Time</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="cumulative">cumulative</string>
+    <string name="approved">Approved</string>
+    <string name="error_my_position">My position not found, try enabling GPS!</string>
+    <string name="how_to_get">How to get</string>
+    <string name="description">Info</string>
+    <string name="altitude">Altitude</string>
+    <string name="weather">Weather</string>
+    <string name="error_no_internet">Error! no internet connection</string>
+    <string name="info_path">Information</string>
+    <string name="info_recomendation">Advices</string>
+    <string name="info_credits">Credits</string>
+    <string name="selecciona_cliente">Select an email client</string>
+    <string name="error_mail_client">Error, mail client not installed</string>
+    <string name="contact">Contact</string>
+    <string name="north_zone">North zone</string>
+    <string name="south_zone">South zone</string>
+    <string name="teide">Teide N. P.</string>
 </resources>

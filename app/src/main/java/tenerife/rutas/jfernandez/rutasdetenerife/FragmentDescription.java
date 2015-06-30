@@ -40,7 +40,7 @@ public class FragmentDescription extends Fragment {
             float dist = arguments.getFloat(getString(R.string.VALUE_DIST), 0);
             tvDist.setText("" + dist + " Km");
             TextView tvDistTitle = (TextView)viewNested.findViewById(R.id.view_title);
-            tvDistTitle.setText("Distance");
+            tvDistTitle.setText(getString(R.string.longitude));
             ImageView tvDistIcon = (ImageView)viewNested.findViewById(R.id.view_image);
             tvDistIcon.setImageResource(R.drawable.distance32);
 
@@ -48,26 +48,27 @@ public class FragmentDescription extends Fragment {
             TextView tvDif = (TextView)viewNested.findViewById(R.id.view_value);
             TextView tvDifTitle = (TextView)viewNested.findViewById(R.id.view_title);
             ImageView tvDifIcon = (ImageView)viewNested.findViewById(R.id.view_image);
-            tvDifTitle.setText("Difficulty");
+            tvDifTitle.setText(getString(R.string.difficulty));
             int dific = arguments.getInt(getString(R.string.VALUE_DIF), 0);
-            String text ="";
             int iconDific;
+            String[] dificArray = getResources().getStringArray(R.array.opcionDific);
+            String text = dificArray[dific];
             switch (dific){
                 case 1:
-                    text = "easy";
+                    //text = "easy";
                     iconDific = R.drawable.nivel_facil;
                     break;
                 case 2:
-                    text = "medium";
+                    //text = "medium";
                     iconDific = R.drawable.nivel_intermedio;
                     break;
                 case 3:
-                    text = "Difficult";
+                    //text = "Difficult";
                     iconDific = R.drawable.nivel_dificil;
                     break;
                 default:
                     iconDific = R.drawable.nivel_facil;
-                    text = "Closed";
+                    //text = "Closed";
             }
             tvDif.setText(text);
             tvDifIcon.setImageResource(iconDific);
@@ -76,19 +77,19 @@ public class FragmentDescription extends Fragment {
             TextView tvTime = (TextView) viewNested.findViewById(R.id.view_value);
             tvTime.setText("" + arguments.getFloat(getString(R.string.VALUE_TIME), 0)+ " h");
             TextView tvTimeTitle = (TextView) viewNested.findViewById(R.id.view_title);
-            tvTimeTitle.setText("Time");
+            tvTimeTitle.setText(getString(R.string.time));
             ImageView tvTimeIcon = (ImageView) viewNested.findViewById(R.id.view_image);
             tvTimeIcon.setImageResource(R.drawable.timer);
 
             viewNested = v.findViewById(R.id.fieldApproved);
             TextView tvApprovedTitle = (TextView) viewNested.findViewById(R.id.view_title);
-            tvApprovedTitle.setText("Approved");
+            tvApprovedTitle.setText(getString(R.string.approved));
             TextView tvApproved = (TextView) viewNested.findViewById(R.id.view_value);
             int approved = arguments.getInt(getString(R.string.VALUE_APPROVED), 0);
-            String mytext = "No";
+            String mytext = getString(R.string.No);
             int icon = arguments.getInt(getString(R.string.VALUE_ICON),R.drawable.marker_sign_24_normal);
             if (approved != 0)
-                mytext = "Yes";
+                mytext = getString(R.string.yes);
             tvApproved.setText(mytext);
             ImageView approvedIcon = (ImageView) viewNested.findViewById(R.id.view_image);
             ViewGroup.LayoutParams params = approvedIcon.getLayoutParams();
@@ -96,6 +97,7 @@ public class FragmentDescription extends Fragment {
             params.width = ViewGroup.LayoutParams.WRAP_CONTENT;;
             approvedIcon.setImageResource(icon);
 
+            //TODO detect languaje for getting description in BD
             String desc = bdTab2.getDescriptionById(arguments.getInt(getString(R.string.VALUE_ID),0), "es");
             TextView tvDescription = (TextView)v.findViewById(R.id.tvTextDescriptor);
             tvDescription.setText(desc);
@@ -113,7 +115,7 @@ public class FragmentDescription extends Fragment {
                                         "&daddr=" + latLongPoint[0] + "," + latLongPoint[1]));
                         startActivity(intent);
                     }else{
-                        Toast toast = Toast.makeText(getActivity(), "My position not found, try enabling GPS!", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getActivity(), getString(R.string.error_my_position), Toast.LENGTH_SHORT);
                         View vista = toast.getView();
                         vista.setBackgroundResource(R.drawable.border_toast);
                         toast.show();

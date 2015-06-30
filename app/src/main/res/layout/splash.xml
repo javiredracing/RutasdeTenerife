@@ -57,6 +57,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textStyle="italic"
-        android:text="Click para continuar" />
+        android:text="@string/tap_continue" />
 
 </RelativeLayout>

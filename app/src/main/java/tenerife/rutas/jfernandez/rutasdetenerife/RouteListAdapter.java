@@ -21,18 +21,21 @@ public class RouteListAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private ArrayList<Route> arrayList;
+    private Context ctx;
 
     private ArrayList<ListItem> routesList;
 
-    public RouteListAdapter(Context ctx, List<Route> routes){
+    public RouteListAdapter(Context _ctx, List<Route> routes){
 
         routesList = new ArrayList<>();
         insertItems(routes);
         this.arrayList = new ArrayList<>();
         this.arrayList.addAll(routes);
-        this.inflater = inflater.from(ctx);
+        ctx = _ctx;
+        this.inflater = inflater.from(_ctx);
+;
     }
-    public class ViewHolder {
+    protected class ViewHolder {
         public TextView name;
         public ImageView icon;
         //TextView population;
@@ -187,22 +190,22 @@ public class RouteListAdapter extends BaseAdapter {
         String regionName = "";
         switch (region){
             case 0:
-                regionName = "Anaga";
+                regionName = "P. R. Anaga";
                 break;
             case 1:
-                regionName = "Zona norte";
+                regionName = "Zona Norte";
                 break;
             case 2:
-                regionName = "Teno";
+                regionName = "P. R. Teno";
                 break;
             case 3:
                 regionName = "Zona Sur";
                 break;
             case 4:
-                regionName = "Parque Nacional";
+                regionName = "P. N. Teide";
                 break;
             case 5:
-                regionName="GR-131";
+                regionName = "GR-131";
                 break;
             default:
                 regionName= "no region";

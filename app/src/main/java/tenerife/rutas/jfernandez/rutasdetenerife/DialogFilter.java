@@ -58,8 +58,8 @@ public class DialogFilter extends DialogFragment {
         spinnerDif.setAdapter(adapter3);
         spinnerDif.setSelection(preferences.getInt(getString(R.string.FILTER_DIF), 0));
         builder.setView(v);
-        builder.setTitle("Filtro");
-        builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.filter));
+        builder.setPositiveButton(getString(R.string.filtered), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -79,14 +79,14 @@ public class DialogFilter extends DialogFragment {
                 dismiss();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Log.v("DialogFilter", "Cancel");
                 dismiss();
             }
         });
-        builder.setNeutralButton("Clear", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(getString(R.string.clear), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Log.v("DialogFilter", "Clear");

@@ -51,9 +51,9 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
         tabHost = (FragmentTabHost)view.findViewById(R.id.tabsExtendedInfo);
 
         tabHost.setup(getActivity(), getChildFragmentManager());
-        tabHost.addTab(tabHost.newTabSpec("spect1").setIndicator("Descript"), Fragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("spect2").setIndicator("Chart"), Fragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("spect3").setIndicator("Weather"), Fragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("spect1").setIndicator(getString(R.string.description)), Fragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("spect2").setIndicator(getString(R.string.altitude)), Fragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("spect3").setIndicator(getString(R.string.weather)), Fragment.class, null);
         TabWidget widget = tabHost.getTabWidget();
        /*http://android-holo-colors.com
        http://stackoverflow.com/questions/14722654/tabwidget-current-tab-bottom-line-color*/
@@ -93,7 +93,7 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
                 int tab = tabHost.getCurrentTab();
                 if ((!isConnected)&& (tab == 2)){
                     tabHost.setCurrentTab(lastTab);
-                    toast = Toast.makeText(getActivity(), "No internet connection!", Toast.LENGTH_SHORT);
+                    toast = Toast.makeText(getActivity(), getString(R.string.error_no_internet), Toast.LENGTH_SHORT);
                     View v = toast.getView();
                     v.setBackgroundResource(R.drawable.border_toast);
                     toast.show();

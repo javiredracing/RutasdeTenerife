@@ -94,7 +94,7 @@
         >
         <TextView
             android:id="@+id/tvTextDescriptor"
-            android:text="HOLA"
+            android:text="@string/nodata"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
             android:layout_width="match_parent"
@@ -107,7 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Como llegar"
+        android:text="@string/how_to_get"
         android:textColor="@android:color/white"
         android:drawableLeft="@android:drawable/ic_dialog_map"
          />

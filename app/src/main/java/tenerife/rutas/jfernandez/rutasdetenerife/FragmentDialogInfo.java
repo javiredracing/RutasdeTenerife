@@ -35,9 +35,9 @@ public class FragmentDialogInfo extends DialogFragment {
 
         tabHost = (FragmentTabHost) view.findViewById(R.id.tabs);
         tabHost.setup(getActivity(), getChildFragmentManager());
-        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("indicator1"), Fragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("indicator2"), Fragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("indicator3"), Fragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(getString(R.string.info_path)), Fragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(getString(R.string.info_recomendation)), Fragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(getString(R.string.info_credits)), Fragment.class, null);
         TabWidget widget = tabHost.getTabWidget();
         int count = widget.getTabCount();
         for (int i = 0; i < count; i++){
@@ -132,13 +132,13 @@ public class FragmentDialogInfo extends DialogFragment {
             String title = "";
             switch (position){
                 case 0:
-                    title = "Page1";
+                    title = getString(R.string.info_path);
                     break;
                 case 1:
-                    title = "Page2";
+                    title = getString(R.string.info_recomendation);
                     break;
                 case 2:
-                    title = "Page3";
+                    title = getString(R.string.info_credits);
                     break;
             }
             return title;
