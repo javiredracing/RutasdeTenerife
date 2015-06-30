@@ -18,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -133,8 +136,20 @@ public class FragmentWeather extends Fragment {
                         //Update weather Route
                         MapsActivity mainActivity = (MapsActivity)getActivity();
                         mainActivity.getLastRouteShowed().setWeatherJson(mensaje);
+                        Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Weather-Api")
+                                .setAction("Success")
+                                .setLabel("connection")
+                                .build());
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Weather-Api")
+                                .setAction("Fails")
+                                .setLabel("Parsing-json")
+                                .build());
                         //Log.e("Error!", e.toString());
                     }
                 }
@@ -165,6 +180,12 @@ public class FragmentWeather extends Fragment {
                             }
                             urlConnection.disconnect();
                         } catch (IOException e) {
+                            Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
+                            tracker.send(new HitBuilders.EventBuilder()
+                                    .setCategory("Weather-Api")
+                                    .setAction("Fails")
+                                    .setLabel("connection")
+                                    .build());
                             e.printStackTrace();
                         }
                     }
