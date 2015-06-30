@@ -43,6 +43,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -181,6 +183,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             latLngMyPos[1] = myPos.getPosition().longitude;
                             bundle.putDoubleArray(getString(R.string.VALUE_LATLNG_POS),latLngMyPos);
                         }
+                        Tracker tracker = ((RutasTenerife)getApplication()).getTracker();
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Extended-Info")
+                                .setAction("Show")
+                                .setLabel(""+lastRouteShowed.getName())
+                                .build());
                         extendedInfo.setArguments(bundle);
                         extendedInfo.show(getSupportFragmentManager(), "FragmentDialogExtendedInfo");
                     }
@@ -496,8 +504,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             fragmentMap.getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
                         }else
                             fragmentMap.getView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        if (mMap != null && latLngBounds != null)
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds,20));
+                        if (mMap != null && latLngBounds != null){
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 20));
+                        }
                     }
                 });
             }
@@ -529,7 +538,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if (zoom < 20 )
                         zoom++;
                     CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(cluster.getPosition(),zoom);
-                    mMap.moveCamera(cu);
+                    mMap.animateCamera(cu, 500, null);
                     return true;
                 }
             });
@@ -585,6 +594,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googleMap.setMapType(map_type);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
+        //Google analytics
+        Tracker tracker = ((RutasTenerife)getApplication()).getTracker();
+        tracker.setScreenName("main_map");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+        //tracker.e
     }
 
     /**************************************************************************/
@@ -858,6 +872,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         drawerListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 switch (position) {
                     case 0: //get current position
                         if (myPos != null) {
@@ -869,6 +884,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             mMap.animateCamera(cu);
                             //drawerLayout.closeDrawers();
                             closeNavigationDrawer();
+                        }else{
+                            globalToast.setDuration(Toast.LENGTH_LONG);
+                            globalToast.setText(getString(R.string.error_my_position));
+                            globalToast.show();
                         }
                         break;
                     case 1: //change map type
@@ -920,6 +939,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.shareText) + "\n" + url);
                         sendIntent.setType("text/plain");
                         startActivity(Intent.createChooser(sendIntent, getString(R.string.selectShare)));
+                        //Event google analytics
+                        Tracker tracker = ((RutasTenerife)getApplication()).getTracker();
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Menu")
+                                .setAction("Share")
+                                .setLabel("-")
+                                .build());
                         break;
                     default:
                         Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();

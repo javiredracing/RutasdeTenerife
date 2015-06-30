@@ -24,6 +24,9 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 /**
  * Created by jfernandez on 09/06/2015.
  */
@@ -91,13 +94,13 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
             @Override
             public void onTabChanged(String tabId) {
                 int tab = tabHost.getCurrentTab();
-                if ((!isConnected)&& (tab == 2)){
+                if ((!isConnected) && (tab == 2)) {
                     tabHost.setCurrentTab(lastTab);
                     toast = Toast.makeText(getActivity(), getString(R.string.error_no_internet), Toast.LENGTH_SHORT);
                     View v = toast.getView();
                     v.setBackgroundResource(R.drawable.border_toast);
                     toast.show();
-                }else{
+                } else {
                     if (toast != null)
                         toast.cancel();
                     lastTab = tab;
@@ -105,6 +108,9 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
                 }
             }
         });
+        Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
+        tracker.setScreenName("Extended-Info");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
         return view;
     }
 
@@ -114,6 +120,7 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
         Dialog dialog =  super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //dialog.setTitle(getString(R.string.title_activity_maps));
+
         return dialog;
     }
 

@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 /**
  * Created by jfernandez on 29/05/2015.
  */
@@ -25,6 +28,12 @@ public class FragmentInfo3 extends Fragment {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Menu")
+                            .setAction("Send-Email")
+                            .setLabel("-")
+                            .build());
                     Intent i = new Intent(Intent.ACTION_SEND);
                     //i.setType("text/plain");
                     i.setType("message/rfc822");

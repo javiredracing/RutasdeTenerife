@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 
 import android.widget.Spinner;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
@@ -63,6 +65,12 @@ public class DialogFilter extends DialogFragment {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Menu")
+                        .setAction("Filter")
+                        .setLabel("Filtered")
+                        .build());
                 SharedPreferences.Editor editor = preferences.edit();
                 int spnLong = spinnerLong.getSelectedItemPosition();
                 int spnDurac = spinnerDurac.getSelectedItemPosition();
@@ -91,8 +99,8 @@ public class DialogFilter extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 //Log.v("DialogFilter", "Clear");
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putInt(getString(R.string.FILTER_LONG),0);
-                editor.putInt(getString(R.string.FILTER_DURAC),0);
+                editor.putInt(getString(R.string.FILTER_LONG), 0);
+                editor.putInt(getString(R.string.FILTER_DURAC), 0);
                 editor.putInt(getString(R.string.FILTER_DIF), 0);
                 editor.commit();
                 mapsActivity.closeVisiblePath();
@@ -105,6 +113,10 @@ public class DialogFilter extends DialogFragment {
         ad.setCanceledOnTouchOutside(true);
        // ad.setIcon(R.drawable.filter64);
         ad.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
+        tracker.setScreenName("Filter");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
         return ad;
     }
 

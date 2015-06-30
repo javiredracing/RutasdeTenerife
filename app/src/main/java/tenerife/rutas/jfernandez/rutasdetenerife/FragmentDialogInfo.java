@@ -19,6 +19,9 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 /**
  * Created by jfernandez on 29/05/2015.
  */
@@ -76,6 +79,9 @@ public class FragmentDialogInfo extends DialogFragment {
                 viewPager.setCurrentItem(pos);
             }
         });
+        Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
+        tracker.setScreenName("Info");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
         return view;
     }
 
