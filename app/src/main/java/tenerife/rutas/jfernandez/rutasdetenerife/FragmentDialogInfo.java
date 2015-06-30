@@ -56,7 +56,7 @@ public class FragmentDialogInfo extends DialogFragment {
 
         viewPager =(ViewPager) view.findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapterInfo);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
