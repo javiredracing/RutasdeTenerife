@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
@@ -43,6 +44,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
@@ -254,6 +258,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+        /*Load admob*/
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        //mAdView.setAdSize(AdSize.SMART_BANNER);
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        //String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("922A0081AE099EE4E45D7D8D868D9153").addTestDevice("FC3F6D621E3F691163F3081D23209CD7").addTestDevice("E31D8CAD5C7EC0199DF56FCDD1C8BACA").build();
+        //AdRequest ad = adRequest.build();
+        mAdView.loadAd(adRequest);
     }
 
 

@@ -142,4 +142,6 @@
     <string name="north_zone">North zone</string>
     <string name="south_zone">South zone</string>
     <string name="teide">Teide N. P.</string>
+
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3472935927701659/9784753320</string>
 </resources>
