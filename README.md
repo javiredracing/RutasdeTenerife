@@ -15,7 +15,7 @@ Location of the routes on the map with GPS and orientation sensors.
 Regular updates of new routes.
 
 
-#Legal
+##Legal
 License:
 [Creative Commons Attribution-NonCommercial 3.0 Unported (CC BY-NC 3.0)](https://creativecommons.org/licenses/by-nc/3.0/)
 
