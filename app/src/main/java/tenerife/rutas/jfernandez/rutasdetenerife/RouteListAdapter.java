@@ -21,7 +21,7 @@ public class RouteListAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private ArrayList<Route> arrayList;
-    private Context ctx;
+    //private Context ctx;
 
     private ArrayList<ListItem> routesList;
 
@@ -31,7 +31,7 @@ public class RouteListAdapter extends BaseAdapter {
         insertItems(routes);
         this.arrayList = new ArrayList<>();
         this.arrayList.addAll(routes);
-        ctx = _ctx;
+        //ctx = _ctx;
         this.inflater = inflater.from(_ctx);
 ;
     }

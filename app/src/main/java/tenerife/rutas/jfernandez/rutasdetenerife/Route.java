@@ -1,7 +1,6 @@
 package tenerife.rutas.jfernandez.rutasdetenerife;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 

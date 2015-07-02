@@ -1,13 +1,10 @@
 package tenerife.rutas.jfernandez.rutasdetenerife;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Date;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -71,14 +68,14 @@ public class BaseDatos extends SQLiteOpenHelper {
 
 	public void abrirBD()throws SQLException{
 		String myPath = DB_PATH + BASEDATOS;
-		Log.v("PATH",myPath);
+		//Log.v("PATH",myPath);
     	db = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
 	}
 	
-	public void writeBD() throws SQLException{
+	/*public void writeBD() throws SQLException{
 		String myPath = DB_PATH + BASEDATOS;
 		db = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
-	}
+	}*/
 	
 	private boolean comprobarBD(){
 		SQLiteDatabase checkDB = null;
@@ -132,7 +129,7 @@ public class BaseDatos extends SQLiteOpenHelper {
 
 	}
 	//A�ade un nuevo sendero
-	public long addSendero(String nombre, double inicX, double inicY, double finX, double finY, float duracion,
+	/*public long addSendero(String nombre, double inicX, double inicY, double finX, double finY, float duracion,
 			float longitud, String dificultad, String descripcion, String kml){
 		
 		ContentValues cv = new ContentValues();
@@ -147,10 +144,10 @@ public class BaseDatos extends SQLiteOpenHelper {
 		cv.put("descripcion", descripcion);
 		cv.put("kml", kml);
 		return db.insert("Senderos", null, cv);
-	}
+	}*/
 	
 	//Extrae los datos segun el campo
-	public String[] getCampo(String valor){
+	/*public String[] getCampo(String valor){
 		
 		String consulta = "SELECT " + valor + " FROM " + TABLA;
 		Cursor c = null;
@@ -167,9 +164,9 @@ public class BaseDatos extends SQLiteOpenHelper {
 		}
 		c.close();
 		return listaDatos;
-	}
+	}*/
 	
-	public Cursor miConsulta (String where){
+	/*public Cursor miConsulta (String where){
 		Cursor c = null;
 		String consulta = "SELECT nombre, inicX, inicY, finX, finY, duracion, longitud, dificultad, kml FROM " + TABLA;
 		if (where != null)
@@ -180,7 +177,7 @@ public class BaseDatos extends SQLiteOpenHelper {
 			Log.d("BaseDatos", e.toString());
 		}
 		return c;
-	}
+	}*/
 	
 	public Cursor getInfoMap(Boolean distinct, String[] columns, String selection, String[] selectionArgs, String groupBy,
 				String having, String orderBy){
@@ -195,7 +192,7 @@ public class BaseDatos extends SQLiteOpenHelper {
 		}
 				
 	//Obtiene la fila con la informacion necesaria para ser mostrada
-	public String[] getInformacion(String nombreSendero){
+	/*public String[] getInformacion(String nombreSendero){
 		Cursor c = null;
 
 		String where = "nombre = '" + nombreSendero + "'";
@@ -214,7 +211,7 @@ public class BaseDatos extends SQLiteOpenHelper {
 		}
 		c.close();
 		return listaDatos;
-	}
+	}*/
 
 	public String getDescriptionById(int id, String languaje){
 		Cursor c = null;
@@ -229,14 +226,14 @@ public class BaseDatos extends SQLiteOpenHelper {
 		String[] listaDatos = new String[c.getColumnCount()];
 		//Escogemos solo los valores de la primera fila, los demas seran repetidos
 		if (c.moveToFirst()){
-			int valor = c.getColumnCount();
+			//int valor = c.getColumnCount();
 			listaDatos[0] = c.getString(0);
 		}
 		c.close();
 		return listaDatos[0];
 	}
 	
-	public String[] getDatos(Boolean distinct, String[] columns, String selection, String[] selectionArgs, String groupBy,
+	/*public String[] getDatos(Boolean distinct, String[] columns, String selection, String[] selectionArgs, String groupBy,
 			String having, String orderBy){
 		Cursor c = null;
 		try{
@@ -253,7 +250,7 @@ public class BaseDatos extends SQLiteOpenHelper {
 		}
 		c.close();
 		return listaDatos;
-	}
+	}*/
 	
 	 @Override
      public synchronized void close(){
@@ -262,9 +259,9 @@ public class BaseDatos extends SQLiteOpenHelper {
 		super.close();
 	}
 	
-	public String returnPath(){
+	/*public String returnPath(){
 		return db.getPath();
-	}
+	}*/
 	
 	public int getVersion(){
 		return db.getVersion();
@@ -275,16 +272,16 @@ public class BaseDatos extends SQLiteOpenHelper {
 		db.setVersion(version);
 	}
 	
-	public Date getDate(){
+	/*public Date getDate(){
 		File archivo = new File(DB_PATH + BASEDATOS);
 		Date lastModDate = null;
 		if (archivo.exists())
 			lastModDate = new Date(archivo.lastModified());
 		return lastModDate;
-	}
-	public boolean borraBaseDatos(){
+	}*/
+	/*public boolean borraBaseDatos(){
 		return contexto.deleteDatabase(BASEDATOS);
-	}
+	}*/
 
 	@Override
 	public void onCreate(SQLiteDatabase arg0) {

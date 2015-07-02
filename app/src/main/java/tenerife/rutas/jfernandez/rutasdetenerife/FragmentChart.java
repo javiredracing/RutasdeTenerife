@@ -162,7 +162,7 @@ public class FragmentChart extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (!xmlPath.contentEquals("") && (!isLoaded)){
+        if (!xmlPath.equals("") && (!isLoaded)){
             Thread myThread = new Thread(new Runnable(){
                 public void run(){
 

@@ -78,7 +78,7 @@ public class DialogFilter extends DialogFragment {
                 editor.putInt(getString(R.string.FILTER_LONG), spnLong);
                 editor.putInt(getString(R.string.FILTER_DURAC), spnDurac);
                 editor.putInt(getString(R.string.FILTER_DIF), spnDif);
-                editor.commit();
+                editor.apply();
                 ArrayList<Route> list = mapsActivity.getRoutesList();
 
                 filterRoute(spnLong, spnDif, spnDurac, list);
@@ -102,7 +102,7 @@ public class DialogFilter extends DialogFragment {
                 editor.putInt(getString(R.string.FILTER_LONG), 0);
                 editor.putInt(getString(R.string.FILTER_DURAC), 0);
                 editor.putInt(getString(R.string.FILTER_DIF), 0);
-                editor.commit();
+                editor.apply();
                 mapsActivity.closeVisiblePath();
                 ArrayList<Route> list = mapsActivity.getRoutesList();
                 filterRoute(0, 0, 0, list);

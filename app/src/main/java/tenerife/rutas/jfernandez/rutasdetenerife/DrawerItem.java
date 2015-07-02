@@ -20,10 +20,10 @@ public class DrawerItem {
         this.id = id;
     }
 
-    public DrawerItem(String name, int iconId) {
+    /*public DrawerItem(String name, int iconId) {
         this.name = name;
         this.iconId = iconId;
-    }
+    }*/
 
     public String getName() {
         return name;
@@ -37,9 +37,9 @@ public class DrawerItem {
         return iconId;
     }
 
-    public void setIconId(int iconId) {
+    /*public void setIconId(int iconId) {
         this.iconId = iconId;
-    }
+    }*/
 
     public void setId(int _id){
         this.id = _id;

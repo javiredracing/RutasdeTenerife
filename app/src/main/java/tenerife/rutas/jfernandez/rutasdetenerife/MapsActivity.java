@@ -111,13 +111,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ListView drawerList;
     private EditText et_search;
 
-    private ListView drawerListMenu;
+    //private ListView drawerListMenu;
 
     private boolean enableTap = false;
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest locationRequest;
-    private Location mCurrentLocation;
+    //private Location mCurrentLocation;
     private Marker myPos;
     private Handler handlerGeocoder;
 
@@ -378,7 +378,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-        mCurrentLocation = location;
+        //mCurrentLocation = location;
         if (myPos == null)
             myPos = mMap.addMarker(new MarkerOptions().
                             position(new LatLng(28.299221, -16.525690))
@@ -674,7 +674,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (pathShowed != null)
                 pathShowed.remove();
 
-            if ((route.isActive) && (route.getXmlRoute()!= "")){
+            if ((route.isActive) && (!route.getXmlRoute().equals(""))){
                 route.setMarkersVisibility(true);
                 showQuickInfo(route);
                 float zoom = mMap.getCameraPosition().zoom;
@@ -870,7 +870,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void configureMenu(){
 
-        drawerListMenu = (ListView)findViewById(R.id.left_drawer);
+        ListView drawerListMenu = (ListView)findViewById(R.id.left_drawer);
         ArrayList<DrawerItem> itemsMenu = new ArrayList<DrawerItem>();
 
         itemsMenu.add(new DrawerItem("Item1",R.drawable.icon_my_pos64,1));
@@ -997,7 +997,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         drawerLayout.closeDrawers();
     }
     public void clearSearch(View v){
-        if (!et_search.getText().equals(""))
+        if (!et_search.getText().toString().equals(""))
             et_search.setText("");
     }
 

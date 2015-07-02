@@ -10,13 +10,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 /**
  * Created by jfernandez on 09/06/2015.
  */
 public class ActivitySplash extends Activity{
-    private final long SPLASH_DISPLAY_LENGTH = 5000;
+    private static final long SPLASH_DISPLAY_LENGTH = 5000;
     private CountDownTimer temporizador;
     private boolean isFinished;
     private ImageView splashMain;

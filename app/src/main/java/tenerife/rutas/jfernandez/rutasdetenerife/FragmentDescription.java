@@ -5,13 +5,11 @@ import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -94,7 +92,7 @@ public class FragmentDescription extends Fragment {
             ImageView approvedIcon = (ImageView) viewNested.findViewById(R.id.view_image);
             ViewGroup.LayoutParams params = approvedIcon.getLayoutParams();
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            params.width = ViewGroup.LayoutParams.WRAP_CONTENT;;
+            params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
             approvedIcon.setImageResource(icon);
 
             //TODO detect languaje for getting description in BD
