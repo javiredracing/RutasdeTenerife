@@ -106,8 +106,8 @@
 
     <string name="info">La Red de Senderos de Tenerife cuenta con tres tipos de rutas:\n\n
         ►<b> Sendero de Gran Recorrido.</b> Se identifica con los colores blanco y rojo, y con las siglas <i>GR</i>. Estos grandes trayectos se realizan en varias jornadas, dado que su longitud es superior a los 50 kilómetros.\n\n
-    ►<b>Sendero de Pequeño Recorrido.</b> Se identifica con los colores blanco y amarillo, y con las siglas <i>PR</i>. Su longitud oscila entre los 10 y los 50 kilómetros; alguno de estos senderos poseen menos de 10 kilómetros, pero se han clasificado como PR debido a la pendiente del terreno, que añade mayor dificultad para la realización de la ruta.\n\n
-    ►<b>Sendero Local.</b> Se identifica con los colores blanco y verde, y con las siglas <i>SL</i>. Su longitud es de menos de 10 kilómetros.</string>
+    ►<b> Sendero de Pequeño Recorrido.</b> Se identifica con los colores blanco y amarillo, y con las siglas <i>PR</i>. Su longitud oscila entre los 10 y los 50 kilómetros; alguno de estos senderos poseen menos de 10 kilómetros, pero se han clasificado como PR debido a la pendiente del terreno, que añade mayor dificultad para la realización de la ruta.\n\n
+    ►<b> Sendero Local.</b> Se identifica con los colores blanco y verde, y con las siglas <i>SL</i>. Su longitud es de menos de 10 kilómetros.</string>
     <string name="tap_continue">Toca para continuar</string>
     <string name="error_loading">Error cargando Google Play Services, intentalo de nuevo</string>
     <string name="quit_app">¿Desea salir de la aplicación?</string>
@@ -143,4 +143,14 @@
     <string name="north_zone">Zona norte</string>
     <string name="south_zone">Zona sur</string>
     <string name="teide">P. N. Teide</string>
+    <string name="info_advices">► Transita siempre acompañado y por los caminos señalizados y respeta el modo de vida, la intimidad y las propiedades de los habitantes del lugar. \n\n
+        ► Si evitas los ruidos, podrás descubrir mucha más vida a tu alrededor. \n\n
+        ► Llévate toda la basura, incluso la orgánica. Así contribuirás a mantener la belleza del paisaje y evitarás la proliferación de roedores. Ten especial cuidado con las colillas. \n\n
+        ► La recolección de plantas, animales u otros objetos del medio puede acarrear la pérdida de recursos insustituibles. \n\n
+        ► Los responsables de estos Espacios Naturales Protegidos te agradecerán que les adviertas de las incidencias que hayas podido observar. Para ello puedes dirigirte a: Área de Medio Ambiente del Cabildo Insular de Tenerife <u>Tfno: 922239090</u> <u>Email: cordinacionmam@tenerife.es</u>\n\n
+        ► Te recordamos que la naturaleza de la isla es tan peculiar como imprevisible. El disfrute de la misma se debe hacer de una manera responsable y prudente; ten especial cuidado en cualquier zona natural y no olvides que el riesgo de accidente siempre podría estar presente.\n\n
+        ► Respeta las señales.\n\n
+        ► Consulta la previsión metereológica ​ para asegurarte que es la adecuada. \n\n
+        ► Lleva ropa y calzado adecuado para senderismo y en la mochila no te olvides de poner teléfono móvil, protector solar, sombrero, abrigo, chubasquero, suficiente agua y comida.\n\n
+        ► Informa a tus familiares o amigos de la ruta que vas a realizar y ten en cuenta las horas de luz que necesitarás para completar tu recorrido.</string>
 </resources>

@@ -17,6 +17,6 @@
             android:layout_marginBottom="4dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
-            android:text="Tab 2"/>
+            android:text="@string/info_advices"/>
     </LinearLayout>
 </ScrollView>

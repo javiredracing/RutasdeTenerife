@@ -37,7 +37,7 @@ public class FragmentInfo3 extends Fragment {
                     Intent i = new Intent(Intent.ACTION_SEND);
                     //i.setType("text/plain");
                     i.setType("message/rfc822");
-                    i.putExtra(Intent.EXTRA_EMAIL, new String[]{"javiredracing@gmail.com"});
+                    i.putExtra(Intent.EXTRA_EMAIL, new String[]{"rutastenerife@gmail.com"});
                     i.putExtra(Intent.EXTRA_SUBJECT, "Rutas de Tenerife, User");
                     //i.putExtra(Intent.EXTRA_TEXT, "Texto");
                     try{

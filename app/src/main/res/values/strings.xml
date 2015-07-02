@@ -104,9 +104,9 @@
     <string name="shareText">I hiking with "Hiking in Tenerife" for Android!</string>
 
     <string name="info">The Tenerife Network of Footpaths boasts three types of route:\n\n
-    ►<b>Long-distance Footpaths.</b> Identified in red and white and bearing the acronym <i>GR</i>. These long-distance routes take several days to complete, given a length of over 50 kilometres.\n\n
-    ►<b>Short-distance Footpaths.</b> Identified in white and yellow and bearing the acronym <i>PR</i>. The length of these footpaths varies between 10 and 50 kilometres. A number of these routes are actually shorter that 10 kilometres; however, that have been classified as PR footpaths due to their steep gradient, which increases difficulty.\n\n
-    ►<b>Local Footpaths.</b> Identified in white and green and bearing the acronym <i>SL</i>. These footpaths are less than 10 kilometres long.</string>
+    ►<b> Long-distance Footpaths.</b> Identified in red and white and bearing the acronym <i>GR</i>. These long-distance routes take several days to complete, given a length of over 50 kilometres.\n\n
+    ►<b> Short-distance Footpaths.</b> Identified in white and yellow and bearing the acronym <i>PR</i>. The length of these footpaths varies between 10 and 50 kilometres. A number of these routes are actually shorter that 10 kilometres; however, that have been classified as PR footpaths due to their steep gradient, which increases difficulty.\n\n
+    ►<b> Local Footpaths.</b> Identified in white and green and bearing the acronym <i>SL</i>. These footpaths are less than 10 kilometres long.</string>
     <string name="tap_continue">Tap to continue</string>
     <string name="error_loading">Error loading Google Play Services, try again</string>
     <string name="quit_app">Do you want to quit the app?</string>
@@ -142,6 +142,16 @@
     <string name="north_zone">North zone</string>
     <string name="south_zone">South zone</string>
     <string name="teide">Teide N. P.</string>
+     <string name="info_advices">
+            ► Go always accompanied and give details of your inteded route to someone before setting off.\n\n
+            ► Carry a mobile phone and take sufficient water and food.\n\n
+            ► Clothing and foodwear should correspond to the degree of difficulty of the hike.\n\n
+            ► Do not stray from the sign-posted paths.\n\n
+            ► Do not take plants, animals, rocks or archaelogical remains with you.\n\n
+            ► Do not light fires and camp only at the campsites.\n\n
+            ► Do not leave or throw away rubbish.\n\n
+            ► Do not make noise to alter animals.
+    </string>
 
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3472935927701659/9784753320</string>
 </resources>

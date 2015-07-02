@@ -21,4 +21,5 @@
      ►<b> Kurzwanderwege.</b> Werden mit den Farben weiß und gelb angezeigt sowie mit der Abkürzung <i>PR</i>. Ihre Länge schwankt zwischen 10 und 50 Kilometern. Einige dieser Wanderwege sind kürzer als 10 Kilometer, wurden aber aufgrund der Steigung des Terrains als PR eingestuft, da diese den Schwierigkeitsgrad der Route erhöht./n/n
      ►<b> Lokale Wanderwege.</b> Werden mit dem Farben weiß und grün angezeigt sowie mit der Abkürzung <i>SL</i>. Ihre Länge liegt unter 10 Kilometern.
     </string>
+    <string name="info_recomendation"></string>
 </resources>
