@@ -1,19 +1,18 @@
 # [Rutas De Tenerife V2](https://play.google.com/store/apps/details?id=com.rutas.java)
 
-¡Los mejores senderos de Tenerife en tu dispositivo Android!
+The best Tenerife's walking routes in your Android device!
 
-Información detallada de senderos de Tenerife:
-- Distancia de la ruta.
-- Duración estimada a pie.
-- Dificultad.
-- Perfil del terreno.
-- Breve descripción.
-- Condiciones meteorológicas.
+Detailed information about Rutas de Tenerife:
+- Distance of the route.
+- Estimated time to walk.
+- Difficulty.
+- Terrain elevation.
+- Short description.
+- Weather conditions in each path.
 
-Localización de los senderos sobre el mapa gracias a los sensores GPS y de orientación.
+Location of the routes on the map with GPS and orientation sensors.
 
-Actualizaciones periódicas de nuevos senderos.
-
+Regular updates of new routes.
 
 
 #Legal
