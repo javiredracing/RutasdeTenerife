@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Rutas de Tenerife</string>
-    <string name="atmosferico"></string>
+    <string name="app_name">Wandern auf Teneriffa</string>
+    <string name="atmosferico">Atmosphärische beding.</string>
     <string-array name="opcionLong">
-        <item>All</item>
-        <item>Short</item>
-        <item>Medium</item>
-        <item>Large</item>
+        <item>Alles</item>
+        <item>Kurz</item>
+        <item>Mittel</item>
+        <item>Lang</item>
     </string-array>
-    <string-array name="opcionDific"><item>All</item>
-        <item>Easy</item>
-        <item>Moderate</item>
-        <item>Difficult</item>
-        <item>Closed</item>
+    <string-array name="opcionDific"><item>Alles</item>
+        <item>Leicht</item>
+        <item>Mittelstand</item>
+        <item>Schwer</item>
+        <item>Geschlossen</item>
     </string-array>
     <string name="info">
         Das Wanderwegnetzwerk von Teneriffa verfügt über drei verschiedene Arten von Routen:\n\n
@@ -21,5 +21,118 @@
      ►<b> Kurzwanderwege.</b> Werden mit den Farben weiß und gelb angezeigt sowie mit der Abkürzung <i>PR</i>. Ihre Länge schwankt zwischen 10 und 50 Kilometern. Einige dieser Wanderwege sind kürzer als 10 Kilometer, wurden aber aufgrund der Steigung des Terrains als PR eingestuft, da diese den Schwierigkeitsgrad der Route erhöht./n/n
      ►<b> Lokale Wanderwege.</b> Werden mit dem Farben weiß und grün angezeigt sowie mit der Abkürzung <i>SL</i>. Ihre Länge liegt unter 10 Kilometern.
     </string>
-    <string name="info_recomendation"></string>
+    <string name="info_recomendation">Ratschläge</string>
+    <string name="No">Nein</string>
+    <string name="altitud">Höhe(mt)</string>
+    <string name="altitude">Höhe</string>
+    <string name="approved">Genehmigt</string>
+    <string name="currentCond">Aktuelle Lage</string>
+    <string name="prevision">Prognose</string>
+    <string name="presion">Pression: </string>
+    <string name="precip">Regen: </string>
+    <string name="nubosidad">Bedeckungsgrad: </string>
+    <string name="viento">Wind</string>
+    <string name="title_activity_maps">Wandern auf Teneriffa</string>
+    <string name="desnivel">Elevation</string>
+    <string name="desarrollado">Präsentiert von Javier Fernández</string>
+    <string name="my_position">Meine Position</string>
+    <string name="w395">Leichter Schnee mit Gewitter</string>
+    <string name="w392">Leichter Schnee mit Gewitter</string>
+    <string name="w389">Leichter regen im Bereich mit Donner</string>
+    <string name="w386">Leichter regen im Bereich mit Donner</string>
+    <string name="w377">Leichter Regen aus Eis Pellets</string>
+    <string name="w374">Regen von Pellets</string>
+    <string name="w371">Leichter Schneefall</string>
+    <string name="w368">Leichte Schneeschauer</string>
+    <string name="w365">Leichter Graupelschauer</string>
+    <string name="w362">Leichte Graupelschauer</string>
+    <string name="w359">Sintflutartigen regen Dusche</string>
+    <string name="w356">Leichter regen Dusche</string>
+    <string name="w353">Licht regen Dusche</string>
+    <string name="w350">Hagel</string>
+    <string name="w338">Starker Schneefall</string>
+    <string name="w335">Teilweise starker Schneefall</string>
+    <string name="w332">Schnee</string>
+    <string name="w329">Leichter Schnee</string>
+    <string name="w326">Leichter Schneefall</string>
+    <string name="w323">Leichter Schnee</string>
+    <string name="w320">Schneeregen</string>
+    <string name="w317">Leichter Regen</string>
+    <string name="w314">Schwere Einfrieren regen</string>
+    <string name="w311">Licht Einfrieren regen</string>
+    <string name="w308">Schwere regen</string>
+    <string name="w305">Schwere regen in Zeiten</string>
+    <string name="w302">Regen</string>
+    <string name="w299">Regen in Zeiten</string>
+    <string name="w296">Licht regen</string>
+    <string name="w293">Leichter regen</string>
+    <string name="w284">Schwere Gefrierpunkt Nieselregen</string>
+    <string name="w281">Nieselregen</string>
+    <string name="w266">Leichter Nieselregen</string>
+    <string name="w263">Leichter Nieselregen</string>
+    <string name="w260">gefrierender Nebel</string>
+    <string name="w248">Nebel</string>
+    <string name="w230">Schneesturm</string>
+    <string name="w227">Schneetreiben</string>
+    <string name="w200">gewittrig Ausbrüche in der Nähe</string>
+    <string name="w185">Leichter Nieselregen Einfrieren der Nähe</string>
+    <string name="w182">Leichter Schneefall in der Nähe</string>
+    <string name="w179">Leichter Schnee in der Nähe</string>
+    <string name="w176">Leichter regen Nähe</string>
+    <string name="w143">Nebel</string>
+    <string name="w122">Bedeckt</string>
+    <string name="w119">bewölkt</string>
+    <string name="w116">teilweise bewölkt</string>
+    <string name="w113">sonnig</string>
+    <string name="humedad">Luftfeuchtigkeit: </string>
+    <string name="selectShare">Anteil App mit...</string>
+    <string name="shareText">Ich Wandern mit "Wandern auf Teneriffa" für Android!</string>
+    <string name="windDirec">Richtung: </string>
+    <string name="windSpeed">Geschwindigkeit: </string>
+    <string name="yes">Ja</string>
+    <string name="weather">Wetter</string>
+    <string name="time">Dauer</string>
+    <string name="tap_continue">Tippen Sie, um fortzufahren</string>
+    <string name="south_zone">Region Süden</string>
+    <string name="north_zone">Nordregion</string>
+    <string name="nodata">keine Daten</string>
+    <string name="distancia">Distanz(km)</string>
+    <string name="cumulative">kumulativ</string>
+    <string name="contact">Kontakt</string>
+    <string name="clear">Löschen</string>
+    <string name="cancel">Stornieren</string>
+    <string name="description">Beschreibung</string>
+    <string name="filtered">Filtern</string>
+    <string name="error_my_position">Fehler! GPS nicht verfügbar</string>
+    <string name="road_map">Straßenkarte</string>
+    <string name="satellite_map">Satelliten-Modus</string>
+    <string name="teide">Teide</string>
+    <string name="terrain_map">Geländekarte</string>
+    <string name="search">Suchen</string>
+    <string name="rate_later">Später</string>
+    <string name="rate">Bewerte es</string>
+    <string name="quit_app">Möchten Sie die App zu verlassen?</string>
+    <string name="rateit">Haben Sie diese App gefällt? Bitte, nehmen Sie sich einen Moment Zeit, um es zu bewerten. Danke für Ihre Unterstützung!</string>
+    <string name="informacion_app">Die Anwendung Informationen</string>
+    <string name="longitude">Distanz</string>
+    <string name="info_path">Informationen</string>
+    <string name="how_to_get">Anfahrt</string>
+    <string name="filter">Filter</string>
+    <string name="info_credits">Credits</string>
+    <string name="selecciona_cliente">Wählen Sie eine E-Mail-Client</string>
+    <string name="error_no_internet">Fehler! keine Internetverbindung</string>
+    <string name="difficulty">Schwierigkeit</string>
+    <string name="error_loading_db">Fehler beim Laden der Datenbank</string>
+    <string name="error_mail_client"> Mail-Client nicht installiert</string>
+    <string name="error_loading">Fehler beim Laden Google Play Services, versuchen Sie es erneut</string>
+     <string name="info_advices">
+        ► Gehen Sie stets begleitet und Einzelheiten über Ihre geplante Route zu jemandem, bevor Sie sich.\n\n
+        ► Tragen Sie ein Handy und nehmen Sie genügend Wasser und Nahrung.\n\n
+        ► Bekleidung und Schuhe sollte der Grad der Schwierigkeit der Wanderung entsprechen.\n\n
+        ► Von den ausgeschilderten Wege abkommen nicht.\n\n
+        ► Nehmen Sie keine Pflanzen, Tiere, Steine oder archäologische Überreste mit Ihnen.\n\n
+        ► Haben kein Feuer und Lager nur auf den Campingplätzen.\n\n
+        ► Nicht verlassen oder wegwerfen Müll.\n\n
+        ► Machen Sie nicht Lärm, um Tiere zu ändern.
+</string>
 </resources>

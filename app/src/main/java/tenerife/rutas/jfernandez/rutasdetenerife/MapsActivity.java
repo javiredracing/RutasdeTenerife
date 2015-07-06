@@ -750,7 +750,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         PolylineOptions polylineOptions = new PolylineOptions();
         polylineOptions.addAll(path);
         polylineOptions.width(2).color(color);
-
         pathShowed = mMap.addPolyline(polylineOptions);
     }
 
