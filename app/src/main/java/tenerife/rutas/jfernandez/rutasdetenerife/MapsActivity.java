@@ -301,8 +301,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 //Log.d("onResume", "Location update resumed .....................");
             }
-            sensorManager.registerListener(this, accelerometer, 330000);
-            sensorManager.registerListener(this, magnetometer, 330000); //3 times per second
+            if (accelerometer != null && magnetometer != null){
+                sensorManager.registerListener(this, accelerometer, 330000);
+                sensorManager.registerListener(this, magnetometer, 330000); //3 times per second
+            }
         }
     }
 
@@ -378,17 +380,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-        //mCurrentLocation = location;
-        if (myPos == null)
+        //mCurrentLocation
+        // = location;
+        if (myPos == null){
+            int icon = R.drawable.my_pos24_center_no_bearing;
+            if (accelerometer != null && magnetometer != null){
+                icon = R.drawable.my_pos24_center;
+            }
             myPos = mMap.addMarker(new MarkerOptions().
                             position(new LatLng(28.299221, -16.525690))
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.my_pos2_24))
+                            .icon(BitmapDescriptorFactory.fromResource(icon))
                             .title(getString(R.string.my_position))
                             .anchor(0.5f, 0.5f)
                             .flat(true)
                             .draggable(false)
             );
-        else
+
+        }else
             myPos.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
         //myPos.setRotation(30);
         //Log.v("Location", mCurrentLocation.toString());
@@ -397,7 +405,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         //Log.v("Connection failed", "FAILED!");
-        if (myPos != null){
+            if (myPos != null){
             myPos.remove();
             myPos = null;
         }

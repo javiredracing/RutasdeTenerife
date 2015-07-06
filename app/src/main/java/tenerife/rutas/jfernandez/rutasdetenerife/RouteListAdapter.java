@@ -24,6 +24,7 @@ public class RouteListAdapter extends BaseAdapter {
     //private Context ctx;
 
     private ArrayList<ListItem> routesList;
+    private String zonaN, zonaS;
 
     public RouteListAdapter(Context _ctx, List<Route> routes){
 
@@ -33,6 +34,8 @@ public class RouteListAdapter extends BaseAdapter {
         this.arrayList.addAll(routes);
         //ctx = _ctx;
         this.inflater = inflater.from(_ctx);
+        zonaN = _ctx.getResources().getString(R.string.north_zone);
+        zonaS = _ctx.getResources().getString(R.string.south_zone);
 ;
     }
     protected class ViewHolder {
@@ -131,7 +134,7 @@ public class RouteListAdapter extends BaseAdapter {
             //routesList.addAll(arrayList);
             insertItems(arrayList);
         }else{
-            if (charText.length() > 0 && charText.length()< 3){
+            if (charText.length() > 0 && charText.length()< 2){
                 for (int region = 0; region < NUMBER_OF_REGIONS; region++) {
                     SectionListItem section = new SectionListItem(getRegionName(region), region);
                     routesList.add(section);
@@ -193,13 +196,13 @@ public class RouteListAdapter extends BaseAdapter {
                 regionName = "P. R. Anaga";
                 break;
             case 1:
-                regionName = "Zona Norte";
+                regionName = zonaN;
                 break;
             case 2:
                 regionName = "P. R. Teno";
                 break;
             case 3:
-                regionName = "Zona Sur";
+                regionName = zonaS;
                 break;
             case 4:
                 regionName = "P. N. Teide";
