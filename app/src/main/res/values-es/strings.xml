@@ -153,4 +153,7 @@
         ► Consulta la previsión metereológica ​ para asegurarte que es la adecuada. \n\n
         ► Lleva ropa y calzado adecuado para senderismo y en la mochila no te olvides de poner teléfono móvil, protector solar, sombrero, abrigo, chubasquero, suficiente agua y comida.\n\n
         ► Informa a tus familiares o amigos de la ruta que vas a realizar y ten en cuenta las horas de luz que necesitarás para completar tu recorrido.</string>
+    <string name="rateit">¿Te gusta esta app? Por favor, valórala en el market. ¡Gracias por tu ayuda!</string>
+    <string name="rate">Valorar</string>
+    <string name="rate_later">Más tarde</string>
 </resources>

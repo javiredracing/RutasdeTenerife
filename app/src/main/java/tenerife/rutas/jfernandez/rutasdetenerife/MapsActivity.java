@@ -189,7 +189,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         tracker.send(new HitBuilders.EventBuilder()
                                 .setCategory("Extended-Info")
                                 .setAction("Show")
-                                .setLabel(""+lastRouteShowed.getName())
+                                .setLabel("" + lastRouteShowed.getName())
                                 .build());
                         extendedInfo.setArguments(bundle);
                         extendedInfo.show(getSupportFragmentManager(), "FragmentDialogExtendedInfo");
@@ -617,6 +617,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Tracker tracker = ((RutasTenerife)getApplication()).getTracker();
         tracker.setScreenName("main_map");
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
+        AppRater.app_launched(this);
         //tracker.e
     }
 

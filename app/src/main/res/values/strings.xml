@@ -154,4 +154,7 @@
     </string>
 
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3472935927701659/9784753320</string>
+    <string name="rateit">Do you like this app? Please, take a moment to rate it. Thanks for your support!</string>
+    <string name="rate">Rate it</string>
+    <string name="rate_later">Later</string>
 </resources>
