@@ -44,7 +44,7 @@ public class AppRater {
         editor.apply();
     }
 
-    public static void showRateDialog(final Context mContext, final SharedPreferences.Editor editor) {
+    private static void showRateDialog(final Context mContext, final SharedPreferences.Editor editor) {
         final AlertDialog d = new AlertDialog.Builder(mContext)
                 .setTitle(R.string.app_name)
                 .setIcon(R.drawable.logo)

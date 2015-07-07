@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Randonnée á Tenerife</string>
+    <string-array name="opcionLong">
+        <item>Tous</item>
+        <item>Court</item>
+        <item>Moyen</item>
+        <item>Long</item>
+    </string-array>
+    <string-array name="opcionDific">
+        <item>Tous</item>
+        <item>Facile</item>
+        <item>Modérée</item>
+        <item>Difficile</item>
+        <item>Ferme</item>
+    </string-array>
+    <string name="w395">Neige modérée ou forte avec le tonnerre</string>
+    <string name="w392">Irrégulière Nevada avec le tonnerre</string>
+    <string name="w389">Pluie forte ou modérée avec le tonnerre</string>
+    <string name="w386">Arroser avec le tonnerre irrégulière</string>
+    <string name="w377">Grêle modérée ou forte</string>
+    <string name="w374">grêle isolé</string>
+    <string name="w371">Neige modérée ou forte</string>
+    <string name="w368">Neige</string>
+    <string name="w365">De fortes averses de grésil</string>
+    <string name="w362">Une pluie de grêle</string>
+    <string name="w359">Pluie diluvienne</string>
+    <string name="w356">Dispersés modérée ou forte</string>
+    <string name="w353">Faibles averses</string>
+    <string name="w350">Grêle</string>
+    <string name="w338">Fortes chutes de neige</string>
+    <string name="w335">Lourde chute de neige irrégulière</string>
+    <string name="w332">Neige modérée</string>
+    <string name="w329">Irrégulière de la neige modérée</string>
+    <string name="w326">Faible neige</string>
+    <string name="w323">Neige irrégulière</string>
+    <string name="w320">Neige modérée ou forte</string>
+    <string name="w317">Faibles chutes de neige</string>
+    <string name="w314">Modérée ou forte pluie verglaçante</string>
+    <string name="w311">Faible pluie verglaçante</string>
+    <string name="w308">Nuage</string>
+    <string name="w305">De fortes pluies parfois</string>
+    <string name="w302">Rain</string>
+    <string name="w299">Rain à des moments</string>
+    <string name="w296">Pluie</string>
+    <string name="w293">Irrégulière pluie</string>
+    <string name="w284">Lourde pluie verglaçante</string>
+    <string name="w281">Bruine verglaçante</string>
+    <string name="w266">Brume</string>
+    <string name="w263">Bruine</string>
+    <string name="w260">Brouillard glacé</string>
+    <string name="w248">Brouillard</string>
+    <string name="w230">Blizzard</string>
+    <string name="w227">Neige faible</string>
+    <string name="w200">Les flambées de tempête à proximité</string>
+    <string name="w185">Nuageux avec bruine inégale</string>
+    <string name="w182">Grésil irrégulière</string>
+    <string name="w179">À proximité de neige</string>
+    <string name="w176">Bruine</string>
+    <string name="w143">Brouillard</string>
+    <string name="w122">Couvert</string>
+    <string name="w119">Nuageux</string>
+    <string name="w116">Partiellement nuageux</string>
+    <string name="w113">Effacer/Ensoleillé</string>
+    <string name="altitud">Altitude(mt)</string>
+    <string name="altitude">Altitude</string>
+    <string name="nubosidad">Effacer: </string>
+    <string name="humedad">Humidité: </string>
+    <string name="precip">Pluie: </string>
+    <string name="presion">Pression: </string>
+    <string name="windDirec">Orientation: </string>
+    <string name="windSpeed">Vitesse: </string>
+    <string name="atmosferico">Cond. météorologiques</string>
+    <string name="viento">Vent</string>
+    <string name="currentCond">Cond. actuelles</string>
+    <string name="prevision">Prévision</string>
+    <string name="selectShare">Application Partage en...</string>
+    <string name="shareText">¡Je faire de la randonnée avec "Randonnée á Tenerife" pour Android!</string>
+    <string name="my_position">Ma position</string>
+    <string name="distancia">Distance(km)</string>
+    <string name="difficulty">Difficulté</string>
+    <string name="No">Non</string>
+    <string name="approved">Homologuée</string>
+    <string name="banner_ad_unit_id" translatable="false"></string>
+    <string name="cancel">Annuler</string>
+    <string name="search">Chercher</string>
+    <string name="road_map">Mode carte</string>
+    <string name="satellite_map">Mode satellite</string>
+    <string name="filtered">Filtrer</string>
+    <string name="error_my_position">¡Erreur! GPS non disponible</string>
+    <string name="info_path">Information</string>
+    <string name="informacion_app">Information de l`application</string>
+    <string name="error_loading_db">¡Erreur inattendue dans la base de données!</string>
+    <string name="desnivel">Pente</string>
+    <string name="desarrollado">Développé par Javier Fernández</string>
+    <string name="time">Durée</string>
+    <string name="title_activity_maps">Randonnée á Tenerife</string>
+    <string name="teide">P. N. Teide</string>
+    <string name="tap_continue">Puis pour continuer</string>
+    <string name="south_zone">Zone Sud</string>
+    <string name="north_zone">Zone Nord</string>
+    <string name="nodata">Pas de données</string>
+    <string name="longitude">Distance</string>
+    <string name="info_recomendation">Conseils</string>
+    <string name="info_credits">Crédits</string>
+    <string name="quit_app">Pour quitter l'application?</string>
+    <string name="rate">évaluer</string>
+    <string name="rate_later">plus tard</string>
+    <string name="rateit">Vous aimez cette application? S'il vous plaît valoriser sur le market. Merci pour votre aide.</string>
+    <string name="selecciona_cliente">Sélectionnez client de messagerie</string>
+    <string name="terrain_map">Mode d'enquête</string>
+    <string name="weather">Météorologie</string>
+    <string name="yes">Oui</string>
+    <string name="filter">Filtre</string>
+    <string name="description">Infos</string>
+    <string name="clear">Nettoyer</string>
+    <string name="contact">Contact</string>
+    <string name="cumulative">Accumulé</string>
+    <string name="error_loading">Erreur lors du chargement Google Play Services, essayer à nouveau</string>
+    <string name="error_mail_client">Erreur, client de messagerie pas installé</string>
+    <string name="error_no_internet">Erreur, pas de connexion internet</string>
+    <string name="how_to_get">Comment obtenir</string>
+    <string name="info_advices">► Et se déplace toujours accompagné par des sentiers balisés et respecter le mode de vie, la vie privée et de la propriété des résidents locaux. \n\n
+        ► Si vous évitez le bruit, vous trouverez beaucoup plus de vie autour de vous. \n\n
+        ► Prenez toutes les ordures, même organique. Donc vous aider à maintenir la beauté du paysage et éviter la prolifération de rongeurs. Faites attention avec des mégots de cigarettes. \n\n
+        ► La collection de plantes, d'animaux ou d'autres objets dans l'environnement peut conduire à la perte de ressources irremplaçables. \n\n
+        ► Les responsables de ces zones naturelles protégées seront merci les avertir des incidents qui ont été observés. Pour ce faire, vous pouvez aller à: Área de Medio Ambiente del Cabildo Insular de Tenerife <u>Phone: 922239090</u> <u>Email: cordinacionmam@tenerife.es</u>\n\n
+        ► Nous vous rappelons que la nature de l'île est aussi unique que imprévisibles. La jouissance de celui-ci devrait être fait d'une manière responsable et prudente; prendre un soin particulier dans une zone naturelle et ne pas oublier que le risque d'accident pourrait toujours être présent.\n\n
+        ► Signes de respect.\n\n
+        ► Vérifiez les prévisions météorologiques pour vous assurer qu'il est approprié. \n\n
+        ► Portez des vêtements et des chaussures appropriés pour la randonnée et sac à dos ne pas oublier de mettre téléphone mobile, crème solaire, chapeau, manteau, imperméable, assez d'eau et de nourriture.\n\n
+        ► Informez votre famille ou entre amis l'itinéraire que vous allez faire et envisager jour hours'll besoin pour compléter votre voyage.
+    </string>
+     <string name="info">Réseau Senderos de Tenerife dispose de trois types de routes:\n\n
+        ►<b> Longue Distance Chemin.</b> Il identifie avec les couleurs blanches et rouges, et l'acronyme de <i>GR</i>. Ces grands trajets sont effectués en quelques jours, puisque sa longueur est supérieure à 50 kilomètres.\n\n
+        ►<b> Court sentier Route.</b> Il identifie avec le blanc et le jaune, et l'acronyme de <i>PR</i>. Sa longueur est comprise entre 10 et 50 km; l'une de ces pistes ont moins de 10 kilomètres, mais sont classés comme PR en raison de la pente, ce qui ajoute plus de difficulté à effectuer la route.\n\n
+        ►<b> Chemin d'accès local.</b> Il identifie avec le blanc et le vert, et avec les initiales <i>SL</i>. Sa longueur est inférieure à 10 kilomètres.</string>
+</resources>

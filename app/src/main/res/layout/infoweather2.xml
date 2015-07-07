@@ -337,5 +337,13 @@
                     />
             </LinearLayout>
         </LinearLayout>
+        <TextView
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="2dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#FFFFFF"
+            android:text="World Weather Online"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>
