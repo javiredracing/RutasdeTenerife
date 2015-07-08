@@ -54,7 +54,7 @@ public class MarkerRenderer extends DefaultClusterRenderer {
         MyMarker m = (MyMarker)item;
         float alpha = 1;
         if (!m.isVisible())
-            alpha = 0.5f;
+            alpha = 0.4f;
         markerOptions.alpha(alpha);
         super.onBeforeClusterItemRendered(item, markerOptions);
     }
@@ -65,7 +65,7 @@ public class MarkerRenderer extends DefaultClusterRenderer {
         MyMarker m = (MyMarker)clusterItem;
         float alpha = 1;
         if (!m.isVisible())
-            alpha = 0.5f;
+            alpha = 0.4f;
         marker.setAlpha(alpha);
         super.onClusterItemRendered(clusterItem, marker);
     }

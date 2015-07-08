@@ -572,10 +572,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public boolean onClusterClick(Cluster<MyMarker> cluster) {
                     float  zoom = mMap.getCameraPosition().zoom;
-                    if (zoom < 20 )
-                        zoom++;
+                    if (zoom < 20 ){
+                        if (zoom < 10)
+                            zoom = 10;
+                        else
+                            zoom++;
+                    }
                     CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(cluster.getPosition(),zoom);
-                    mMap.animateCamera(cu, 500, null);
+                    mMap.animateCamera(cu, 600, null);
                     return true;
                 }
             });
@@ -636,6 +640,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         tracker.setScreenName("main_map");
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
         AppRater.app_launched(this);
+        boolean isFirstTime = prefs.getBoolean(getString(R.string.VALUE_FIRST_TIME), true);
+        if (isFirstTime){
+            if (getSupportFragmentManager().findFragmentByTag("FragmentDialogInfo") == null) {
+                FragmentDialogInfo dialogInfo = new FragmentDialogInfo();
+                dialogInfo.show(getSupportFragmentManager(), "FragmentDialogInfo");
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(getString(R.string.VALUE_FIRST_TIME), false);
+                editor.apply();
+            }
+        }
         //tracker.e
     }
 
