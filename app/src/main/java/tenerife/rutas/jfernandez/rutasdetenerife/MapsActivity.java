@@ -35,7 +35,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -947,12 +946,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mMap.setMapType(type);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putInt(getString(R.string.MAP_TYPE), type);
-                        editor.commit();
+                        editor.apply();
                         String text = "";
                         switch (type) {
                             case 1:
                                 text = getString(R.string.road_map);
-
                                 break;
                             case 2:
                                 text = getString(R.string.satellite_map);
