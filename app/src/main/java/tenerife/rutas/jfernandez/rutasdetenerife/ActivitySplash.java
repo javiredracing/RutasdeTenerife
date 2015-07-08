@@ -40,7 +40,8 @@ public class ActivitySplash extends Activity{
         splashMain = (ImageView)findViewById(R.id.iv_splash_view);
         appTitle = (LinearLayout)findViewById(R.id.llSplashTitle);
        // final Typeface tf = Typeface.createFromAsset(getAssets(), "font/OpenSans-Regular.ttf");
-
+        ImageView logo = (ImageView)findViewById(R.id.imageLogo);
+        logo.setImageResource(R.drawable.logo);
         //((TextView) findViewById(R.id.mainActivityAietText)).setTypeface(font);
         //TextView tv = ((TextView) findViewById(R.id.mainActivityFooter));//.setTypeface(tf);
         //tv.setTypeface(tf, R.style.mainActivityFooterText);

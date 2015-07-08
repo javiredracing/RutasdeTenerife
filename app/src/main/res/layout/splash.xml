@@ -30,6 +30,7 @@
         android:alpha="0.8"
         >
         <ImageView
+            android:id="@+id/imageLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

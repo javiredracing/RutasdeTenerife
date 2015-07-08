@@ -35,7 +35,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -146,11 +148,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if( tv != null) tv.setGravity(Gravity.CENTER);
         globalToast.setView(v);
 
-        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.btActionMenu);
+        ImageButton button = (ImageButton)findViewById(R.id.btActionMenu);
+        button.setImageResource(R.mipmap.ic_launcher);
+        //FloatingActionButton button = (FloatingActionButton) findViewById(R.id.btActionMenu);
         //button.setSize(FloatingActionButton.SIZE_NORMAL);
         /*button.setColorNormalResId(R.color.gris);
         button.setColorPressedResId(android.R.color.white);*/
-        button.setIcon(R.drawable.logo);
+        /*button.setIcon(R.drawable.logo_small);
+        button.setPadding(0,0,0,0);*/
         //button.setStrokeVisible(false);
         FloatingActionButton button2 = (FloatingActionButton) findViewById(R.id.btActionList);
         button2.setIcon(R.drawable.list_32);
@@ -262,7 +267,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mAdView.setAdSize(AdSize.SMART_BANNER);
         //AdRequest adRequest = new AdRequest.Builder().build();
         //String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("922A0081AE099EE4E45D7D8D868D9153").addTestDevice("FC3F6D621E3F691163F3081D23209CD7").addTestDevice("E31D8CAD5C7EC0199DF56FCDD1C8BACA").build();
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("CA2BE49BA2ED1F54697680DE461F4048")
+                .addTestDevice("922A0081AE099EE4E45D7D8D868D9153")
+                .addTestDevice("FC3F6D621E3F691163F3081D23209CD7")
+                .addTestDevice("E31D8CAD5C7EC0199DF56FCDD1C8BACA")
+                .build();
         //AdRequest ad = adRequest.build();
         mAdView.loadAd(adRequest);
     }
@@ -334,7 +344,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }else{
             AlertDialog d = new AlertDialog.Builder(this)
                     .setTitle(R.string.app_name)
-                    .setIcon(R.drawable.logo)
+                    .setIcon(R.mipmap.ic_launcher)
                     .setMessage(getString(R.string.quit_app))
                     .setNegativeButton(getString(R.string.No), null)
                     .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
@@ -523,12 +533,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             fragmentMap.getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
                         }else
                             fragmentMap.getView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        if (mMap != null && latLngBounds != null){
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 20));
+                        if (mMap != null){
+                            if (latLngBounds != null) {
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 20));
+                            }else
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 12));
                         }
+
+
                     }
                 });
-            }
+            }/*else{
+                if (mMap!= null)
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 12));
+            }*/
         }
     }
 
