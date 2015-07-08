@@ -5,15 +5,15 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "tenerife.rutas.jfernandez.rutasdetenerife"
+        applicationId "com.rutas.java"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 6
+        versionName "2.0"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

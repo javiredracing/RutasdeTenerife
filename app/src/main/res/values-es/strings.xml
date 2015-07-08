@@ -2,22 +2,6 @@
 <resources>
     <string name="app_name">Rutas de Tenerife</string>
     <string name="title_activity_maps">Rutas de Tenerife</string>
-    <string name="MAP_TYPE">map_type</string>
-    <string name="FILTER_LONG">filter_long</string>
-    <string name="FILTER_DIF">filter_dif</string>
-    <string name="FILTER_DURAC">filter_durac</string>
-
-    <string name="VALUE_NAME">value_name</string>
-    <string name="VALUE_XML_ROUTE">value_xml_route</string>
-    <string name="VALUE_DIST">value_distance</string>
-    <string name="VALUE_DIF">value_dif</string>
-    <string name="VALUE_TIME">value_time</string>
-    <string name="VALUE_ID">value_id</string>
-    <string name="VALUE_LATLNG">value_latlng</string>
-    <string name="VALUE_LATLNG_POS">value_latlng_pos</string>
-    <string name="VALUE_APPROVED">value_approved</string>
-    <string name="VALUE_IS_CONNECTED">value_is_connected</string>
-    <string name="VALUE_ICON">value_icon</string>
 
     <string-array name="opcionLong">
         <item>Todos</item>
@@ -147,7 +131,7 @@
         ► Si evitas los ruidos, podrás descubrir mucha más vida a tu alrededor. \n\n
         ► Llévate toda la basura, incluso la orgánica. Así contribuirás a mantener la belleza del paisaje y evitarás la proliferación de roedores. Ten especial cuidado con las colillas. \n\n
         ► La recolección de plantas, animales u otros objetos del medio puede acarrear la pérdida de recursos insustituibles. \n\n
-        ► Los responsables de estos Espacios Naturales Protegidos te agradecerán que les adviertas de las incidencias que hayas podido observar. Para ello puedes dirigirte a: Área de Medio Ambiente del Cabildo Insular de Tenerife <u>Tfno: 922239090</u> <u>Email: cordinacionmam@tenerife.es</u>\n\n
+        ► Los responsables de estos Espacios Naturales Protegidos te agradecerán que les adviertas de las incidencias que hayas podido observar. Para ello puedes dirigirte a: Área de Medio Ambiente del Cabildo Insular de Tenerife <u>Tfno: 922239090</u> <u>Email: cordinacionmam@com.es</u>\n\n
         ► Te recordamos que la naturaleza de la isla es tan peculiar como imprevisible. El disfrute de la misma se debe hacer de una manera responsable y prudente; ten especial cuidado en cualquier zona natural y no olvides que el riesgo de accidente siempre podría estar presente.\n\n
         ► Respeta las señales.\n\n
         ► Consulta la previsión metereológica ​ para asegurarte que es la adecuada. \n\n

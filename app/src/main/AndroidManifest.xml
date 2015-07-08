@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tenerife.rutas.jfernandez.rutasdetenerife" >
+    package="com.rutas.java" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".RutasTenerife"
+        android:name="com.rutas.java.RutasTenerife"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,7 +22,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyAJuTjSz0vI_BibsPQ87LNPOvqOGVgXRsA" />
 
         <!-- Optionally, register AnalyticsReceiver and AnalyticsService to support background
          dispatching on non-Google Play devices -->
@@ -37,7 +37,7 @@
             android:exported="false"/>
 
         <activity
-            android:name=".ActivitySplash"
+            android:name="com.rutas.java.ActivitySplash"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_maps"
             >
@@ -48,7 +48,7 @@
         </activity>
 
         <activity
-            android:name=".MapsActivity"
+            android:name="com.rutas.java.MapsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/title_activity_maps" >
         </activity>
