@@ -10,6 +10,7 @@ Detailed information about Rutas de Tenerife:
 - Short description.
 - Weather conditions in each path.
 
+Caching some specific location tiles, you can show in scenario when there is no internet present
 Location of the routes on the map with GPS and orientation sensors.
 
 Regular updates of new routes.
