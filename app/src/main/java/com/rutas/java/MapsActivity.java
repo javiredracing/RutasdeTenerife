@@ -158,8 +158,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         /*button.setIcon(R.drawable.logo_small);
         button.setPadding(0,0,0,0);*/
         //button.setStrokeVisible(false);
-        FloatingActionButton button2 = (FloatingActionButton) findViewById(R.id.btActionList);
-        button2.setIcon(R.drawable.list_32);
+        /*FloatingActionButton button2 = (FloatingActionButton) findViewById(R.id.btActionList);
+        button2.setIcon(R.drawable.list_32);*/
 
         //Configuring quick info
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
@@ -205,38 +205,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         //initializing lower menu
         bottomMenu = (LinearLayout) findViewById(R.id.llBottomMenu);
-        ImageButton ibCloseQuickInfo = (ImageButton)findViewById(R.id.btCloseQuickInfo);
-        ibCloseQuickInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(),"Close", Toast.LENGTH_LONG).show();
-                if (lastRouteShowed != null && lastRouteShowed.isActive) {
-                    lastRouteShowed.isActive = false;
-                    if (pathShowed != null)
-                        pathShowed.remove();
-                    closeBottomMenu();
-                    closeQuickInfo();
-                }
-            }
-        });
-        ImageButton ibCenterPath = (ImageButton)findViewById(R.id.btCenter);
-        ibCenterPath.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if( (lastRouteShowed != null) && lastRouteShowed.isActive && (pathShowed != null)){
-                    List<LatLng> pointList = pathShowed.getPoints();
-                    int size = pointList.size();
-                    LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
-                    for (int i = 0; i < size; i= i+10){
-                        boundsBuilder.include(pointList.get(i));
-                    }
-                    boundsBuilder.include(pointList.get(size - 1));
-                    LatLngBounds bounds = boundsBuilder.build();
-
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 30),600, null);
-                }
-            }
-        });
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.right_drawer);
@@ -246,11 +214,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //Toast.makeText(getApplicationContext(),routesList.get(position).getName(), Toast.LENGTH_LONG).show();
                 //et_search.clearFocus();
                 RouteListAdapter rla = (RouteListAdapter) drawerList.getAdapter();
-                //int routeId = rla.getArrayList().get(position).getId();
                 int routeId = rla.getItemIdAtPosition(position);
                 closeNavigationDrawer();
-                //drawerLayout.closeDrawers();
-                //int routeId = routesList.get(position).getId();
+
                 if (routeId >= 0) {
                     Route r = getRoute(routeId);
                     clickAction(r, r.getFirstPoint());
@@ -299,9 +265,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         /*Load admob*/
         AdView mAdView = (AdView) findViewById(R.id.adView);
-        //mAdView.setAdSize(AdSize.SMART_BANNER);
-        //AdRequest adRequest = new AdRequest.Builder().build();
-        //String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("CA2BE49BA2ED1F54697680DE461F4048")
                 .addTestDevice("922A0081AE099EE4E45D7D8D868D9153")
@@ -956,6 +920,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void openDrawerMenu(View v){
         drawerLayout.openDrawer(Gravity.LEFT);
+    }
+
+    public void actionCenter(View v){
+        if( (lastRouteShowed != null) && lastRouteShowed.isActive && (pathShowed != null)){
+            List<LatLng> pointList = pathShowed.getPoints();
+            int size = pointList.size();
+            LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+            for (int i = 0; i < size; i= i+10){
+                boundsBuilder.include(pointList.get(i));
+            }
+            boundsBuilder.include(pointList.get(size - 1));
+            LatLngBounds bounds = boundsBuilder.build();
+
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 30),600, null);
+        }
+    }
+
+    public void actionCloseQuickInfo(View v){
+        if (lastRouteShowed != null && lastRouteShowed.isActive) {
+            lastRouteShowed.isActive = false;
+            if (pathShowed != null)
+                pathShowed.remove();
+            closeBottomMenu();
+            closeQuickInfo();
+        }
     }
 
     private void getCurrentAddress(final LatLng myPos){

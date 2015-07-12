@@ -34,7 +34,27 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-                <ImageButton
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btCenter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/gris"
+                    fab:fab_colorPressed="@android:color/tab_indicator_text"
+                    ads:fab_icon="@drawable/center"
+                    ads:fab_size="mini"
+                    android:onClick="actionCenter"
+                    />
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btCloseQuickInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/gris"
+                    fab:fab_colorPressed="@android:color/tab_indicator_text"
+                    android:onClick="actionCloseQuickInfo"
+                    ads:fab_size="mini"
+                    ads:fab_icon="@drawable/close"
+                    />
+              <!--  <ImageButton
                     android:id="@+id/btCenter"
                     android:src="@drawable/center"
                     android:layout_width="wrap_content"
@@ -43,7 +63,7 @@
                     android:id="@+id/btCloseQuickInfo"
                     android:src="@drawable/close"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content" />-->
             </LinearLayout>
         </RelativeLayout>
         <com.google.android.gms.ads.AdView
@@ -89,6 +109,7 @@
             android:onClick="openDrawer"
             fab:fab_colorNormal="@color/gris"
             fab:fab_colorPressed="@android:color/tab_indicator_text"
+            ads:fab_icon="@drawable/list_32"
             />
 
         <LinearLayout
