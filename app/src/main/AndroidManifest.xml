@@ -22,7 +22,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAJuTjSz0vI_BibsPQ87LNPOvqOGVgXRsA" />
+            android:value="@string/google_maps_key" />
 
         <!-- Optionally, register AnalyticsReceiver and AnalyticsService to support background
          dispatching on non-Google Play devices -->

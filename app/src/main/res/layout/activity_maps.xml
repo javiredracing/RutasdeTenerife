@@ -13,14 +13,39 @@
         tools:context=".MapsActivity"
 
         >
-        <fragment
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/adView"
+            >
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.MapFragment"
             />
+            <LinearLayout
+                android:id="@+id/llBottomMenu"
+                android:visibility="gone"
+                android:gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/btCenter"
+                    android:src="@drawable/center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageButton
+                    android:id="@+id/btCloseQuickInfo"
+                    android:src="@drawable/close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </RelativeLayout>
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
             android:background="@color/gris"

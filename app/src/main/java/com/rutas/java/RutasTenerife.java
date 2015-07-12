@@ -24,7 +24,7 @@ public class RutasTenerife extends Application {
     synchronized Tracker getTracker(){
         if (tracker == null){
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            analytics.setDryRun(false);
+            analytics.setDryRun(true);
             analytics.setLocalDispatchPeriod(240);  //in seconds
             tracker = analytics.newTracker("UA-64659514-1");
             tracker.enableAdvertisingIdCollection(true);
