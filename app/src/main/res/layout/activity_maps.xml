@@ -35,6 +35,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btSharePath"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/gris"
+                    fab:fab_colorPressed="@android:color/tab_indicator_text"
+                    ads:fab_icon="@drawable/share32"
+                    ads:fab_size="mini"
+                    android:onClick="actionSharePath"
+                    />
+                <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btCenter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

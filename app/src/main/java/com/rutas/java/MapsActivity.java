@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -17,11 +18,13 @@ import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
@@ -44,7 +47,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
@@ -91,14 +93,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ConnectionCallbacks,
         OnConnectionFailedListener, SensorEventListener {
 
-    private final static int TYPE_GR = 3;
-    private final static int TYPE_PR = 2;
-    private final static int TYPE_SL = 1;
-    private final static int TYPE_REGULAR = 0;
-
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private MapFragment fragmentMap;
-    //private ArrayList<Marker> markerList = new ArrayList<Marker>();
+
     private ClusterManager<MyMarker> clusterManager;
     private ArrayList<Route> routesList = new ArrayList<Route>();
     private BaseDatos bd;
@@ -114,13 +111,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ListView drawerList;
     private EditText et_search;
 
-    //private ListView drawerListMenu;
-
     private boolean enableTap = false;
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest locationRequest;
-    //private Location mCurrentLocation;
+
     private Marker myPos;
     private Handler handlerGeocoder;
 
@@ -151,15 +146,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         ImageButton button = (ImageButton)findViewById(R.id.btActionMenu);
         button.setImageResource(R.mipmap.ic_launcher);
-        //FloatingActionButton button = (FloatingActionButton) findViewById(R.id.btActionMenu);
-        //button.setSize(FloatingActionButton.SIZE_NORMAL);
-        /*button.setColorNormalResId(R.color.gris);
-        button.setColorPressedResId(android.R.color.white);*/
-        /*button.setIcon(R.drawable.logo_small);
-        button.setPadding(0,0,0,0);*/
-        //button.setStrokeVisible(false);
-        /*FloatingActionButton button2 = (FloatingActionButton) findViewById(R.id.btActionList);
-        button2.setIcon(R.drawable.list_32);*/
 
         //Configuring quick info
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
@@ -178,7 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         bundle.putInt(getString(R.string.VALUE_ID), lastRouteShowed.getId());
                         bundle.putInt(getString(R.string.VALUE_DIF), lastRouteShowed.getDifficulty());
                         bundle.putInt(getString(R.string.VALUE_APPROVED), lastRouteShowed.approved());
-                        int drawable = getIconBigger(lastRouteShowed);
+                        int drawable = Utils.getIconBigger(lastRouteShowed);
                         bundle.putInt(getString(R.string.VALUE_ICON), drawable);
                         LatLng latLng = lastRouteShowed.getFirstPoint();
                         double[] latLngDouble = new double[2];
@@ -780,7 +766,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //pathShowed.remove();
         int color = Color.BLUE;
         if (lastRouteShowed!= null)
-            color = selectColor(lastRouteShowed.approved());
+            color = Utils.selectColor(lastRouteShowed.approved(), getApplicationContext());
         PolylineOptions polylineOptions = new PolylineOptions();
         polylineOptions.addAll(path);
         polylineOptions.width(2).color(color);
@@ -792,8 +778,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             TextView title = (TextView) quickInfo.getChildAt(0);
             title.setText(route.getName());
             LinearLayout itemNested = (LinearLayout) quickInfo.getChildAt(1);
-            ImageView icon = (ImageView) itemNested.getChildAt(0);//TODO set icon drawable
-            int drawable = getIconBigger(route);
+            ImageView icon = (ImageView) itemNested.getChildAt(0);
+            int drawable = Utils.getIconBigger(route);
             icon.setImageResource(drawable);
             TextView distance = (TextView) itemNested.getChildAt(1);
             distance.setText("" + route.getDist() + " Km");
@@ -922,18 +908,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         drawerLayout.openDrawer(Gravity.LEFT);
     }
 
+
+
     public void actionCenter(View v){
         if( (lastRouteShowed != null) && lastRouteShowed.isActive && (pathShowed != null)){
-            List<LatLng> pointList = pathShowed.getPoints();
-            int size = pointList.size();
-            LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
-            for (int i = 0; i < size; i= i+10){
-                boundsBuilder.include(pointList.get(i));
-            }
-            boundsBuilder.include(pointList.get(size - 1));
-            LatLngBounds bounds = boundsBuilder.build();
 
-            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 30),600, null);
+            LatLngBounds bounds = Utils.centerOnPath(pathShowed);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 30), 600, null);
+        }
+    }
+
+    public void actionSharePath(View v){
+        if (lastRouteShowed != null && lastRouteShowed.isActive) {
+            final GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
+                @Override
+                public void onSnapshotReady(Bitmap bitmap) {
+                    Log.v("onSnapShot","Processing bitmap!");
+                    Bitmap b = Utils.exportBitmap(getApplicationContext(), bitmap, lastRouteShowed.getName());
+                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), b, lastRouteShowed.getName(), "" + lastRouteShowed.getDist() + " Km");
+
+                    Uri imageUri = Uri.parse(path);
+                    Intent share = new Intent(Intent.ACTION_SEND);
+                    share.setType("image/jpeg");
+                    share.putExtra(Intent.EXTRA_STREAM, imageUri);
+                    startActivity(Intent.createChooser(share,getString(R.string.selectShare)));
+                   Log.v("onSnapShot","Bitmap ready!");
+                }
+            };
+            mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                @Override
+                public void onMapLoaded() {
+                    Log.v("onSnapShot", "Map loaded");
+                    mMap.snapshot(callback);
+                }
+            });
+            LatLngBounds bounds = Utils.centerOnPath(pathShowed);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 60));
         }
     }
 
@@ -1137,68 +1147,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public ClusterManager<MyMarker> getClusterManager(){
         return clusterManager;
     }
-    /*private boolean isInRange(int azimuth, int angle){
-        int azimuthInverse = (360 - azimuth);
-        final int RANGE = 30;	//30 degrees in each side = 60
 
-        int from = azimuthInverse - RANGE;
-        if (from < 0)
-            from = 360 - from;
-        int to = (azimuthInverse + RANGE) % 360;
-
-        if(from > to){
-            return ((angle > from) || ( angle < to));
-        } else if ( to > from){
-            return ((angle < to) && ( angle > from));
-        } else // to == from
-            return (angle == to);
-        return true;
-    }*/
     private void changeAlertDividerColor(Dialog dialog){
         int titleDividerId = getResources().getIdentifier("titleDivider", "id", "android");
         View titleDivider = dialog.findViewById(titleDividerId);
         if (titleDivider != null)
             titleDivider.setBackgroundColor(getResources().getColor(R.color.lightGreen));
     }
-
-    private int getIconBigger(Route route){
-        int drawable = route.approved();
-        switch (drawable){
-            case TYPE_GR:
-                drawable = R.drawable.marker_sign_24_red;
-                break;
-            case TYPE_PR:
-                drawable = R.drawable.marker_sign_24_yellow;
-                break;
-            case TYPE_SL:
-                drawable = R.drawable.marker_sign_24_green;
-                break;
-            case TYPE_REGULAR:
-                drawable = R.drawable.marker_sign_24_normal;
-                break;
-            default:
-                drawable = R.drawable.marker_sign_24_normal;
-        }
-        return drawable;
-    }
-
-    private int selectColor(int type){
-        int color = Color.BLUE;
-        switch (type){
-            case TYPE_GR:
-                color = getResources().getColor(R.color.pathRed);
-                break;
-            case TYPE_PR:
-                color = getResources().getColor(R.color.pathYellow);
-                break;
-            case TYPE_SL:
-                color = getResources().getColor(R.color.pathGreen);
-                break;
-            case TYPE_REGULAR:
-                color = getResources().getColor(R.color.pathBrown);
-                break;
-        }
-        return color;
-    }
-
 }
