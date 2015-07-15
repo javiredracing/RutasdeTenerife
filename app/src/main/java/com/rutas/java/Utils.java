@@ -6,12 +6,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Polyline;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -28,8 +28,7 @@ public class Utils {
     protected static Bitmap exportBitmap(Context ctx, Bitmap bitmap, String text){
         bitmap = Utils.resizeBitmap(bitmap);
         Resources res = ctx.getResources();
-        Bitmap icon = BitmapFactory.decodeResource(res, R.mipmap.ic_launcher);
-
+        Bitmap icon = BitmapFactory.decodeResource(res, R.drawable.logo_title);
 
         float scale = res.getDisplayMetrics().scaledDensity;
         Bitmap.Config config = bitmap.getConfig();
@@ -39,22 +38,19 @@ public class Utils {
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.WHITE);
-        paint.setTextSize((int) (8 * scale));
+        paint.setTextSize((int) (10 * scale));
 
-        canvas.drawBitmap(icon, 0, 0, null);
+        canvas.drawBitmap(icon, 0, 0, paint);
 
-        String title = res.getString(R.string.app_name);
+        //String title = res.getString(R.string.app_name);
 
-        Rect boundsTitle = new Rect();
+        /*Rect boundsTitle = new Rect();
         paint.getTextBounds(title,0,title.length(), boundsTitle);
-        /*int x = (bitmap.getWidth() - bounds.width())/2;
-        int y = (bitmap.getHeight() + bounds.height())/2;*/
-        canvas.drawText(title, icon.getWidth() + 5 , boundsTitle.height()+ (icon.getHeight()/2), paint);
+        canvas.drawText(title, icon.getWidth() + 5 , boundsTitle.height()+ (icon.getHeight()/2), paint);*/
 
         Rect bounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), bounds);
         canvas.drawText(text, 5, icon.getHeight() + bounds.height(), paint);
-
 
         return Utils.bitmapToJpg(bitmap);
     }
@@ -82,11 +78,14 @@ public class Utils {
                 outWidth = Math.round((inWidth * MAX_SIZE) / inHeight);
             }
         }
-        return Bitmap.createScaledBitmap(bitmap, outWidth,outHeight,false);
+       /* Matrix matrix = new Matrix();
+        matrix.postScale(outWidth,outHeight);
+        return Bitmap.createBitmap(bitmap,  0, 0, inWidth, inHeight,matrix,false);*/
+        return Bitmap.createScaledBitmap(bitmap,outWidth,outHeight,false);
     }
 
-    protected static LatLngBounds centerOnPath(Polyline pathShowed){
-        List<LatLng> pointList = pathShowed.getPoints();
+    protected static LatLngBounds centerOnPath(List<LatLng> pointList){
+        //List<LatLng> pointList = pathShowed.getPoints();
         int size = pointList.size();
         LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
         for (int i = 0; i < size; i= i+10){

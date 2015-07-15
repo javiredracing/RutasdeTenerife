@@ -3,6 +3,7 @@ package com.rutas.java;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -129,6 +130,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private SharedPreferences prefs;
     private Toast globalToast;
+
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -913,12 +916,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void actionCenter(View v){
         if( (lastRouteShowed != null) && lastRouteShowed.isActive && (pathShowed != null)){
 
-            LatLngBounds bounds = Utils.centerOnPath(pathShowed);
+            LatLngBounds bounds = Utils.centerOnPath(pathShowed.getPoints());
             mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 30), 600, null);
         }
     }
 
     public void actionSharePath(View v){
+
         if (lastRouteShowed != null && lastRouteShowed.isActive) {
             final GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
                 @Override
@@ -926,7 +930,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.v("onSnapShot","Processing bitmap!");
                     Bitmap b = Utils.exportBitmap(getApplicationContext(), bitmap, lastRouteShowed.getName());
                     String path = MediaStore.Images.Media.insertImage(getContentResolver(), b, lastRouteShowed.getName(), "" + lastRouteShowed.getDist() + " Km");
-
+                    progress.dismiss();
                     Uri imageUri = Uri.parse(path);
                     Intent share = new Intent(Intent.ACTION_SEND);
                     share.setType("image/jpeg");
@@ -942,8 +946,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.snapshot(callback);
                 }
             });
-            LatLngBounds bounds = Utils.centerOnPath(pathShowed);
+            LatLngBounds bounds = Utils.centerOnPath(pathShowed.getPoints());
             mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 60));
+            progress = ProgressDialog.show(this, "Loading",
+                    "Generating image", true);
         }
     }
 
