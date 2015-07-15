@@ -930,7 +930,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.v("onSnapShot","Processing bitmap!");
                     Bitmap b = Utils.exportBitmap(getApplicationContext(), bitmap, lastRouteShowed.getName());
                     String path = MediaStore.Images.Media.insertImage(getContentResolver(), b, lastRouteShowed.getName(), "" + lastRouteShowed.getDist() + " Km");
-                    progress.dismiss();
+                    //progress.dismiss();
                     Uri imageUri = Uri.parse(path);
                     Intent share = new Intent(Intent.ACTION_SEND);
                     share.setType("image/jpeg");
@@ -948,8 +948,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             });
             LatLngBounds bounds = Utils.centerOnPath(pathShowed.getPoints());
             mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 60));
-            progress = ProgressDialog.show(this, "Loading",
-                    "Generating image", true);
+            globalToast.setText("generating share image");
+            globalToast.setDuration(Toast.LENGTH_LONG);
+            globalToast.show();
+            //progress = ProgressDialog.show(this, "Loading","Generating image", true);
         }
     }
 
