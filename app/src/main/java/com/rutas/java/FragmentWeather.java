@@ -67,14 +67,26 @@ public class FragmentWeather extends Fragment {
             tvWindDir = (TextView) v.findViewById(R.id.tvWindDirec);
             imgVWinDir = (ImageView)v.findViewById(R.id.iconWindDir);
             tvWindVel = (TextView) v.findViewById(R.id.tvWindVeloc);
-            imgVWinDir2 = (ImageView)v.findViewById(R.id.iconWindDir2);
+
+            View forecast1 = v.findViewById(R.id.llForecast1);
+            forecast1.setVisibility(View.VISIBLE);
+            imgVWinDir2 = (ImageView)forecast1.findViewById(R.id.iconWindDir2);
+            iconWeather2 = (ImageView) forecast1.findViewById(R.id.iconWeather2);
+            tvPrecip2 = (TextView) forecast1.findViewById(R.id.tvPrecip2);
+            tvTemp2 = (TextView) forecast1.findViewById(R.id.tvTemperatura2);
+            tvWeatherDesc2 = (TextView) forecast1.findViewById(R.id.tvWeatherDesc2);
+            tvWindDir2 = (TextView) forecast1.findViewById(R.id.tvWindDirec2);
+            tvWindVel2 = (TextView) forecast1.findViewById(R.id.tvWindVeloc2);
+            View forecast2 = v.findViewById(R.id.llForecast2);
+            forecast2.setVisibility(View.VISIBLE);
+            /*imgVWinDir2 = (ImageView)v.findViewById(R.id.iconWindDir2);
             iconWeather2 = (ImageView) v.findViewById(R.id.iconWeather2);
             tvPrecip2 = (TextView) v.findViewById(R.id.tvPrecip2);
             tvTemp2 = (TextView) v.findViewById(R.id.tvTemperatura2);
             tvWeatherDesc2 = (TextView) v.findViewById(R.id.tvWeatherDesc2);
             tvWindDir2 = (TextView) v.findViewById(R.id.tvWindDirec2);
             tvWindVel2 = (TextView) v.findViewById(R.id.tvWindVeloc2);
-
+            */
             handlerWeather = new Handler(){
                 @Override
                 public void handleMessage(Message msg) {
@@ -158,7 +170,7 @@ public class FragmentWeather extends Fragment {
                 Thread weatherThread = new Thread(){
                     @Override
                     public void run(){
-                        String uri ="http://api.worldweatheronline.com/free/v2/weather.ashx?q="+ myLatLng[0] +","+ myLatLng[1] +"&format=json&num_of_days=1&tp=24&key=4dd5f7defe860cc6cb67909a84684a3f50bc160d";
+                        String uri ="https://api.worldweatheronline.com/free/v2/weather.ashx?q="+ myLatLng[0] +","+ myLatLng[1] +"&format=json&num_of_days=1&tp=24&key=4dd5f7defe860cc6cb67909a84684a3f50bc160d";
                         //String uri = "http://free.worldweatheronline.com/feed/weather.ashx?q="+ lat +","+ lon +"&format=json&num_of_days=1&key=da8292f4dd111341131401";
                         try {
                             URL url = new URL(uri);

@@ -196,7 +196,34 @@
             </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-        <!-- -->
+        <include
+            android:id="@+id/llForecast1"
+            layout="@layout/weather_prevision"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            ></include>
+        <include
+            android:id="@+id/llForecast2"
+            layout="@layout/weather_prevision"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            ></include>
+        <include
+            android:id="@+id/llForecast3"
+            layout="@layout/weather_prevision"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="4dp"
+            ></include>
+        <!--
 
         <LinearLayout
             android:orientation="vertical"
@@ -337,6 +364,7 @@
                     />
             </LinearLayout>
         </LinearLayout>
+        -->
         <TextView
             android:layout_marginTop="4dp"
             android:layout_marginBottom="2dp"
@@ -346,4 +374,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
 </ScrollView>
