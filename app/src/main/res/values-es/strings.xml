@@ -75,10 +75,10 @@
     <string name="presion">Presión: </string>
     <string name="windDirec">Dirección: </string>
     <string name="windSpeed">Velocidad: </string>
-    <string name="atmosferico">Cond. atmosféricas</string>
+    <string name="atmosferico">Condiciones atmosféricas</string>
     <string name="viento">Viento</string>
-    <string name="currentCond">Condic. actuales</string>
-    <string name="prevision">Previsión</string>
+    <string name="currentCond"><u>Condiciones actuales</u></string>
+    <string name="prevision"><u>Previsión</u></string>
 
     <string name="nodata">Sin datos</string>
 
@@ -110,7 +110,7 @@
     <string name="longitude">Distancia</string>
     <string name="time">Duración</string>
     <string name="difficulty">Dificultad</string>
-    <string name="cumulative">Acumulado</string>
+    <string name="cumulative">Desnivel acumulado</string>
     <string name="approved">Homologado</string>
     <string name="error_my_position">¡Error, posición no disponible! Intenta habilitar el GPS</string>
     <string name="how_to_get">Cómo llegar</string>
@@ -140,4 +140,6 @@
     <string name="rateit">¿Te gusta esta app? Por favor, valórala en el market. ¡Gracias por tu ayuda!</string>
     <string name="rate">Valorar</string>
     <string name="rate_later">Más tarde</string>
+    <string name="today">Hoy,</string>
+    <string name="tomorrow">Mañana,</string>
 </resources>

@@ -142,18 +142,17 @@ public class FragmentChart extends Fragment {
             v = inflater.inflate(R.layout.info_chart, container, false);
 
             View field = v.findViewById(R.id.fieldAcum);
-            tvDesnivelAcum = (TextView)field.findViewById(R.id.view_value);
-            TextView tvTimeTitle = (TextView)field.findViewById(R.id.view_title);
+            TextView tvTimeTitle = (TextView)field.findViewById(R.id.tvTitleCenter);
             tvTimeTitle.setText(getString(R.string.cumulative));
-            ImageView tvTimeIcon = (ImageView)field.findViewById(R.id.view_image);
+
+            tvDesnivelAcum = (TextView)field.findViewById(R.id.tvContentLeft);
+            ImageView tvTimeIcon = (ImageView)field.findViewById(R.id.ivImageLeft);
             tvTimeIcon.setImageResource(R.drawable.statistics);
 
-            field = v.findViewById(R.id.fieldMax);
-            TextView tvDownTitle = (TextView)field.findViewById(R.id.view_title);
-            tvDownTitle.setText(getString(R.string.cumulative));
-            tvDesnivelDown = (TextView) field.findViewById(R.id.view_value);
-            ImageView tvDownIcon = (ImageView)field.findViewById(R.id.view_image);
+            tvDesnivelDown = (TextView) field.findViewById(R.id.tvContentRight);
+            ImageView tvDownIcon = (ImageView)field.findViewById(R.id.ivImageRight);
             tvDownIcon.setImageResource(R.drawable.down);
+
             plot = (XYPlot) v.findViewById(R.id.mySimpleXYPlot);
         }
         return v;

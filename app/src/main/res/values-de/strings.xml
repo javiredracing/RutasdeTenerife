@@ -26,8 +26,8 @@
     <string name="altitud">Höhe(mt)</string>
     <string name="altitude">Höhe</string>
     <string name="approved">Genehmigt</string>
-    <string name="currentCond">Aktuelle Lage</string>
-    <string name="prevision">Prognose</string>
+    <string name="currentCond"><u>Aktuelle Lage</u></string>
+    <string name="prevision"><u>Prognose</u></string>
     <string name="presion">Pression: </string>
     <string name="precip">Regen: </string>
     <string name="nubosidad">Bedeckungsgrad: </string>
@@ -97,7 +97,7 @@
     <string name="north_zone">Nordregion</string>
     <string name="nodata">keine Daten</string>
     <string name="distancia">Distanz(km)</string>
-    <string name="cumulative">kumulativ</string>
+    <string name="cumulative">Kumulative Höhen</string>
     <string name="contact">Kontakt</string>
     <string name="clear">Löschen</string>
     <string name="cancel">Stornieren</string>
@@ -135,4 +135,6 @@
         ► Nicht verlassen oder wegwerfen Müll.\n\n
         ► Machen Sie nicht Lärm, um Tiere zu ändern.
 </string>
+    <string name="today">Heute,</string>
+    <string name="tomorrow">Morgen,</string>
 </resources>

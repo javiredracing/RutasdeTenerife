@@ -92,8 +92,8 @@
     <string name="windSpeed">Speed: </string>
     <string name="atmosferico">Atmospheric conditions</string>
     <string name="viento">Wind</string>
-    <string name="currentCond">Current conditions</string>
-    <string name="prevision">Forecast</string>
+    <string name="currentCond"><u>Current conditions</u></string>
+    <string name="prevision"><u>Forecast</u></string>
 
     <string name="nodata">No data</string>
 
@@ -125,7 +125,7 @@
     <string name="longitude">Distance</string>
     <string name="time">Time</string>
     <string name="difficulty">Difficulty</string>
-    <string name="cumulative">cumulative</string>
+    <string name="cumulative">Cumulative elevation</string>
     <string name="approved">Approved</string>
     <string name="error_my_position">My position not found, try enabling GPS!</string>
     <string name="how_to_get">How to get</string>
@@ -158,4 +158,7 @@
     <string name="rate">Rate it</string>
     <string name="rate_later">Later</string>
     <string name="VALUE_FIRST_TIME" translatable="false">value_first_time</string>
+    <string name="today">Today,</string>
+    <string name="tomorrow">Tomorrow,</string>
+    <string name="KEY_WEATHER" translatable="false">4dd5f7defe860cc6cb67909a84684a3f50bc160d</string>
 </resources>

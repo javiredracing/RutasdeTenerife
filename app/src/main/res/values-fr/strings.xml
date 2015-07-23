@@ -72,8 +72,8 @@
     <string name="windSpeed">Vitesse: </string>
     <string name="atmosferico">Cond. météorologiques</string>
     <string name="viento">Vent</string>
-    <string name="currentCond">Cond. actuelles</string>
-    <string name="prevision">Prévision</string>
+    <string name="currentCond"><u>Cond. actuelles</u></string>
+    <string name="prevision"><u>Prévision</u></string>
     <string name="selectShare">Application Partage en...</string>
     <string name="shareText">¡Je faire de la randonnée avec "Randonnée á Tenerife" pour Android!</string>
     <string name="my_position">Ma position</string>
@@ -114,7 +114,7 @@
     <string name="description">Infos</string>
     <string name="clear">Nettoyer</string>
     <string name="contact">Contact</string>
-    <string name="cumulative">Accumulé</string>
+    <string name="cumulative">Ascenseur cumulative</string>
     <string name="error_loading">Erreur lors du chargement Google Play Services, essayer à nouveau</string>
     <string name="error_mail_client">Erreur, client de messagerie pas installé</string>
     <string name="error_no_internet">Erreur, pas de connexion internet</string>
@@ -134,4 +134,6 @@
         ►<b> Longue Distance Chemin.</b> Il identifie avec les couleurs blanches et rouges, et l\'acronyme de <i>GR</i>. Ces grands trajets sont effectués en quelques jours, puisque sa longueur est supérieure à 50 kilomètres.\n\n
         ►<b> Court sentier Route.</b> Il identifie avec le blanc et le jaune, et l\'acronyme de <i>PR</i>. Sa longueur est comprise entre 10 et 50 km; l\'une de ces pistes ont moins de 10 kilomètres, mais sont classés comme PR en raison de la pente, ce qui ajoute plus de difficulté à effectuer la route.\n\n
         ►<b> Chemin d\'accès local.</b> Il identifie avec le blanc et le vert, et avec les initiales <i>SL</i>. Sa longueur est inférieure à 10 kilomètres.</string>
+    <string name="today">Aujourd\'hui</string>
+    <string name="tomorrow">Demain,</string>
 </resources>

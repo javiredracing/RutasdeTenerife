@@ -22,6 +22,16 @@
         android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceMedium"
         />
+    <TextView
+        android:id="@+id/tvForecastDate"
+        android:textColor="#FFFFFF"
+        android:text="date"
+        android:textStyle="italic"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"

@@ -37,12 +37,11 @@ import java.util.Locale;
  */
 public class FragmentWeather extends Fragment {
     private Handler handlerWeather;
-    private TextView tvWeatherDesc, tvCloudCover,tvHumidity,tvPrecip,tvPressure,tvTemp,tvWindDir,tvWindVel,tvPrecip2,tvTemp2,tvWeatherDesc2,tvWindDir2,tvWindVel2;
+    private TextView tvWeatherDesc, tvCloudCover,tvHumidity,tvPrecip,tvPressure,tvTemp,tvWindDir,tvWindVel,tvPrecip2,tvTemp2,tvWeatherDesc2,tvWindDir2,tvWindVel2, tvTimeZone, tvDateToday;
     private ImageView iconWeather,imgVWinDir,iconWeather2,imgVWinDir2;
     private double[] myLatLng;
     private String jsonWeather;
     private View v;
-
 
     @Nullable
     @Override
@@ -51,12 +50,15 @@ public class FragmentWeather extends Fragment {
         if (v == null){
             //Log.v("OnCreate", "Recreating Weather Fragment");
             //Getting json weather from cache
+
+
             MapsActivity mainActivity = (MapsActivity)getActivity();
             jsonWeather = mainActivity.getLastRouteShowed().getWeatherJson();
 
             Bundle arguments = getArguments();
             myLatLng = arguments.getDoubleArray(getString(R.string.VALUE_LATLNG));
             v = inflater.inflate(R.layout.infoweather2, container, false);
+            tvTimeZone = (TextView) v.findViewById(R.id.tvCurrentCondTime);
             tvWeatherDesc = (TextView) v.findViewById(R.id.tvWeatherDesc);
             iconWeather = (ImageView) v.findViewById(R.id.iconWeather);
             tvCloudCover = (TextView) v.findViewById(R.id.tvCloudCover);
@@ -70,6 +72,7 @@ public class FragmentWeather extends Fragment {
 
             View forecast1 = v.findViewById(R.id.llForecast1);
             forecast1.setVisibility(View.VISIBLE);
+            tvDateToday = (TextView)forecast1.findViewById(R.id.tvForecastDate);
             imgVWinDir2 = (ImageView)forecast1.findViewById(R.id.iconWindDir2);
             iconWeather2 = (ImageView) forecast1.findViewById(R.id.iconWeather2);
             tvPrecip2 = (TextView) forecast1.findViewById(R.id.tvPrecip2);
@@ -77,8 +80,8 @@ public class FragmentWeather extends Fragment {
             tvWeatherDesc2 = (TextView) forecast1.findViewById(R.id.tvWeatherDesc2);
             tvWindDir2 = (TextView) forecast1.findViewById(R.id.tvWindDirec2);
             tvWindVel2 = (TextView) forecast1.findViewById(R.id.tvWindVeloc2);
-            View forecast2 = v.findViewById(R.id.llForecast2);
-            forecast2.setVisibility(View.VISIBLE);
+            /*View forecast2 = v.findViewById(R.id.llForecast2);
+            forecast2.setVisibility(View.VISIBLE);*/
             /*imgVWinDir2 = (ImageView)v.findViewById(R.id.iconWindDir2);
             iconWeather2 = (ImageView) v.findViewById(R.id.iconWeather2);
             tvPrecip2 = (TextView) v.findViewById(R.id.tvPrecip2);
@@ -93,12 +96,26 @@ public class FragmentWeather extends Fragment {
                     //super.handleMessage(msg);
                     String mensaje = (String) msg.obj;
                     try {
+                        String language_field = "lang_"+ Locale.getDefault().getLanguage();
+
                         JSONObject jObject = new JSONObject(mensaje);
-                        JSONObject currentCond = jObject.getJSONObject("data").getJSONArray("current_condition").getJSONObject(0);
-                        String value = currentCond.getString("weatherCode");
-                        tvWeatherDesc.setText(getStringResourceByName("w" + value));
+                        JSONObject dataJson = jObject.getJSONObject("data");
+
+                        JSONObject timeZone = dataJson.getJSONArray("time_zone").getJSONObject(0);
+                        String[] date = timeZone.getString("localtime").split(" ");
+                        tvTimeZone.setText("("+date[1]+" h)");
+
+                        JSONObject currentCond = dataJson.getJSONArray("current_condition").getJSONObject(0);
+
+                        String desc = "";
+                        if (Locale.getDefault() != Locale.ENGLISH)
+                            desc = currentCond.getJSONArray(language_field).getJSONObject(0).getString("value");
+                        else
+                            desc = currentCond.getJSONArray("weatherDesc").getJSONObject(0).getString("value");
+                        tvWeatherDesc.setText(desc);
 
                         Bitmap flechaBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wind_direc);
+                        String value = currentCond.getString("weatherCode");
                         iconWeather.setImageResource(getDrawableResourceByName("i"+value));
                         tvCloudCover.setText(getResources().getString(R.string.nubosidad)+currentCond.getString("cloudcover")+ "%");
                         tvHumidity.setText(" "+getResources().getString(R.string.humedad)+currentCond.getString("humidity")+"%");
@@ -119,7 +136,9 @@ public class FragmentWeather extends Fragment {
                             cadena = currentCond.getString("windspeedMiles") + " miles/h";
                         tvWindVel.setText(cadena);
                         //Prevision
-                        JSONObject prev = jObject.getJSONObject("data").getJSONArray("weather").getJSONObject(0);
+                        JSONObject prev = dataJson.getJSONArray("weather").getJSONObject(0);
+
+                        tvDateToday.setText("("+getString(R.string.today)+ " " +prev.getString("date")+")");
                         JSONObject prevHourly = prev.getJSONArray("hourly").getJSONObject(0);
                         String value2 = prevHourly.getString("weatherCode");
                         iconWeather2.setImageResource(getDrawableResourceByName("i"+value2));
@@ -130,7 +149,12 @@ public class FragmentWeather extends Fragment {
                             paramTemp2 = prev.getString("maxtempF")+ " ºF - "+prev.getString("mintempF")+" ºF";
                         tvTemp2.setText(paramTemp2);
 
-                        tvWeatherDesc2.setText(getStringResourceByName("w"+value2));
+                        String desc2 = "";
+                        if (Locale.getDefault() != Locale.ENGLISH)
+                            desc2 = prevHourly.getJSONArray(language_field).getJSONObject(0).getString("value");
+                        else
+                            desc2 = prevHourly.getJSONArray("weatherDesc").getJSONObject(0).getString("value");
+                        tvWeatherDesc2.setText(desc2);
 
                         tvWindDir2.setText("(" + prevHourly.getString("winddir16Point") + ")");
 
@@ -170,7 +194,8 @@ public class FragmentWeather extends Fragment {
                 Thread weatherThread = new Thread(){
                     @Override
                     public void run(){
-                        String uri ="https://api.worldweatheronline.com/free/v2/weather.ashx?q="+ myLatLng[0] +","+ myLatLng[1] +"&format=json&num_of_days=1&tp=24&key=4dd5f7defe860cc6cb67909a84684a3f50bc160d";
+                        String languaje = Locale.getDefault().getLanguage();
+                        String uri ="https://api.worldweatheronline.com/free/v2/weather.ashx?q="+ myLatLng[0] +","+ myLatLng[1] +"&format=json&num_of_days=1&tp=24&key="+getString(R.string.KEY_WEATHER)+"&showlocaltime=yes&lang="+languaje;
                         //String uri = "http://free.worldweatheronline.com/feed/weather.ashx?q="+ lat +","+ lon +"&format=json&num_of_days=1&key=da8292f4dd111341131401";
                         try {
                             URL url = new URL(uri);
@@ -212,11 +237,11 @@ public class FragmentWeather extends Fragment {
         return v;
     }
 
-    private String getStringResourceByName(String aString){
+   /* private String getStringResourceByName(String aString){
         String packageName = getActivity().getPackageName();
         int resId = this.getResources().getIdentifier(aString, "string", packageName);
         return getString(resId);
-    }
+    }*/
     private int getDrawableResourceByName(String aString){
         String packageName = getActivity().getPackageName();
         int drawableResourceId = this.getResources().getIdentifier(aString, "drawable", packageName);
