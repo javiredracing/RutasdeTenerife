@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Hiking in Tenerife</string>
-    <string name="title_activity_maps">Rutas de Tenerife</string>
+    <string name="title_activity_maps">Hiking in Tenerife</string>
     <string name="MAP_TYPE" translatable="false">map_type</string>
     <string name="FILTER_LONG" translatable="false">filter_long</string>
     <string name="FILTER_DIF" translatable="false">filter_dif</string>
@@ -85,8 +85,8 @@
     <string name="w116">Partly Cloudy</string>
     <string name="w113">Clear/Sunny</string>
     <string name="nubosidad">CloudCover: </string>
-    <string name="humedad">Humidty: </string>
-    <string name="precip">Precip: </string>
+    <string name="humedad">Humidity: </string>
+    <string name="precip">Rainfall: </string>
     <string name="presion">Pressure: </string>
     <string name="windDirec">Direction: </string>
     <string name="windSpeed">Speed: </string>

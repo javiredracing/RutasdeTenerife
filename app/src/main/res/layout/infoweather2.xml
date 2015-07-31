@@ -83,7 +83,7 @@
                         android:paddingRight="6sp"
                         android:text="@string/nodata"
                         android:textStyle="italic"
-                        android:singleLine="true"
+                        android:singleLine="false"
                         android:layout_below="@id/tvTemperatura"/>
                 </RelativeLayout>
             </LinearLayout>

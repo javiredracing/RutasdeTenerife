@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,8 +51,6 @@ public class FragmentWeather extends Fragment {
         if (v == null){
             //Log.v("OnCreate", "Recreating Weather Fragment");
             //Getting json weather from cache
-
-
             MapsActivity mainActivity = (MapsActivity)getActivity();
             jsonWeather = mainActivity.getLastRouteShowed().getWeatherJson();
 
@@ -108,11 +107,16 @@ public class FragmentWeather extends Fragment {
                         JSONObject currentCond = dataJson.getJSONArray("current_condition").getJSONObject(0);
 
                         String desc = "";
-                        if (Locale.getDefault() != Locale.ENGLISH)
-                            desc = currentCond.getJSONArray(language_field).getJSONObject(0).getString("value");
-                        else
-                            desc = currentCond.getJSONArray("weatherDesc").getJSONObject(0).getString("value");
-                        tvWeatherDesc.setText(desc);
+                        JSONArray jsa;
+                        try {
+                            jsa = currentCond.getJSONArray(language_field);
+                        }catch (JSONException e){
+                            jsa = currentCond.getJSONArray("weatherDesc");
+                        }
+                        if (jsa != null) {
+                            desc = jsa.getJSONObject(0).getString("value");
+                            tvWeatherDesc.setText(desc);
+                        }
 
                         Bitmap flechaBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wind_direc);
                         String value = currentCond.getString("weatherCode");
@@ -150,12 +154,16 @@ public class FragmentWeather extends Fragment {
                         tvTemp2.setText(paramTemp2);
 
                         String desc2 = "";
-                        if (Locale.getDefault() != Locale.ENGLISH)
-                            desc2 = prevHourly.getJSONArray(language_field).getJSONObject(0).getString("value");
-                        else
-                            desc2 = prevHourly.getJSONArray("weatherDesc").getJSONObject(0).getString("value");
-                        tvWeatherDesc2.setText(desc2);
-
+                        JSONArray jsa2;
+                        try {
+                            jsa2 = prevHourly.getJSONArray(language_field);
+                        }catch (JSONException e){
+                            jsa2 = prevHourly.getJSONArray("weatherDesc");
+                        }
+                        if (jsa2 != null){
+                            desc2 =jsa2.getJSONObject(0).getString("value");
+                            tvWeatherDesc2.setText(desc2);
+                        }
                         tvWindDir2.setText("(" + prevHourly.getString("winddir16Point") + ")");
 
                         Drawable d2 = rotateIcon(prevHourly.getInt("winddirDegree"), flechaBitmap);
@@ -195,7 +203,7 @@ public class FragmentWeather extends Fragment {
                     @Override
                     public void run(){
                         String languaje = Locale.getDefault().getLanguage();
-                        String uri ="https://api.worldweatheronline.com/free/v2/weather.ashx?q="+ myLatLng[0] +","+ myLatLng[1] +"&format=json&num_of_days=1&tp=24&key="+getString(R.string.KEY_WEATHER)+"&showlocaltime=yes&lang="+languaje;
+                        String uri ="http://api.worldweatheronline.com/free/v2/weather.ashx?q="+ myLatLng[0] +","+ myLatLng[1] +"&format=json&num_of_days=1&tp=24&key="+getString(R.string.KEY_WEATHER)+"&showlocaltime=yes&lang="+languaje;
                         //String uri = "http://free.worldweatheronline.com/feed/weather.ashx?q="+ lat +","+ lon +"&format=json&num_of_days=1&key=da8292f4dd111341131401";
                         try {
                             URL url = new URL(uri);
