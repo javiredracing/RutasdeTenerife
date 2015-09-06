@@ -9,11 +9,20 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Environment;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 /**
@@ -81,7 +90,7 @@ public class Utils {
        /* Matrix matrix = new Matrix();
         matrix.postScale(outWidth,outHeight);
         return Bitmap.createBitmap(bitmap,  0, 0, inWidth, inHeight,matrix,false);*/
-        return Bitmap.createScaledBitmap(bitmap,outWidth,outHeight,false);
+        return Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
     }
 
     protected static LatLngBounds centerOnPath(List<LatLng> pointList){
@@ -151,4 +160,48 @@ public class Utils {
             return (angle == to);
         return true;
     }*/
+
+    protected static File assetsToStorage(String fileName,  Context ctx){
+        File toPath = Environment.getExternalStoragePublicDirectory(ctx.getString(R.string.app_name).replace(" ", ""));
+        //File toPath = new File(Environment.getExternalStorageDirectory() +File.separator + ctx.getString(R.string.app_name).replace(" ", ""));
+      /*  try {
+            toPath.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+        if (!toPath.exists()) {
+            toPath.mkdir();
+        }
+        File toFile = new File(toPath,fileName);
+        Log.v("File "+ toFile.getAbsolutePath()+" exist", ""+toFile.exists());
+        if (!toFile.exists()){
+
+            try {
+                InputStream inputStream = ctx.getAssets().open(fileName);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                copyAssetFile(bufferedReader, toFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return toFile;
+    }
+
+    private static void copyAssetFile(BufferedReader br, File toFile) throws IOException {
+        BufferedWriter bw = null;
+        try {
+            bw = new BufferedWriter(new FileWriter(toFile));
+
+            int in;
+            while ((in = br.read()) != -1) {
+                bw.write(in);
+            }
+        } finally {
+            if (bw != null) {
+                bw.close();
+            }
+            br.close();
+        }
+    }
 }

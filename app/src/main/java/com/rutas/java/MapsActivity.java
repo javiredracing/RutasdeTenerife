@@ -3,7 +3,6 @@ package com.rutas.java;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -48,6 +47,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
@@ -76,6 +76,10 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
+import com.rutas.java.util.IabHelper;
+import com.rutas.java.util.IabResult;
+import com.rutas.java.util.Inventory;
+import com.rutas.java.util.Purchase;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -131,7 +135,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private SharedPreferences prefs;
     private Toast globalToast;
 
-    private ProgressDialog progress;
+    private AdView mAdView;
+
+    private IabHelper mHelper;
+    private boolean isPremium;
+    private static final String SKU_PREMIUM = "android.test.purchased";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +152,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         View v = globalToast.getView();
         v.setBackgroundResource(R.drawable.border_toast);
         TextView tv = (TextView) v.findViewById(android.R.id.message);
-        if( tv != null) tv.setGravity(Gravity.CENTER);
+        if( tv != null) {
+            tv.setGravity(Gravity.CENTER);
+            tv.setShadowLayer(0,0,0,0);
+            tv.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        }
         globalToast.setView(v);
 
         ImageButton button = (ImageButton)findViewById(R.id.btActionMenu);
@@ -246,25 +258,57 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             finish();
         }
 
-
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        /*Load admob*/
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        /* In app billing*/
+        isPremium = false;
+        mHelper = new IabHelper(this, getString(R.string.Base64EncodedPublicKey));
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            @Override
+            public void onIabSetupFinished(IabResult result) {
+                if (!result.isSuccess()){
+                    Log.v("onIabSetupFinished", "Problem setting up In-app Billing: " + result.getMessage());
 
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("CA2BE49BA2ED1F54697680DE461F4048")
-                .addTestDevice("922A0081AE099EE4E45D7D8D868D9153")
-                .addTestDevice("FC3F6D621E3F691163F3081D23209CD7")
-                .addTestDevice("E31D8CAD5C7EC0199DF56FCDD1C8BACA")
-                .build();
-        //AdRequest ad = adRequest.build();
-        mAdView.loadAd(adRequest);
+                }
+                else {
+                    Log.v("onIabSetupFinished", "In-app Billing OK!");
+                    mHelper.queryInventoryAsync(mGotInventoryListener);
+                }
+            }
+        });
+        /*Load admob*/
+        mAdView = (AdView) findViewById(R.id.adView);
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                if (mAdView.getVisibility() == View.GONE)
+                    mAdView.setVisibility(View.VISIBLE);
+                Log.i("Ads", "onAdLoaded");
+            }
+        });
+
     }
 
+    /**********In app billing overrides *********/
+    IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+        @Override
+        public void onQueryInventoryFinished(IabResult result, Inventory inv) {
+            isPremium = false;
+            if ((mHelper != null) && (!result.isFailure())) {
+                Purchase premiumPurchase = inv.getPurchase(SKU_PREMIUM);
+                isPremium = (premiumPurchase != null && verifyDeveloperPayload(premiumPurchase));
+            }
+            if (!isPremium){
+                loadAdRequest();
+            }else
+                Toast.makeText(getApplicationContext(),"PREMIUM version!", Toast.LENGTH_LONG).show();
+            Log.v(SKU_PREMIUM,""+isPremium);
+        }
+    };
 
     @Override
     protected void onStart() {
@@ -352,6 +396,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onDestroy() {
         super.onDestroy();
         globalToast.cancel();
+        if (mHelper != null)
+            mHelper.dispose();
+        mHelper = null;
+
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(getString(R.string.FILTER_LONG),0);
         editor.putInt(getString(R.string.FILTER_DURAC),0);
@@ -393,7 +441,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .flat(true)
                             .draggable(false)
             );
-
         }else
             myPos.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
         //myPos.setRotation(30);
@@ -403,7 +450,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         //Log.v("Connection failed", "FAILED!");
-            if (myPos != null){
+        if (myPos != null){
             myPos.remove();
             myPos = null;
         }
@@ -528,8 +575,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             }/*else
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 12));*/
                         }
-
-
                     }
                 });
             }/*else{
@@ -539,6 +584,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+   /* @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mHelper == null) return;
+        super.onActivityResult(requestCode, resultCode, data);
+    }*/
+
+/************************************************************************************/
     /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
@@ -631,15 +683,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AppRater.app_launched(this);
         boolean isFirstTime = prefs.getBoolean(getString(R.string.VALUE_FIRST_TIME), true);
         if (isFirstTime){
-            if (getSupportFragmentManager().findFragmentByTag("FragmentDialogInfo") == null) {
+            //if (getSupportFragmentManager().findFragmentByTag("FragmentDialogInfo") == null) {
                 FragmentDialogInfo dialogInfo = new FragmentDialogInfo();
                 dialogInfo.show(getSupportFragmentManager(), "FragmentDialogInfo");
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean(getString(R.string.VALUE_FIRST_TIME), false);
                 editor.apply();
-            }
+                if (globalToast != null){
+                    globalToast.setText("Press back to continue");
+                    globalToast.setDuration(Toast.LENGTH_LONG);
+                    globalToast.show();
+                }
+            //}
         }
-        //tracker.e
     }
 
     /**************************************************************************/
@@ -772,7 +828,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             color = Utils.selectColor(lastRouteShowed.approved(), getApplicationContext());
         PolylineOptions polylineOptions = new PolylineOptions();
         polylineOptions.addAll(path);
-        polylineOptions.width(2).color(color);
+        polylineOptions.width(3).color(color);
         pathShowed = mMap.addPolyline(polylineOptions);
     }
 
@@ -969,8 +1025,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Geocoder geocoder = new Geocoder(getApplicationContext());
-                if (geocoder.isPresent()){
+
+                if (Geocoder.isPresent()){
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
                        List<Address> dirs = geocoder.getFromLocation(myPos.latitude, myPos.longitude, 1);
                         if (!dirs.isEmpty()) {
@@ -1012,6 +1069,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         itemsMenu.add(new DrawerItem("Item3",R.drawable.simple_filter_64,3));
         itemsMenu.add(new DrawerItem("Item4",R.drawable.info64,4));
         itemsMenu.add(new DrawerItem("Item5",R.drawable.custom_share_64,5));
+        itemsMenu.add(new DrawerItem("Item6", R.drawable.unlock,6));
         drawerListMenu.setAdapter(new MenuListAdapter(getApplicationContext(), itemsMenu));
 
         drawerListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -1029,7 +1087,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             mMap.animateCamera(cu);
                             //drawerLayout.closeDrawers();
                             closeNavigationDrawer();
-                        }else{
+                        } else {
                             globalToast.setDuration(Toast.LENGTH_LONG);
                             globalToast.setText(getString(R.string.error_my_position));
                             globalToast.show();
@@ -1084,12 +1142,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         sendIntent.setType("text/plain");
                         startActivity(Intent.createChooser(sendIntent, getString(R.string.selectShare)));
                         //Event google analytics
-                        Tracker tracker = ((RutasTenerife)getApplication()).getTracker();
+                        Tracker tracker = ((RutasTenerife) getApplication()).getTracker();
                         tracker.send(new HitBuilders.EventBuilder()
                                 .setCategory("Menu")
                                 .setAction("Share")
                                 .setLabel("-")
                                 .build());
+                        break;
+                    case 5:
+                        if (getSupportFragmentManager().findFragmentByTag("unlock") == null) {
+                            FragmentDialogUnlock dialogFilter = new FragmentDialogUnlock();
+                            dialogFilter.setCancelable(true);
+
+                            dialogFilter.show(getSupportFragmentManager(), "unlock");
+                        }
                         break;
                     default:
                         Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
@@ -1162,4 +1228,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (titleDivider != null)
             titleDivider.setBackgroundColor(getResources().getColor(R.color.lightGreen));
     }
+
+    private boolean verifyDeveloperPayload(Purchase p) {
+        String payload = p.getDeveloperPayload();
+    return true;
+    }
+
+    private void loadAdRequest(){
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("CA2BE49BA2ED1F54697680DE461F4048")
+                .addTestDevice("922A0081AE099EE4E45D7D8D868D9153")
+                .addTestDevice("FC3F6D621E3F691163F3081D23209CD7")
+                .addTestDevice("E31D8CAD5C7EC0199DF56FCDD1C8BACA")
+                .build();
+        //AdRequest ad = adRequest.build();
+        mAdView.loadAd(adRequest);
+    }
+
 }

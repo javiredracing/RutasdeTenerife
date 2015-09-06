@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -47,7 +49,17 @@ public class FragmentInfo3 extends Fragment {
                         String texto = getString(R.string.selecciona_cliente);
                         startActivity(Intent.createChooser(i, texto));
                     }catch (android.content.ActivityNotFoundException ex){
-                       Toast.makeText(getActivity(), getString(R.string.error_mail_client), Toast.LENGTH_SHORT).show();
+                        Toast toast =  Toast.makeText(getActivity(), getString(R.string.error_mail_client), Toast.LENGTH_SHORT);
+                        View vista = toast.getView();
+                        TextView tv = (TextView) v.findViewById(android.R.id.message);
+                        if( tv != null) {
+                            tv.setGravity(Gravity.CENTER);
+                            tv.setShadowLayer(0,0,0,0);
+                            tv.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                        }
+                        vista.setBackgroundResource(R.drawable.border_toast);
+                        toast.setView(vista);
+                        toast.show();
                     }
                 }
             });

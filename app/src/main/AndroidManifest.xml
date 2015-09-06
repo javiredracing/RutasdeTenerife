@@ -12,6 +12,8 @@
     <!-- Optional permission for reliable local dispatching on non-Google Play devices -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <uses-permission android:name="com.android.vending.BILLING" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true"/>

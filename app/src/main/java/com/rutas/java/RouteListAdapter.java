@@ -41,7 +41,7 @@ public class RouteListAdapter extends BaseAdapter {
     protected class ViewHolder {
         public TextView name;
         public ImageView icon;
-        //TextView population;
+        public TextView distance;
     }
 
     @Override
@@ -98,10 +98,12 @@ public class RouteListAdapter extends BaseAdapter {
                     convertView = inflater.inflate(R.layout.drawer_list_item,null);
                     viewHolder.name = (TextView)convertView.findViewById(R.id.name);
                     viewHolder.icon = (ImageView)convertView.findViewById(R.id.icon);
+                    viewHolder.distance = (TextView) convertView.findViewById(R.id.tvListItemDistance);
                     convertView.setTag(viewHolder);
                 }else
                     viewHolder = (ViewHolder)convertView.getTag();
                 viewHolder.name.setText(entryListItem.getName());
+                viewHolder.distance.setText("(" + entryListItem.getDistance() + " Km)");
                 int icon;
                 switch (entryListItem.getDifficulty()){
                     case 1:

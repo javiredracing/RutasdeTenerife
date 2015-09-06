@@ -136,4 +136,8 @@
         ►<b> Chemin d\'accès local.</b> Il identifie avec le blanc et le vert, et avec les initiales <i>SL</i>. Sa longueur est inférieure à 10 kilomètres.</string>
     <string name="today">Aujourd\'hui</string>
     <string name="tomorrow">Demain,</string>
+    <string name="next_days">Prochains jours</string>
+    <string name="get_track">Télécharger le titre</string>
+    <string name="file_saved">suivre exportés vers </string>
+    <string name="back_continue">Appuyez sur <i>Retour</i> pour continuer</string>
 </resources>

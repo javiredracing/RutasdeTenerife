@@ -232,6 +232,26 @@ public class BaseDatos extends SQLiteOpenHelper {
 		c.close();
 		return listaDatos[0];
 	}
+	public String getTrackNameById(int id){
+		Cursor c = null;
+		//TODO determine languaje
+		String where = "id = '" + id + "'";
+		String consulta = "SELECT kml FROM Senderos WHERE "+ where;
+		try{
+			c = db.rawQuery(consulta, null);
+		}catch(Exception e){
+			Log.d("BaseDatos.getInfo", e.toString());
+		}
+		String[] listaDatos = new String[c.getColumnCount()];
+		//Escogemos solo los valores de la primera fila, los demas seran repetidos
+		if (c.moveToFirst()){
+			//int valor = c.getColumnCount();
+			listaDatos[0] = c.getString(0);
+		}
+		c.close();
+		return listaDatos[0];
+	}
+
 	
 	/*public String[] getDatos(Boolean distinct, String[] columns, String selection, String[] selectionArgs, String groupBy,
 			String having, String orderBy){

@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +97,14 @@ public class FragmentDialogExtendedInfo extends DialogFragment {
                     tabHost.setCurrentTab(lastTab);
                     toast = Toast.makeText(getActivity(), getString(R.string.error_no_internet), Toast.LENGTH_SHORT);
                     View v = toast.getView();
+                    TextView tv = (TextView) v.findViewById(android.R.id.message);
+                    if( tv != null) {
+                        tv.setGravity(Gravity.CENTER);
+                        tv.setShadowLayer(0,0,0,0);
+                        tv.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                    }
                     v.setBackgroundResource(R.drawable.border_toast);
+                    toast.setView(v);
                     toast.show();
                 } else {
                     if (toast != null)

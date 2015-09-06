@@ -5,6 +5,8 @@ import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +15,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+
 /**
  * Created by jfernandez on 09/06/2015.
  */
 public class FragmentDescription extends Fragment {
     private View v;
     private Bundle arguments;
+    private String trackName;
     //private BaseDatos bdTab2;
+    private Toast toast;
+    private boolean isPremium;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,7 +103,10 @@ public class FragmentDescription extends Fragment {
             approvedIcon.setImageResource(icon);
 
             //TODO detect languaje for getting description in BD
-            String desc = bdTab2.getDescriptionById(arguments.getInt(getString(R.string.VALUE_ID),0), "es");
+            int myId = arguments.getInt(getString(R.string.VALUE_ID), 0);
+            trackName = bdTab2.getTrackNameById(myId);
+
+            String desc = bdTab2.getDescriptionById(myId, "es");
             TextView tvDescription = (TextView)v.findViewById(R.id.tvTextDescriptor);
             tvDescription.setText(desc);
             bdTab2.close();
@@ -113,14 +123,58 @@ public class FragmentDescription extends Fragment {
                                         "&daddr=" + latLongPoint[0] + "," + latLongPoint[1]));
                         startActivity(intent);
                     }else{
-                        Toast toast = Toast.makeText(getActivity(), getString(R.string.error_my_position), Toast.LENGTH_SHORT);
-                        View vista = toast.getView();
-                        vista.setBackgroundResource(R.drawable.border_toast);
-                        toast.show();
+                        showToast(getString(R.string.error_my_position));
+                    }
+                }
+            });
+            isPremium = false;
+            Button btGetTrack = (Button)v.findViewById(R.id.btGetTrack);
+            btGetTrack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isPremium){
+                        if (trackName != ""){
+                            File f = Utils.assetsToStorage(trackName, getActivity().getApplicationContext());
+                            if (f != null){
+                                //Log.v("Track", f.getAbsolutePath());
+                                showToast(getString(R.string.file_saved) + " "+f.getAbsolutePath());
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                //intent.setDataAndType(Uri.fromFile(f),"application/vnd.google-earth.kml+xml");
+                                intent.setDataAndType(Uri.fromFile(f),"application/xml");
+                                Intent chooser = Intent.createChooser(intent, "Open the .kml file");
+                                getActivity().startActivity(chooser);
+
+                            }
+                        }
+                    }else{
+                        if (getActivity().getSupportFragmentManager().findFragmentByTag("unlock") == null) {
+                            FragmentDialogUnlock dialogFilter = new FragmentDialogUnlock();
+                            dialogFilter.setCancelable(true);
+
+                            dialogFilter.show(getActivity().getSupportFragmentManager(), "unlock");
+                        }
                     }
                 }
             });
         }
         return v;
+    }
+
+    private void showToast (String msg){
+        if (toast == null){
+            toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+            View vista = toast.getView();
+            TextView tv = (TextView) vista.findViewById(android.R.id.message);
+            if( tv != null) {
+                tv.setGravity(Gravity.CENTER);
+                tv.setShadowLayer(0,0,0,0);
+                tv.setTextColor(getResources().getColor(android.R.color.darker_gray));
+            }
+            vista.setBackgroundResource(R.drawable.border_toast);
+            toast.setView(vista);
+        }else{
+            toast.setText(msg);
+        }
+        toast.show();
     }
 }

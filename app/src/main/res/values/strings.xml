@@ -161,4 +161,9 @@
     <string name="today">Today,</string>
     <string name="tomorrow">Tomorrow,</string>
     <string name="KEY_WEATHER" translatable="false">4dd5f7defe860cc6cb67909a84684a3f50bc160d</string>
+    <string name="next_days">Next days</string>
+    <string name="get_track">Get track</string>
+    <string name="file_saved">Track exported to</string>
+    <string name="Base64EncodedPublicKey" translatable="false">1</string>
+    <string name="back_continue">Press <i>back</i> to continue</string>
 </resources>

@@ -89,7 +89,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="2dp"
         android:layout_below="@+id/linearLayout3"
-        android:layout_above="@+id/btAction"
+        android:layout_above="@+id/llBottomActions"
         android:background="@drawable/border"
         >
         <TextView
@@ -100,24 +100,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </ScrollView>
-    <Button
-        android:id="@+id/btAction"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
+    <LinearLayout
+        android:id="@+id/llBottomActions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/how_to_get"
-        android:textColor="@android:color/white"
-        android:drawableLeft="@android:drawable/ic_dialog_map"
-         />
-
-    <!--<ImageView
-        android:id="@+id/btAction"
-        android:text="Go to Map"
-        android:src="@drawable/share64"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />-->
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/btAction"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/how_to_get"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@android:drawable/ic_dialog_map"
+            />
+        <Button
+            android:id="@+id/btGetTrack"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/get_track"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@android:drawable/ic_dialog_map"
+            />
+    </LinearLayout>
 
 </RelativeLayout>

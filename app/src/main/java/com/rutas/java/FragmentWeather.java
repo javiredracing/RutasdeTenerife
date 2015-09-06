@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,11 +39,13 @@ import java.util.Locale;
  */
 public class FragmentWeather extends Fragment {
     private Handler handlerWeather;
-    private TextView tvWeatherDesc, tvCloudCover,tvHumidity,tvPrecip,tvPressure,tvTemp,tvWindDir,tvWindVel,tvPrecip2,tvTemp2,tvWeatherDesc2,tvWindDir2,tvWindVel2, tvTimeZone, tvDateToday;
-    private ImageView iconWeather,imgVWinDir,iconWeather2,imgVWinDir2;
+    private TextView tvWeatherDesc, tvCloudCover,tvHumidity,tvPrecip,tvPressure,tvTemp,tvWindDir,tvWindVel, tvTimeZone;
+    private ImageView iconWeather,imgVWinDir;
     private double[] myLatLng;
     private String jsonWeather;
-    private View v;
+    private View v, forecast1, forecast2, forecast3;
+
+    private boolean isPremium;
 
     @Nullable
     @Override
@@ -51,6 +54,7 @@ public class FragmentWeather extends Fragment {
         if (v == null){
             //Log.v("OnCreate", "Recreating Weather Fragment");
             //Getting json weather from cache
+            isPremium = true;
             MapsActivity mainActivity = (MapsActivity)getActivity();
             jsonWeather = mainActivity.getLastRouteShowed().getWeatherJson();
 
@@ -69,26 +73,29 @@ public class FragmentWeather extends Fragment {
             imgVWinDir = (ImageView)v.findViewById(R.id.iconWindDir);
             tvWindVel = (TextView) v.findViewById(R.id.tvWindVeloc);
 
-            View forecast1 = v.findViewById(R.id.llForecast1);
+            forecast1 = v.findViewById(R.id.llForecast1);
             forecast1.setVisibility(View.VISIBLE);
-            tvDateToday = (TextView)forecast1.findViewById(R.id.tvForecastDate);
-            imgVWinDir2 = (ImageView)forecast1.findViewById(R.id.iconWindDir2);
-            iconWeather2 = (ImageView) forecast1.findViewById(R.id.iconWeather2);
-            tvPrecip2 = (TextView) forecast1.findViewById(R.id.tvPrecip2);
-            tvTemp2 = (TextView) forecast1.findViewById(R.id.tvTemperatura2);
-            tvWeatherDesc2 = (TextView) forecast1.findViewById(R.id.tvWeatherDesc2);
-            tvWindDir2 = (TextView) forecast1.findViewById(R.id.tvWindDirec2);
-            tvWindVel2 = (TextView) forecast1.findViewById(R.id.tvWindVeloc2);
-            /*View forecast2 = v.findViewById(R.id.llForecast2);
-            forecast2.setVisibility(View.VISIBLE);*/
-            /*imgVWinDir2 = (ImageView)v.findViewById(R.id.iconWindDir2);
-            iconWeather2 = (ImageView) v.findViewById(R.id.iconWeather2);
-            tvPrecip2 = (TextView) v.findViewById(R.id.tvPrecip2);
-            tvTemp2 = (TextView) v.findViewById(R.id.tvTemperatura2);
-            tvWeatherDesc2 = (TextView) v.findViewById(R.id.tvWeatherDesc2);
-            tvWindDir2 = (TextView) v.findViewById(R.id.tvWindDirec2);
-            tvWindVel2 = (TextView) v.findViewById(R.id.tvWindVeloc2);
-            */
+
+            Button btNextDays = (Button)v.findViewById(R.id.btWeatherNextDays);
+            if (!isPremium){
+                btNextDays.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (getActivity().getSupportFragmentManager().findFragmentByTag("unlock") == null) {
+                            FragmentDialogUnlock dialogFilter = new FragmentDialogUnlock();
+                            dialogFilter.setCancelable(true);
+
+                            dialogFilter.show(getActivity().getSupportFragmentManager(), "unlock");
+                        }
+                    }
+                });
+            }else{
+                btNextDays.setVisibility(View.GONE);
+                forecast2 = v.findViewById(R.id.llForecast2);
+                forecast2.setVisibility(View.VISIBLE);
+                forecast3 = v.findViewById(R.id.llForecast3);
+                forecast3.setVisibility(View.VISIBLE);
+            }
             handlerWeather = new Handler(){
                 @Override
                 public void handleMessage(Message msg) {
@@ -139,42 +146,12 @@ public class FragmentWeather extends Fragment {
                         if ((Locale.getDefault() == Locale.UK) || (Locale.getDefault() == Locale.US))
                             cadena = currentCond.getString("windspeedMiles") + " miles/h";
                         tvWindVel.setText(cadena);
-                        //Prevision
-                        JSONObject prev = dataJson.getJSONArray("weather").getJSONObject(0);
 
-                        tvDateToday.setText("("+getString(R.string.today)+ " " +prev.getString("date")+")");
-                        JSONObject prevHourly = prev.getJSONArray("hourly").getJSONObject(0);
-                        String value2 = prevHourly.getString("weatherCode");
-                        iconWeather2.setImageResource(getDrawableResourceByName("i"+value2));
-                        tvPrecip2.setText(getResources().getString(R.string.precip)+prevHourly.getString("precipMM")+" Lm2");
-
-                        String paramTemp2 = prev.getString("maxtempC") + " ºC - "+prev.getString("mintempC")+" ºC";
-                        if (Locale.getDefault() == Locale.US)
-                            paramTemp2 = prev.getString("maxtempF")+ " ºF - "+prev.getString("mintempF")+" ºF";
-                        tvTemp2.setText(paramTemp2);
-
-                        String desc2 = "";
-                        JSONArray jsa2;
-                        try {
-                            jsa2 = prevHourly.getJSONArray(language_field);
-                        }catch (JSONException e){
-                            jsa2 = prevHourly.getJSONArray("weatherDesc");
+                        setPrevision(forecast1,dataJson, 0, language_field,flechaBitmap);
+                        if (isPremium){
+                            setPrevision(forecast2,dataJson, 1, language_field,flechaBitmap);
+                            setPrevision(forecast3,dataJson, 2, language_field,flechaBitmap);
                         }
-                        if (jsa2 != null){
-                            desc2 =jsa2.getJSONObject(0).getString("value");
-                            tvWeatherDesc2.setText(desc2);
-                        }
-                        tvWindDir2.setText("(" + prevHourly.getString("winddir16Point") + ")");
-
-                        Drawable d2 = rotateIcon(prevHourly.getInt("winddirDegree"), flechaBitmap);
-                        //d2.setBounds(0, 0, d2.getIntrinsicWidth(), d2.getIntrinsicHeight());
-                        //tvWindDir2.setCompoundDrawables(d2, null, null, null);
-                        imgVWinDir2.setImageDrawable(d2);
-
-                        String cadena2 = prevHourly.getString("windspeedKmph")+ " km/h";
-                        if ((Locale.getDefault() == Locale.UK) || (Locale.getDefault() == Locale.US))
-                            cadena2 = prevHourly.getString("windspeedMiles") + " miles/h";
-                        tvWindVel2.setText(cadena2);
 
                         //Update weather Route
                         MapsActivity mainActivity = (MapsActivity)getActivity();
@@ -203,7 +180,10 @@ public class FragmentWeather extends Fragment {
                     @Override
                     public void run(){
                         String languaje = Locale.getDefault().getLanguage();
-                        String uri ="http://api.worldweatheronline.com/free/v2/weather.ashx?q="+ myLatLng[0] +","+ myLatLng[1] +"&format=json&num_of_days=1&tp=24&key="+getString(R.string.KEY_WEATHER)+"&showlocaltime=yes&lang="+languaje;
+                        int nDays = 1;
+                        if (isPremium)
+                            nDays = 3;
+                        String uri ="http://api.worldweatheronline.com/free/v2/weather.ashx?q="+ myLatLng[0] +","+ myLatLng[1] +"&format=json&num_of_days="+nDays+"&tp=24&key="+getString(R.string.KEY_WEATHER)+"&showlocaltime=yes&lang="+languaje;
                         //String uri = "http://free.worldweatheronline.com/feed/weather.ashx?q="+ lat +","+ lon +"&format=json&num_of_days=1&key=da8292f4dd111341131401";
                         try {
                             URL url = new URL(uri);
@@ -262,5 +242,80 @@ public class FragmentWeather extends Fragment {
         matrix.postRotate(grados, flechaBitmap.getWidth(), flechaBitmap.getHeight());
         Bitmap rotatedBitmap = Bitmap.createBitmap(flechaBitmap, 0, 0, flechaBitmap.getWidth(), flechaBitmap.getHeight(), matrix, true);
         return new BitmapDrawable(getResources(),rotatedBitmap);
+    }
+
+    private void setPrevision(View forecast, JSONObject data, int item, String language_field, Bitmap flechaBitmap){
+        JSONObject prevision = null;
+        try {
+            prevision = data.getJSONArray("weather").getJSONObject(item);
+
+            TextView tvDate = (TextView)forecast.findViewById(R.id.tvForecastDate);
+            String day = "";
+            switch (item){
+                case 0:
+                    day = getResources().getString(R.string.today);
+                    break;
+                case 1:
+                    day = getResources().getString(R.string.tomorrow);
+                    break;
+                default:
+                    day = "";
+            }
+            tvDate.setText("( "+ day + " " + prevision.getString("date") + ")");
+
+            JSONObject previsionHourly = prevision.getJSONArray("hourly").getJSONObject(0);
+            String valueWeatherCode = previsionHourly.getString("weatherCode");
+            ImageView iconWeather = (ImageView)forecast.findViewById(R.id.iconWeather2);
+            iconWeather.setImageResource(getDrawableResourceByName("i" + valueWeatherCode));
+            TextView tvPrecip = (TextView)forecast.findViewById(R.id.tvPrecip2);
+            tvPrecip.setText(getResources().getString(R.string.precip) + previsionHourly.getString("precipMM") + " Lm2");
+
+            String temperature = prevision.getString("maxtempC") + " ºC - "+prevision.getString("mintempC")+" ºC";
+            if (Locale.getDefault() == Locale.US)
+                temperature = prevision.getString("maxtempF")+ " ºF - "+prevision.getString("mintempF")+" ºF";
+            TextView tvTemp = (TextView)forecast.findViewById(R.id.tvTemperatura2);
+            tvTemp.setText(temperature);
+
+            String description = "";
+            JSONArray jsonArray;
+            try {
+                jsonArray = previsionHourly.getJSONArray(language_field);
+            }catch (JSONException e){
+                jsonArray = previsionHourly.getJSONArray("weatherDesc");
+            }
+            if (jsonArray != null){
+                description =jsonArray.getJSONObject(0).getString("value");
+                TextView tvWeatherDescription = (TextView) forecast.findViewById(R.id.tvWeatherDesc2);
+                tvWeatherDescription.setText(description);
+            }
+            TextView tvWindDirection = (TextView) forecast.findViewById(R.id.tvWindDirec2);
+            tvWindDirection.setText("(" + previsionHourly.getString("winddir16Point") + ")");
+
+            Drawable d2 = rotateIcon(previsionHourly.getInt("winddirDegree"), flechaBitmap);
+            //d2.setBounds(0, 0, d2.getIntrinsicWidth(), d2.getIntrinsicHeight());
+            //tvWindDir2.setCompoundDrawables(d2, null, null, null);
+            ImageView ivWindDirection = (ImageView)forecast.findViewById(R.id.iconWindDir2);
+            ivWindDirection.setImageDrawable(d2);
+
+            String cadena2 = previsionHourly.getString("windspeedKmph")+ " km/h";
+            if ((Locale.getDefault() == Locale.UK) || (Locale.getDefault() == Locale.US))
+                cadena2 = previsionHourly.getString("windspeedMiles") + " miles/h";
+            TextView tvWindVeloc = (TextView)forecast.findViewById(R.id.tvWindVeloc2);
+            tvWindVeloc.setText(cadena2);
+            //Astronomy data
+            JSONObject prevAstronomy = prevision.getJSONArray("astronomy").getJSONObject(0);
+            TextView tvSunrise2 = (TextView)forecast.findViewById(R.id.tvSunrise);
+            tvSunrise2.setText(prevAstronomy.getString("sunrise"));
+            TextView tvSunset2 = (TextView)forecast.findViewById(R.id.tvSunset);
+            tvSunset2.setText(prevAstronomy.getString("sunset"));
+            TextView tvMoonrise2 = (TextView)forecast.findViewById(R.id.tvMoonrise);
+            tvMoonrise2.setText(prevAstronomy.getString("moonrise"));
+            TextView tvMoonset2 = (TextView)forecast.findViewById(R.id.tvMoonset);
+            tvMoonset2.setText(prevAstronomy.getString("moonset"));
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
