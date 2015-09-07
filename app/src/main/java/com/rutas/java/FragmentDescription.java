@@ -127,7 +127,7 @@ public class FragmentDescription extends Fragment {
                     }
                 }
             });
-            isPremium = false;
+            isPremium = arguments.getBoolean(getString(R.string.VALUE_IS_PREMIUM), false);
             Button btGetTrack = (Button)v.findViewById(R.id.btGetTrack);
             btGetTrack.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -143,7 +143,6 @@ public class FragmentDescription extends Fragment {
                                 intent.setDataAndType(Uri.fromFile(f),"application/xml");
                                 Intent chooser = Intent.createChooser(intent, "Open the .kml file");
                                 getActivity().startActivity(chooser);
-
                             }
                         }
                     }else{

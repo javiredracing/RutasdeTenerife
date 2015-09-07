@@ -18,6 +18,8 @@ package com.rutas.java.util;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.rutas.java.BuildConfig;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,6 +61,9 @@ public class Security {
         if (TextUtils.isEmpty(signedData) || TextUtils.isEmpty(base64PublicKey) ||
                 TextUtils.isEmpty(signature)) {
             Log.e(TAG, "Purchase verification failed: missing data.");
+            if (BuildConfig.DEBUG) {
+                return true;
+            }
             return false;
         }
 

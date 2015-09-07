@@ -140,4 +140,7 @@
     <string name="get_track">Télécharger le titre</string>
     <string name="file_saved">suivre exportés vers </string>
     <string name="back_continue">Appuyez sur <i>Retour</i> pour continuer</string>
+    <string name="premium_version">Version Premium</string>
+    <string name="error_purchasing">Erreur dans l\'achat</string>
+    <string name="Press_back">Appuyez sur Retour pour continuer</string>
 </resources>

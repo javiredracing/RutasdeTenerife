@@ -54,7 +54,7 @@ public class FragmentWeather extends Fragment {
         if (v == null){
             //Log.v("OnCreate", "Recreating Weather Fragment");
             //Getting json weather from cache
-            isPremium = true;
+            isPremium = getArguments().getBoolean(getString(R.string.VALUE_IS_PREMIUM),false);
             MapsActivity mainActivity = (MapsActivity)getActivity();
             jsonWeather = mainActivity.getLastRouteShowed().getWeatherJson();
 

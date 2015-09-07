@@ -141,4 +141,7 @@
     <string name="get_track">bekommen Track</string>
     <string name="file_saved"> Exportiert verfolgen </string>
     <string name="back_continue">Drücken Sie wieder, um fortzufahren</string>
+    <string name="premium_version">Premium-Version</string>
+    <string name="error_purchasing"> Fehler Einkauf</string>
+    <string name="Press_back">Drücken Sie Zurück, um fortzufahren</string>
 </resources>

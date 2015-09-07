@@ -146,4 +146,7 @@
     <string name="get_track">Descarga track</string>
     <string name="file_saved">Track exportado a </string>
     <string name="back_continue">Pulsa <i>atrás</i> para continuar</string>
+    <string name="premium_version">Versión Premium!</string>
+    <string name="error_purchasing">Error en la compra</string>
+    <string name="Press_back">Pulsa atrás para continuar</string>
 </resources>

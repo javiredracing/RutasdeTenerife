@@ -38,7 +38,9 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -137,9 +139,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private AdView mAdView;
 
-    private IabHelper mHelper;
+    public IabHelper mHelper;
     private boolean isPremium;
-    private static final String SKU_PREMIUM = "android.test.purchased";
+    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,32 +169,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         quickInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Close info, center in path, share path buttons
-                if (lastRouteShowed.isActive){
-                    if (getSupportFragmentManager().findFragmentByTag("FragmentDialogExtendedInfo") == null){
+
+                if (lastRouteShowed.isActive) {
+                    if (getSupportFragmentManager().findFragmentByTag("FragmentDialogExtendedInfo") == null) {
                         FragmentDialogExtendedInfo extendedInfo = new FragmentDialogExtendedInfo();
                         Bundle bundle = new Bundle();
-                        bundle.putString(getString(R.string.VALUE_NAME),lastRouteShowed.getName());
+                        bundle.putString(getString(R.string.VALUE_NAME), lastRouteShowed.getName());
                         bundle.putString(getString(R.string.VALUE_XML_ROUTE), lastRouteShowed.getXmlRoute());
                         bundle.putFloat(getString(R.string.VALUE_DIST), lastRouteShowed.getDist());
                         bundle.putFloat(getString(R.string.VALUE_TIME), lastRouteShowed.getDurac());
                         bundle.putInt(getString(R.string.VALUE_ID), lastRouteShowed.getId());
                         bundle.putInt(getString(R.string.VALUE_DIF), lastRouteShowed.getDifficulty());
                         bundle.putInt(getString(R.string.VALUE_APPROVED), lastRouteShowed.approved());
+                        bundle.putBoolean(getString(R.string.VALUE_IS_PREMIUM), isPremium);
                         int drawable = Utils.getIconBigger(lastRouteShowed);
                         bundle.putInt(getString(R.string.VALUE_ICON), drawable);
                         LatLng latLng = lastRouteShowed.getFirstPoint();
                         double[] latLngDouble = new double[2];
                         latLngDouble[0] = latLng.latitude;
                         latLngDouble[1] = latLng.longitude;
-                        bundle.putDoubleArray(getString(R.string.VALUE_LATLNG),latLngDouble);
-                        if (myPos != null){
+                        bundle.putDoubleArray(getString(R.string.VALUE_LATLNG), latLngDouble);
+                        if (myPos != null) {
                             double[] latLngMyPos = new double[2];
                             latLngMyPos[0] = myPos.getPosition().latitude;
                             latLngMyPos[1] = myPos.getPosition().longitude;
-                            bundle.putDoubleArray(getString(R.string.VALUE_LATLNG_POS),latLngMyPos);
+                            bundle.putDoubleArray(getString(R.string.VALUE_LATLNG_POS), latLngMyPos);
                         }
-                        Tracker tracker = ((RutasTenerife)getApplication()).getTracker();
+                        Tracker tracker = ((RutasTenerife) getApplication()).getTracker();
                         tracker.send(new HitBuilders.EventBuilder()
                                 .setCategory("Extended-Info")
                                 .setAction("Show")
@@ -264,8 +267,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         /* In app billing*/
-        isPremium = false;
         mHelper = new IabHelper(this, getString(R.string.Base64EncodedPublicKey));
+        mHelper.enableDebugLogging(true);   //TODO set to false when production
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             @Override
             public void onIabSetupFinished(IabResult result) {
@@ -290,26 +293,58 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.i("Ads", "onAdLoaded");
             }
         });
+    }//end onCreate
 
-    }
-
-    /**********In app billing overrides *********/
-    IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+    /********** In app billing instances *********/
+    //http://www.techotopia.com/index.php/An_Android_Studio_Google_Play_In-app_Billing_Tutorial
+    public IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         @Override
         public void onQueryInventoryFinished(IabResult result, Inventory inv) {
             isPremium = false;
             if ((mHelper != null) && (!result.isFailure())) {
-                Purchase premiumPurchase = inv.getPurchase(SKU_PREMIUM);
+                Purchase premiumPurchase = inv.getPurchase(Utils.SKU_PREMIUM);
                 isPremium = (premiumPurchase != null && verifyDeveloperPayload(premiumPurchase));
             }
             if (!isPremium){
                 loadAdRequest();
-            }else
-                Toast.makeText(getApplicationContext(),"PREMIUM version!", Toast.LENGTH_LONG).show();
-            Log.v(SKU_PREMIUM,""+isPremium);
+            }else{
+                if (globalToast != null){
+                    globalToast.setText(getString(R.string.premium_version));
+                    globalToast.setDuration(Toast.LENGTH_LONG);
+                    globalToast.show();
+                }
+            }
+            Log.v(Utils.SKU_PREMIUM,""+isPremium);
         }
     };
 
+    public IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+        @Override
+        public void onIabPurchaseFinished(IabResult result, Purchase info) {
+            // if we were disposed of in the meantime, quit.
+            if (mHelper == null) return;
+            if (result.isFailure()){
+                globalToast.setText(getString(R.string.error_purchasing) + ": " + result.getMessage());
+                globalToast.setDuration(Toast.LENGTH_LONG);
+                globalToast.show();
+
+                return;
+            }
+            if (!verifyDeveloperPayload(info))
+                return;
+            if (info.getSku().contentEquals(Utils.SKU_PREMIUM)){
+                isPremium = true;
+                configureMenu();
+                removeAdRequest();
+                if (globalToast != null){
+                    globalToast.setText(getString(R.string.premium_version));
+                    globalToast.setDuration(Toast.LENGTH_LONG);
+                    globalToast.show();
+                }
+            }
+        }
+    };
+    /********/
     @Override
     protected void onStart() {
         super.onStart();
@@ -549,6 +584,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mHelper == null) return;
+        // Pass on the activity result to the helper for handling
+        if (!mHelper.handleActivityResult(requestCode,
+                resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
     /*********************************************/
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -690,7 +735,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 editor.putBoolean(getString(R.string.VALUE_FIRST_TIME), false);
                 editor.apply();
                 if (globalToast != null){
-                    globalToast.setText("Press back to continue");
+                    globalToast.setText(getString(R.string.back_continue));
                     globalToast.setDuration(Toast.LENGTH_LONG);
                     globalToast.show();
                 }
@@ -1069,7 +1114,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         itemsMenu.add(new DrawerItem("Item3",R.drawable.simple_filter_64,3));
         itemsMenu.add(new DrawerItem("Item4",R.drawable.info64,4));
         itemsMenu.add(new DrawerItem("Item5",R.drawable.custom_share_64,5));
-        itemsMenu.add(new DrawerItem("Item6", R.drawable.unlock,6));
+        if (!isPremium)
+            itemsMenu.add(new DrawerItem("Item6", R.drawable.unlock,6));
         drawerListMenu.setAdapter(new MenuListAdapter(getApplicationContext(), itemsMenu));
 
         drawerListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -1231,18 +1277,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private boolean verifyDeveloperPayload(Purchase p) {
         String payload = p.getDeveloperPayload();
-    return true;
+        return true;
     }
 
     private void loadAdRequest(){
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("CA2BE49BA2ED1F54697680DE461F4048")
-                .addTestDevice("922A0081AE099EE4E45D7D8D868D9153")
-                .addTestDevice("FC3F6D621E3F691163F3081D23209CD7")
-                .addTestDevice("E31D8CAD5C7EC0199DF56FCDD1C8BACA")
-                .build();
-        //AdRequest ad = adRequest.build();
-        mAdView.loadAd(adRequest);
+        if (mAdView != null){
+            AdRequest adRequest = new AdRequest.Builder()
+                    .addTestDevice("CA2BE49BA2ED1F54697680DE461F4048")
+                    .addTestDevice("922A0081AE099EE4E45D7D8D868D9153")
+                    .addTestDevice("FC3F6D621E3F691163F3081D23209CD7")
+                    .addTestDevice("E31D8CAD5C7EC0199DF56FCDD1C8BACA")
+                    .build();
+            //AdRequest ad = adRequest.build();
+            mAdView.loadAd(adRequest);
+        }
     }
 
+    private void removeAdRequest(){
+        if (mAdView != null){
+            mAdView.destroy();
+            mAdView.setVisibility(View.GONE);
+        }
+    }
 }

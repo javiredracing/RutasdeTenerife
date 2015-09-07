@@ -166,4 +166,8 @@
     <string name="file_saved">Track exported to</string>
     <string name="Base64EncodedPublicKey" translatable="false">1</string>
     <string name="back_continue">Press <i>back</i> to continue</string>
+    <string name="VALUE_IS_PREMIUM" translatable="false">value_is_premium</string>
+    <string name="premium_version">Premium version!</string>
+    <string name="error_purchasing">Error purchasing</string>
+    <string name="Press_back">Press back to continue</string>
 </resources>

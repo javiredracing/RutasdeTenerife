@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -33,6 +34,9 @@ public class Utils {
     private final static int TYPE_PR = 2;
     private final static int TYPE_SL = 1;
     private final static int TYPE_REGULAR = 0;
+
+    public static final int PURCHASE_CODE_REQUEST = 10001;
+    public static final String SKU_PREMIUM = "android.test.purchased";
 
     protected static Bitmap exportBitmap(Context ctx, Bitmap bitmap, String text){
         bitmap = Utils.resizeBitmap(bitmap);
