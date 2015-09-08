@@ -300,21 +300,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         @Override
         public void onQueryInventoryFinished(IabResult result, Inventory inv) {
-            isPremium = false;
-            if ((mHelper != null) && (!result.isFailure())) {
-                Purchase premiumPurchase = inv.getPurchase(Utils.SKU_PREMIUM);
-                isPremium = (premiumPurchase != null && verifyDeveloperPayload(premiumPurchase));
+        isPremium = false;
+        if ((mHelper != null) && (!result.isFailure())) {
+            Purchase premiumPurchase = inv.getPurchase(Utils.SKU_PREMIUM);
+            isPremium = (premiumPurchase != null && verifyDeveloperPayload(premiumPurchase));
+        }
+        if (!isPremium){
+            loadAdRequest();
+        }else{
+            configureMenu();
+            if (globalToast != null){
+                globalToast.setText(getString(R.string.premium_version));
+                globalToast.setDuration(Toast.LENGTH_LONG);
+                globalToast.show();
             }
-            if (!isPremium){
-                loadAdRequest();
-            }else{
-                if (globalToast != null){
-                    globalToast.setText(getString(R.string.premium_version));
-                    globalToast.setDuration(Toast.LENGTH_LONG);
-                    globalToast.show();
-                }
-            }
-            Log.v(Utils.SKU_PREMIUM,""+isPremium);
+        }
+        Log.v(Utils.SKU_PREMIUM,""+isPremium);
         }
     };
 
@@ -322,26 +323,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onIabPurchaseFinished(IabResult result, Purchase info) {
             // if we were disposed of in the meantime, quit.
-            if (mHelper == null) return;
-            if (result.isFailure()){
-                globalToast.setText(getString(R.string.error_purchasing) + ": " + result.getMessage());
+        if (mHelper == null) return;
+        if (result.isFailure()){
+            globalToast.setText(getString(R.string.error_purchasing) + ": " + result.getMessage());
+            globalToast.setDuration(Toast.LENGTH_LONG);
+            globalToast.show();
+
+            return;
+        }
+        if (!verifyDeveloperPayload(info))
+            return;
+        if (info.getSku().contentEquals(Utils.SKU_PREMIUM)){
+            isPremium = true;
+            configureMenu();
+            removeAdRequest();
+            if (globalToast != null){
+                globalToast.setText(getString(R.string.premium_version));
                 globalToast.setDuration(Toast.LENGTH_LONG);
                 globalToast.show();
-
-                return;
             }
-            if (!verifyDeveloperPayload(info))
-                return;
-            if (info.getSku().contentEquals(Utils.SKU_PREMIUM)){
-                isPremium = true;
-                configureMenu();
-                removeAdRequest();
-                if (globalToast != null){
-                    globalToast.setText(getString(R.string.premium_version));
-                    globalToast.setDuration(Toast.LENGTH_LONG);
-                    globalToast.show();
-                }
-            }
+        }
         }
     };
     /********/
@@ -514,10 +515,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             finally {
                 bd.close();
             }
-                    /*ClusterManager*/
-
-            //mMap.setOnMarkerClickListener(clusterManager);
-        /**/
         }
     }
 
@@ -559,7 +556,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 if (azimuthFinal < 0)
                                     azimuthFinal = 360 - azimuthFinal;
                                 break;
-
                         }
                         lastAzimuth = azimuthFinal;
                         myPos.setRotation(azimuthFinal);
@@ -622,18 +618,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     }
                 });
-            }/*else{
-                if (mMap!= null)
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(28.299221, -16.525690), 12));
-            }*/
+            }
         }
     }
-
-   /* @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mHelper == null) return;
-        super.onActivityResult(requestCode, resultCode, data);
-    }*/
 
 /************************************************************************************/
     /**
