@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:padding="20dp"
-    android:background="@color/gris"
+    android:background="@android:color/white"
     >
 
     <TableRow
@@ -22,7 +22,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="0.5"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/gris"
             />
 
         <Spinner
@@ -47,7 +47,7 @@
             android:layout_weight="0.5"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/white"
+            android:textColor="@color/gris"
             ></TextView>
         <Spinner
             android:id="@+id/spinner2"
@@ -71,7 +71,7 @@
             android:layout_weight="0.5"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/white"
+            android:textColor="@color/gris"
             ></TextView>
 
         <Spinner

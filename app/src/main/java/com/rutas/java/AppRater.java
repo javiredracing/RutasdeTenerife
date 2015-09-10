@@ -9,6 +9,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.View;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 /**
  * Created by jfernandez on 06/07/2015.
  */
@@ -72,6 +75,7 @@ public class AppRater {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Uri uri = Uri.parse("market://details?id=" + APP_PNAME);
+
                         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                         try {

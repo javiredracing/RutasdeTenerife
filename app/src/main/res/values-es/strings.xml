@@ -149,4 +149,5 @@
     <string name="premium_version">Versión Premium!</string>
     <string name="error_purchasing">Error en la compra</string>
     <string name="Press_back">Pulsa atrás para continuar</string>
+    <string name="share">Comparte</string>
 </resources>

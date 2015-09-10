@@ -143,4 +143,5 @@
     <string name="premium_version">Version Premium</string>
     <string name="error_purchasing">Erreur dans l\'achat</string>
     <string name="Press_back">Appuyez sur Retour pour continuer</string>
+    <string name="share">Partager</string>
 </resources>

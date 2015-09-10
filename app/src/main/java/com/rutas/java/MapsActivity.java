@@ -2,7 +2,6 @@ package com.rutas.java;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,9 +37,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -54,6 +51,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.appinvite.AppInvite;
+import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.google.android.gms.appinvite.AppInviteReferral;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -293,6 +293,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.i("Ads", "onAdLoaded");
             }
         });
+
+        //Google invite
+        //TODO revise!!
+        if (savedInstanceState == null){
+            Intent intent = getIntent();
+            if (AppInviteReferral.hasReferral(intent)){
+                //TODO launchDeepLinkActivity(intent);
+                //redirect to custom activity
+                //https://developers.google.com/app-invites/android/guides/app
+            }
+           // updateInvitationStatus(intent);
+        }
     }//end onCreate
 
     /********** In app billing instances *********/
@@ -587,6 +599,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (!mHelper.handleActivityResult(requestCode,
                 resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == Utils.REQUEST_INVITE){
+                if (resultCode == RESULT_OK){
+                    String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                    Log.v("Invite result", "number invitations: "+ ids.length);
+                }else
+                    Log.e("Invite result", "FAILED!");
+            }
         }
     }
 
@@ -1153,7 +1172,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         break;
                     case 2:     //Filter
                         if (getFragmentManager().findFragmentByTag("filter") == null) {
-                            DialogFragment dialogFilter = new DialogFilter();
+                            DialogFilter dialogFilter = new DialogFilter();
                             dialogFilter.setCancelable(true);
 
                             dialogFilter.show(getFragmentManager(), "filter");
@@ -1168,19 +1187,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                         break;
                     case 4: //Share
-                        String url = "https://play.google.com/store/apps/details?id=com.rutas.java";
-                        Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.shareText) + "\n" + url);
-                        sendIntent.setType("text/plain");
-                        startActivity(Intent.createChooser(sendIntent, getString(R.string.selectShare)));
-                        //Event google analytics
-                        Tracker tracker = ((RutasTenerife) getApplication()).getTracker();
-                        tracker.send(new HitBuilders.EventBuilder()
-                                .setCategory("Menu")
-                                .setAction("Share")
-                                .setLabel("-")
-                                .build());
+                        if (getFragmentManager().findFragmentByTag("share") == null) {
+                            FragmentDialogShare dialogFilter = new FragmentDialogShare();
+                            dialogFilter.setCancelable(true);
+
+                            dialogFilter.show(getFragmentManager(), "share");
+                        }
                         break;
                     case 5:
                         if (getSupportFragmentManager().findFragmentByTag("unlock") == null) {
@@ -1286,4 +1298,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mAdView.setVisibility(View.GONE);
         }
     }
+
+    //Invitation service
+   /* private void updateInvitationStatus(Intent intent) {
+        String invitationId = AppInviteReferral.getInvitationId(intent);
+
+        // Note: these  calls return PendingResult(s), so one could also wait to see
+        // if this succeeds instead of using fire-and-forget, as is shown here
+        if (AppInviteReferral.isOpenedFromPlayStore(intent)) {
+            AppInvite.AppInviteApi.updateInvitationOnInstall(mGoogleApiClient, invitationId);
+        }
+
+        // If your invitation contains deep link information such as a coupon code, you may
+        // want to wait to call `convertInvitation` until the time when the user actually
+        // uses the deep link data, rather than immediately upon receipt
+        AppInvite.AppInviteApi.convertInvitation(mGoogleApiClient, invitationId);
+    }*/
+
 }

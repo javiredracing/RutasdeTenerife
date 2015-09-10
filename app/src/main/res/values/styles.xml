@@ -77,7 +77,7 @@
     <!-- -->
     <style name="SpinnerAppTheme" parent="android:Widget.Holo.Light.Spinner">
         <item name="android:background">@drawable/apptheme_spinner_background_holo_light</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/gris</item>
         <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_light</item>
     </style>
 
@@ -86,7 +86,7 @@
     </style>
 
     <style name="SpinnerItem">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/gris</item>
         <item name="android:gravity">center</item>
     </style>
 

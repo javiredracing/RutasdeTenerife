@@ -35,8 +35,10 @@ public class Utils {
     private final static int TYPE_SL = 1;
     private final static int TYPE_REGULAR = 0;
 
-    public static final int PURCHASE_CODE_REQUEST = 10001;
-    public static final String SKU_PREMIUM = "android.test.purchased";
+    protected static final int PURCHASE_CODE_REQUEST = 10001;
+    protected static final String SKU_PREMIUM = "android.test.purchased";
+
+    protected static final int REQUEST_INVITE = 10002;
 
     protected static Bitmap exportBitmap(Context ctx, Bitmap bitmap, String text){
         bitmap = Utils.resizeBitmap(bitmap);

@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -112,12 +113,24 @@ public class DialogFilter extends DialogFragment {
         AlertDialog ad = builder.create();
         ad.setCanceledOnTouchOutside(true);
        // ad.setIcon(R.drawable.filter64);
-        ad.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        //ad.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ad.setIcon(R.drawable.logo);
         Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
         tracker.setScreenName("Filter");
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
         return ad;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        final Resources res = getResources();
+        final int lightGreen = res.getColor(R.color.lightGreen);
+        final int titleDividerId = res.getIdentifier("titleDivider", "id", "android");
+        final View titleDivider = getDialog().findViewById(titleDividerId);
+        if (titleDivider != null) {
+            titleDivider.setBackgroundColor(lightGreen);
+        }
     }
 
     @Override
