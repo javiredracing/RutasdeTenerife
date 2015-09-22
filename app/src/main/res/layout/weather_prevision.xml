@@ -133,12 +133,19 @@
             />
     </LinearLayout>
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:padding="2dp"
         android:gravity="center"
         android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/umbrella_drizzle"
+            android:layout_marginRight="3dp"
+            />
         <TextView
             android:id="@+id/tvPrecip2"
             android:layout_width="wrap_content"
@@ -189,11 +196,11 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/sunset"
+                android:src="@drawable/moonrise"
                 />
             <TextView
-                android:id="@+id/tvSunset"
                 android:layout_gravity="center_vertical"
+                android:id="@+id/tvMoonrise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -202,7 +209,6 @@
                 android:text="@string/nodata"
                 android:singleLine="true"
                 android:textColor="@android:color/white" />
-
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -220,11 +226,11 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/moonrise"
+                android:src="@drawable/sunset"
                 />
             <TextView
+                android:id="@+id/tvSunset"
                 android:layout_gravity="center_vertical"
-                android:id="@+id/tvMoonrise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"

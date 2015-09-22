@@ -42,7 +42,7 @@
     </LinearLayout>
     <TextView
         android:id="@+id/tvAutor"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:gravity="center"
@@ -51,6 +51,7 @@
         android:text="@string/desarrollado"
         ></TextView>
     <Button
+        android:layout_marginTop="5dp"
         android:id="@+id/btContact"
         android:gravity="center"
         android:layout_width="wrap_content"
@@ -58,8 +59,43 @@
         android:text="@string/contact"
         android:textStyle="bold"
         android:textColor="#FF0000"
-        android:drawableLeft="@android:drawable/sym_action_email"
+        android:drawableLeft="@android:drawable/ic_dialog_email"
         android:layout_gravity="center"
+        android:background="@drawable/border_toast"
         ></Button>
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/white"
+        android:text="@string/legal"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dip"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/app_policy"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@android:color/white"
+        />
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/policy_text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        />
 </LinearLayout>
 </ScrollView>

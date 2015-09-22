@@ -18,6 +18,7 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -34,6 +35,13 @@ public class FragmentDialogInfo extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_tabs_info, container);
 
+        FloatingActionButton closeInfo = (FloatingActionButton)view.findViewById(R.id.btCloseDialogInfoFloat);
+        closeInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         tabHost = (FragmentTabHost) view.findViewById(R.id.tabs);
         tabHost.setup(getActivity(), getChildFragmentManager());
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(getString(R.string.info_path)), Fragment.class, null);

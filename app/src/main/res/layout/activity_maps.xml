@@ -88,7 +88,7 @@
             ads:adSize="SMART_BANNER"
             ads:adUnitId="@string/banner_ad_unit_id">
         </com.google.android.gms.ads.AdView>
-<!--
+
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/btActionMenu"
             android:layout_width="wrap_content"
@@ -96,12 +96,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_margin="3dp"
-            fab:fab_colorNormal="@color/gris"
+            fab:fab_colorNormal="@android:color/white"
             fab:fab_colorPressed="@android:color/tab_indicator_text"
             android:onClick="openDrawerMenu"
+            ads:fab_icon="@drawable/logo"
+            ads:fab_stroke_visible="true"
+            android:padding="0dp"
             />
-    -->
-        <ImageButton
+
+     <!--   <ImageButton
             android:id="@+id/btActionMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -110,7 +113,7 @@
             android:layout_margin="3dp"
             android:padding="2dp"
             android:onClick="openDrawerMenu"
-            />
+            />-->
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/btActionList"
             android:layout_width="wrap_content"
@@ -119,9 +122,11 @@
             android:layout_alignParentTop="true"
             android:layout_margin="3dp"
             android:onClick="openDrawer"
-            fab:fab_colorNormal="@color/gris"
+            fab:fab_colorNormal="@android:color/white"
             fab:fab_colorPressed="@android:color/tab_indicator_text"
             ads:fab_icon="@drawable/list_32"
+            ads:fab_stroke_visible="true"
+            android:padding="0dp"
             />
 
         <LinearLayout
@@ -130,7 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/border"
+            android:background="@drawable/border_shadow"
             android:orientation="vertical"
             android:padding="7dp"
             android:visibility="gone"
@@ -145,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:text="Hola Mundo"
+                android:text="Title"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
@@ -170,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="@android:color/white"
-                    android:text="hola"
+                    android:text="Distance"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"

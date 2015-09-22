@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/border"
+        android:background="@drawable/border_shadow"
         android:layout_marginTop="40dp"
         android:padding="10dp"
         android:layout_centerHorizontal="true"

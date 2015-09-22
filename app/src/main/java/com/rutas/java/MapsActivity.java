@@ -161,8 +161,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         globalToast.setView(v);
 
-        ImageButton button = (ImageButton)findViewById(R.id.btActionMenu);
-        button.setImageResource(R.mipmap.ic_launcher);
+       /* ImageButton button = (ImageButton)findViewById(R.id.btActionMenu);
+        button.setImageResource(R.mipmap.ic_launcher);*/
 
         //Configuring quick info
         quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
@@ -740,11 +740,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean(getString(R.string.VALUE_FIRST_TIME), false);
                 editor.apply();
-                if (globalToast != null){
-                    globalToast.setText(getString(R.string.back_continue));
-                    globalToast.setDuration(Toast.LENGTH_LONG);
-                    globalToast.show();
-                }
             //}
         }
     }

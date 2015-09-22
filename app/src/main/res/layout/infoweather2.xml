@@ -240,8 +240,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/next_days"
-            android:textColor="@android:color/white"
+            android:textColor="@color/gris"
             android:drawableLeft="@android:drawable/ic_media_next"
+            android:background="@drawable/border_toast"
             />
         <TextView
             android:layout_marginTop="4dp"

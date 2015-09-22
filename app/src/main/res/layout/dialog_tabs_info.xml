@@ -1,22 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:background="@color/gris"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+
+
     >
-    <android.support.v4.app.FragmentTabHost
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tabs"
-        android:background="@android:color/white"
-        >
-    </android.support.v4.app.FragmentTabHost>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
+    <LinearLayout
         android:layout_height="match_parent"
-        android:gravity="center"/>
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@color/gris"
+        >
+        <android.support.v4.app.FragmentTabHost
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tabs"
+            android:background="@android:color/white"
+            >
+        </android.support.v4.app.FragmentTabHost>
 
-</LinearLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btCloseDialogInfoFloat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="@android:color/white"
+        fab:fab_colorPressed="@android:color/tab_indicator_text"
+        fab:fab_icon="@drawable/close"
+        fab:fab_size="normal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="5dp"
+        android:alpha="0.7"
+        />
+</RelativeLayout>

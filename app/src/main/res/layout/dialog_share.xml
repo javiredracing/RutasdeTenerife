@@ -23,9 +23,11 @@
 
             <Button
                 android:id="@+id/btInvite"
+                android:background="@drawable/border_shadow"
+                android:padding="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Invite a friend"
+                android:text="@string/invite"
                 android:drawableTop="@drawable/invitation"
                 android:textColor="@android:color/white"
                 />
@@ -41,14 +43,15 @@
 
             <Button
                 android:id="@+id/btShareApp"
+                android:background="@drawable/border_shadow"
+                android:padding="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Share with app"
+                android:text="@string/share"
                 android:drawableTop="@drawable/share32"
                 android:textColor="@android:color/white"
                 />
 
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

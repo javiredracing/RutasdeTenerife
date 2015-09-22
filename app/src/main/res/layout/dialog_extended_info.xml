@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/gris"
+
     >
     <TextView
         android:id="@+id/tvPathNameInfo"
@@ -33,4 +34,5 @@
         android:background="@android:color/white"
         >
     </android.support.v4.app.FragmentTabHost>
+
 </RelativeLayout>

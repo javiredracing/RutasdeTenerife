@@ -261,14 +261,14 @@ public class FragmentWeather extends Fragment {
                 default:
                     day = "";
             }
-            tvDate.setText("( "+ day + " " + prevision.getString("date") + ")");
+            tvDate.setText("( "+ day + " " + prevision.getString("date") + " )");
 
             JSONObject previsionHourly = prevision.getJSONArray("hourly").getJSONObject(0);
             String valueWeatherCode = previsionHourly.getString("weatherCode");
             ImageView iconWeather = (ImageView)forecast.findViewById(R.id.iconWeather2);
             iconWeather.setImageResource(getDrawableResourceByName("i" + valueWeatherCode));
             TextView tvPrecip = (TextView)forecast.findViewById(R.id.tvPrecip2);
-            tvPrecip.setText(getResources().getString(R.string.precip) + previsionHourly.getString("precipMM") + " Lm2");
+            tvPrecip.setText(previsionHourly.getString("precipMM") + " Lm2");
 
             String temperature = prevision.getString("maxtempC") + " ºC - "+prevision.getString("mintempC")+" ºC";
             if (Locale.getDefault() == Locale.US)
