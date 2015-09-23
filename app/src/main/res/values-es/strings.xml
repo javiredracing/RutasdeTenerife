@@ -83,7 +83,7 @@
     <string name="nodata">Sin datos</string>
 
     <string name="informacion_app">Información de la app</string>
-    <string name="desarrollado">Desarrollado por Javier Fernández</string>
+    <string name="desarrollado">Desarrollado por <i>Javier Fernández</i></string>
 
     <string name="selectShare">Compartir app con...</string>
     <string name="shareText">¡Me voy de senderismo con Rutas de Tenerife para Android!</string>

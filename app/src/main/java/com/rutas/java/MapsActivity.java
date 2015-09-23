@@ -43,6 +43,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -880,15 +881,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void showQuickInfo(Route route){
         if (route != null){
-            TextView title = (TextView) quickInfo.getChildAt(0);
+            //TextView title = (TextView) quickInfo.getChildAt(0);
+            TextView title = (TextView) quickInfo.findViewById(R.id.tvName);
             title.setText(route.getName());
-            LinearLayout itemNested = (LinearLayout) quickInfo.getChildAt(1);
-            ImageView icon = (ImageView) itemNested.getChildAt(0);
+           // LinearLayout itemNested = (LinearLayout) quickInfo.getChildAt(1);
+            //ImageView icon = (ImageView) itemNested.getChildAt(0);
+            ImageView icon = (ImageView)quickInfo.findViewById(R.id.ivIcon);
             int drawable = Utils.getIconBigger(route);
             icon.setImageResource(drawable);
-            TextView distance = (TextView) itemNested.getChildAt(1);
+            //TextView distance = (TextView) itemNested.getChildAt(1);
+            TextView distance = (TextView) quickInfo.findViewById(R.id.tvDist);
             distance.setText("" + route.getDist() + " Km");
-            ImageView difficult = (ImageView) itemNested.getChildAt(2);
+            //ImageView difficult = (ImageView) itemNested.getChildAt(2);*/
+            ImageView difficult = (ImageView)quickInfo.findViewById(R.id.ivDificult);
             switch (route.getDifficulty()){
                 case 1:
                     difficult.setImageResource(R.drawable.nivel_facil);

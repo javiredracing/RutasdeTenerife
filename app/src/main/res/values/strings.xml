@@ -98,7 +98,7 @@
     <string name="nodata">No data</string>
 
     <string name="informacion_app">Application information</string>
-    <string name="desarrollado">Developed by Javier Fernández</string>
+    <string name="desarrollado">Developed by <i>Javier Fernández</i></string>
 
     <string name="selectShare">Share app with...</string>
     <string name="shareText">I hiking with "Hiking in Tenerife" for Android!</string>

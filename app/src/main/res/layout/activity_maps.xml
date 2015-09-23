@@ -155,11 +155,9 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal"
                 android:padding="4dp"
                 >
                 <ImageView
@@ -167,28 +165,38 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/marker_sign_24"
-                    android:baselineAlignBottom = "true"
+                    android:layout_toLeftOf="@+id/tvDist"
                     />
                 <TextView
                     android:id="@+id/tvDist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+
                     android:textColor="@android:color/white"
                     android:text="Distance"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
                     android:textStyle="italic"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignBottom="@+id/ivIcon"
                     />
                 <ImageView
                     android:id="@+id/ivDificult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/nivel_dificil"
-                    android:baselineAlignBottom="true"
+                    android:layout_toRightOf="@+id/tvDist"
                     />
-            </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/rsz_more24"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/ivDificult"
+                    android:layout_alignBaseline="@+id/ivDificult"
+                    />
+            </RelativeLayout>
 
         </LinearLayout>
     </RelativeLayout>

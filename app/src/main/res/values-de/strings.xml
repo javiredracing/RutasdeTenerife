@@ -34,7 +34,7 @@
     <string name="viento">Wind</string>
     <string name="title_activity_maps">Wandern auf Teneriffa</string>
     <string name="desnivel">Elevation</string>
-    <string name="desarrollado">Präsentiert von Javier Fernández</string>
+    <string name="desarrollado">Präsentiert von <i>Javier Fernández</i></string>
     <string name="my_position">Meine Position</string>
     <string name="w395">Leichter Schnee mit Gewitter</string>
     <string name="w392">Leichter Schnee mit Gewitter</string>

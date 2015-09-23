@@ -91,7 +91,7 @@
     <string name="informacion_app">Information de l\'application</string>
     <string name="error_loading_db">¡Erreur inattendue dans la base de données!</string>
     <string name="desnivel">Pente</string>
-    <string name="desarrollado">Développé par Javier Fernández</string>
+    <string name="desarrollado">Développé par <i>Javier Fernández</i></string>
     <string name="time">Durée</string>
     <string name="title_activity_maps">Randonnée á Tenerife</string>
     <string name="teide">P. N. Teide</string>
