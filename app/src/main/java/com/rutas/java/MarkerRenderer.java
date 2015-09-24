@@ -18,6 +18,7 @@ import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 public class MarkerRenderer extends DefaultClusterRenderer {
 
     private BitmapDescriptor iconRed, iconGreen, iconNormal, iconYellow;
+    //private GoogleMap myMap;
 
     public MarkerRenderer(Context context, GoogleMap map, ClusterManager clusterManager) {
         super(context, map, clusterManager);
@@ -25,6 +26,7 @@ public class MarkerRenderer extends DefaultClusterRenderer {
         iconNormal = BitmapDescriptorFactory.fromResource(R.drawable.marker_sign_16_normal);
         iconYellow = BitmapDescriptorFactory.fromResource(R.drawable.marker_sign_16_yellow);
         iconRed = BitmapDescriptorFactory.fromResource(R.drawable.marker_sign_16_red);
+        //myMap = map;
     }
 
     @Override
@@ -78,6 +80,6 @@ public class MarkerRenderer extends DefaultClusterRenderer {
     /* @Override
     protected boolean shouldRenderAsCluster(Cluster cluster) {
         // Always render clusters.
-        return cluster.getSize() > 1;
+       // return cluster.getSize() > 1;
     }*/
 }

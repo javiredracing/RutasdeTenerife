@@ -154,4 +154,5 @@
     <string name="legal"><u>Información legal</u></string>
     <string name="app_policy">La información contenida en esta App es orientativa, suministrada para la comodidad del usuario, sin interpretar de ningún modo, el estado actual de las rutas/senderos, la oferta, la calidad, la titularidad de las zonas por donde se pasa, etc. Así mismo, no se hace responsable de los errores, omisiones o, en su caso, una mala orientacion que pudiera ocasionar un percance entre los usuarios de esta aplicación.</string>
     <string name="invite">Invita amigos</string>
+    <string name="open_kml">Abrir fichero <i>.kml</i></string>
 </resources>

@@ -148,4 +148,5 @@
     <string name="legal"><u>rechtliche Informationen</u></string>
     <string name="policy_text">Wir verwenden Gerätekennungen, um Inhalte und Anzeigen zu personalisieren, Funktionen für soziale Medien anbieten zu können und die Zugriffe auf unsere App zu analysieren. Außerdem geben wir diese Kennungen und andere Informationen über Ihr Gerät an unsere Partner für soziale Medien, Werbung und Analysen weiter.</string>
     <string name="invite">Freunde einladen</string>
+    <string name="open_kml"> Offene <i>.kml</i>-Datei</string>
 </resources>

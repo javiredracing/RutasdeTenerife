@@ -141,7 +141,7 @@ public class FragmentDescription extends Fragment {
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 //intent.setDataAndType(Uri.fromFile(f),"application/vnd.google-earth.kml+xml");
                                 intent.setDataAndType(Uri.fromFile(f),"application/xml");
-                                Intent chooser = Intent.createChooser(intent, "Open the .kml file");
+                                Intent chooser = Intent.createChooser(intent, getString(R.string.open_kml));
                                 getActivity().startActivity(chooser);
                             }
                         }
@@ -161,7 +161,7 @@ public class FragmentDescription extends Fragment {
 
     private void showToast (String msg){
         if (toast == null){
-            toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+            toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
             View vista = toast.getView();
             TextView tv = (TextView) vista.findViewById(android.R.id.message);
             if( tv != null) {

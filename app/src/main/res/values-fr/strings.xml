@@ -147,4 +147,5 @@
     <string name="legal"><u>Information juridique</u></string>
     <string name="policy_text">Les identifiants nous permettent de personnaliser le contenu et les annonces, d\'offrir des fonctionnalités relatives aux médias sociaux et d\'analyser notre trafic. Nous partageons également ces identifiants, ainsi que d\'autres informations sur votre appareil avec nos partenaires de médias sociaux, de publicité et d\'analyse.</string>
     <string name="invite">Inviter des amis</string>
+    <string name="open_kml">Fichier <i>.KML</i> ouverte</string>
 </resources>
