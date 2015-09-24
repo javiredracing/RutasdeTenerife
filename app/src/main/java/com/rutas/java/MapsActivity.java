@@ -113,7 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Polyline pathShowed;
     private Route lastRouteShowed;
 
-    private LinearLayout quickInfo;
+    private RelativeLayout quickInfo;
     private LinearLayout bottomMenu;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
@@ -166,7 +166,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         button.setImageResource(R.mipmap.ic_launcher);*/
 
         //Configuring quick info
-        quickInfo = (LinearLayout) findViewById(R.id.layoutQuickInfo);
+        quickInfo = (RelativeLayout) findViewById(R.id.layoutQuickInfo);
         quickInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -129,7 +129,8 @@
             android:padding="0dp"
             />
 
-        <LinearLayout
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/layoutQuickInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -151,21 +152,28 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:text="Title"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
+                android:layout_below="@+id/tvName"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/rlExtraInfo"
+                android:orientation="horizontal"
+                android:gravity="bottom"
+                android:layout_marginLeft="15dp"
                 >
                 <ImageView
                     android:id="@+id/ivIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/marker_sign_24"
-                    android:layout_toLeftOf="@+id/tvDist"
                     />
                 <TextView
                     android:id="@+id/tvDist"
@@ -178,27 +186,26 @@
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
                     android:textStyle="italic"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignBottom="@+id/ivIcon"
+                    android:gravity="bottom"
                     />
                 <ImageView
                     android:id="@+id/ivDificult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/nivel_dificil"
-                    android:layout_toRightOf="@+id/tvDist"
                     />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/rsz_more24"
-                    android:layout_alignParentRight="true"
-                    android:layout_toRightOf="@+id/ivDificult"
-                    android:layout_alignBaseline="@+id/ivDificult"
-                    />
-            </RelativeLayout>
-
-        </LinearLayout>
+            </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/plus16"
+                android:layout_alignBottom="@+id/rlExtraInfo"
+                android:layout_below="@+id/tvName"
+                android:padding="0dp"
+                android:layout_margin="0dp"
+                android:baselineAlignBottom="true"
+                />
+        </RelativeLayout>
     </RelativeLayout>
 
     <LinearLayout

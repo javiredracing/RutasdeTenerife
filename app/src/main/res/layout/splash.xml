@@ -10,7 +10,7 @@
         android:id="@+id/iv_splash_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/antequera1"
+        android:src="@drawable/antequera4"
 
         android:layout_centerInParent="true"
         android:scaleType="centerCrop"
