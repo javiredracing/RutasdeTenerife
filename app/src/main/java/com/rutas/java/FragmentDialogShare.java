@@ -32,7 +32,7 @@ public class FragmentDialogShare extends DialogFragment {
                 //Log.v("Share Dialog", "Invite");
                 //https://developers.google.com/app-invites/android/guides/app
                 Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.app_name))
-                        .setMessage(getString(R.string.selectShare))
+                        .setMessage(getString(R.string.shareText))
                                 //.setDeepLink(Uri.parse("http://www.marca.com"))
                         .build();
                 startActivityForResult(intent,Utils.REQUEST_INVITE);
