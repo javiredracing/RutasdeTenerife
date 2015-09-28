@@ -39,7 +39,6 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -52,7 +51,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.google.android.gms.appinvite.AppInvite;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.appinvite.AppInviteReferral;
 import com.google.android.gms.common.ConnectionResult;
@@ -599,7 +597,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Pass on the activity result to the helper for handling
         if (!mHelper.handleActivityResult(requestCode,
                 resultCode, data)) {
-            super.onActivityResult(requestCode, resultCode, data);
+
             if (requestCode == Utils.REQUEST_INVITE){
                 if (resultCode == RESULT_OK){
                     String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
@@ -607,6 +605,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }else
                     Log.e("Invite result", "FAILED!");
             }
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 

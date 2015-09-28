@@ -176,4 +176,6 @@
     <string name="app_policy">The information provided by this App is indicative. <i>Hiking in Tenerife</i> supplies this information for the convenience of users, just with informative purposes and not being responsible for the current state of the paths/trails, the offer, quality, or privacy of passing areas, etc. <i>Hiking in Tenerife</i> accepts no responsibility for any errors, omissions or a poor orientation that could cause any risk to users of this application.</string>
     <string name="invite">Invite friends</string>
     <string name="open_kml">Open the <i>.KML</i> file</string>
+    <string name="pay_text">¡Ayudanos a que el proyecto siga adelante por tan solo <b>0.75 £</b>! \n \n Beneficios de la colaboración: \n ► Elimina la publicidad. \n ► Descarga los tracks en formato <i>.KML</i>, para poder usarlos en otras aplicaciones. \n ► Previsión meteorológica para los próximos <i>3 días</i>.</string>
+    <string name="price">(0.75 £)</string>
 </resources>

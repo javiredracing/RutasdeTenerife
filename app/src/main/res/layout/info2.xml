@@ -17,6 +17,7 @@
             android:layout_marginBottom="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
+            android:lineSpacingMultiplier="1.2"
             android:text="@string/info_advices"/>
     </LinearLayout>
 </ScrollView>

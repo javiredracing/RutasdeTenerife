@@ -33,11 +33,12 @@ public class FragmentDialogUnlock extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         MapsActivity activity = (MapsActivity)getActivity();
                         activity.mHelper.launchPurchaseFlow(getActivity(), Utils.SKU_PREMIUM, Utils.PURCHASE_CODE_REQUEST, activity.mPurchaseFinishedListener);
+                        //activity.mHelper.launchSubscriptionPurchaseFlow(getActivity(), Utils.SKU_PREMIUM, Utils.PURCHASE_CODE_REQUEST, activity.mPurchaseFinishedListener);
                         dismiss();
                     }
                 })
                 .setIcon(R.drawable.logo)
-                .setTitle(getString(R.string.app_name) + " " + "Premium");
+                .setTitle(getString(R.string.app_name) + " " + "Premium " + getString(R.string.price));
 
         return builder.create();
     }
