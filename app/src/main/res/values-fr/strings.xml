@@ -149,4 +149,12 @@
     <string name="invite">Inviter des amis</string>
     <string name="open_kml">Fichier <i>.KML</i> ouverte</string>
     <string name="price">(1 €)</string>
+    <string name="no_thanks">Non merci</string>
+    <string name="donate">Collaborer!</string>
+    <string name="pay_text">Aidez-moi à continuer à développer ce projet en faisant don de <u><b>1 €</b></u> \n\n
+                    <u>Avantages de don:</u>\n
+                    ► Retirer annonces. \n
+                    ► Télécharger des pistes au format <i>.KML</i> et utiliser dans d\'autres applications. \n
+                    ► Prévisions pour les 3 prochains jours.</string>
+    <string name="map_mode">Carte mode</string>
 </resources>

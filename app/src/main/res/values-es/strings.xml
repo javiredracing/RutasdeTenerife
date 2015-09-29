@@ -118,7 +118,7 @@
     <string name="altitude">Altitud</string>
     <string name="weather">Meteo</string>
     <string name="error_no_internet">Error, no hay conexión a Internet</string>
-    <string name="info_path">Informacion</string>
+    <string name="info_path">Información</string>
     <string name="info_recomendation">Consejos</string>
     <string name="info_credits">Créditos</string>
     <string name="selecciona_cliente">Selecciona cliente de correo</string>
@@ -157,4 +157,7 @@
     <string name="open_kml">Abrir fichero <i>.kml</i></string>
     <string name="pay_text">¡Ayúdame a que el proyecto siga adelante por tan solo <u><b>1 €</b></u>! \n \n <u>Beneficios de la colaboración:</u> \n ► Elimina la publicidad. \n ► Descarga los tracks en formato <i>.KML</i>, para poder usarlos en otras aplicaciones. \n ► Previsión meteorológica para los próximos <i>3 días</i>.</string>
     <string name="price">(1 €)</string>
+    <string name="no_thanks">No, gracias</string>
+    <string name="donate">¡Colaborar!</string>
+    <string name="map_mode">Modo mapa</string>
 </resources>

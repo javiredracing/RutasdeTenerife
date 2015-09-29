@@ -1,17 +1,16 @@
 package com.rutas.java;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -209,5 +208,27 @@ public class Utils {
             }
             br.close();
         }
+    }
+
+    protected static boolean launchBuyPremium(Context mContext, boolean isPremium) {
+        boolean hasLaunch = false;
+        if (!isPremium){
+            final int LAUNCHES_UNTIL_PROMPT = 25;
+            SharedPreferences prefs = mContext.getSharedPreferences("buyPremium", 0);
+
+            SharedPreferences.Editor editor = prefs.edit();
+
+            // Increment launch counter
+            int launch_count = prefs.getInt("launch_count", 0) + 1;
+
+            if (launch_count >= LAUNCHES_UNTIL_PROMPT) {
+                hasLaunch = true;
+                launch_count = 0;
+            }
+            editor.putInt("launch_count", launch_count);
+            editor.apply();
+        }
+
+        return hasLaunch;
     }
 }

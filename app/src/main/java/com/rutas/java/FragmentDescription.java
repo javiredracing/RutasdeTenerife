@@ -137,7 +137,7 @@ public class FragmentDescription extends Fragment {
                             File f = Utils.assetsToStorage(trackName, getActivity().getApplicationContext());
                             if (f != null){
                                 //Log.v("Track", f.getAbsolutePath());
-                                showToast(getString(R.string.file_saved) + " "+f.getAbsolutePath());
+                                showToast(getString(R.string.file_saved) + " <b>"+f.getAbsolutePath()+"</b>");
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 //intent.setDataAndType(Uri.fromFile(f),"application/vnd.google-earth.kml+xml");
                                 intent.setDataAndType(Uri.fromFile(f),"application/xml");

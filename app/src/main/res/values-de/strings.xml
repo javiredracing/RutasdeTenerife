@@ -150,4 +150,8 @@
     <string name="invite">Freunde einladen</string>
     <string name="open_kml"> Offene <i>.kml</i>-Datei</string>
     <string name="price">(1 €)</string>
+    <string name="pay_text">Helfen Sie mir bitte damit diesem Projekt für nur <u><b>1 €</b></u> weiter fahren ¡ \n\n  <u>Vorteile für teilnehmer:</u> \n ► Keine Werbung.  \n► Laden Sie die Tracks durch <i>.KML</i> das format runter, damit die mit anderen Anwendung benutzen können. \n ► Kurzfristigen Wettervorhersage. (<i>drei Tage</i>)</string>
+    <string name="no_thanks">Nein Danke</string>
+    <string name="donate">Spenden!</string>
+    <string name="map_mode">Kartenmodus</string>
 </resources>

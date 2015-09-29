@@ -10,14 +10,18 @@
         android:layout_height="wrap_content"
         android:src="@drawable/unlock"
         />-->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/pay_text"
-        android:textColor="@color/gris"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:padding="10dp"
-        android:lineSpacingMultiplier="1.4"
-        />
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pay_text"
+            android:textColor="@color/gris"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="10dp"
+            android:lineSpacingMultiplier="1.4"
+            />
+    </ScrollView>
 
 </LinearLayout>

@@ -90,7 +90,6 @@ public class AppRater {
                         }
                     }
                 }).create();
-
         d.show();
         int titleDividerId = mContext.getResources().getIdentifier("titleDivider", "id", "android");
         View titleDivider = d.findViewById(titleDividerId);

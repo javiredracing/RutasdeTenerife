@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class MenuListAdapter extends ArrayAdapter {
     }
 
     protected class ViewHolder2 {
-        public ImageView icon;
-        //TextView population;
+        protected ImageView icon;
+        protected TextView description;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -32,6 +33,7 @@ public class MenuListAdapter extends ArrayAdapter {
             //LayoutInflater inflater = (LayoutInflater)parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.drawer_menu_item, null);
             viewHolder.icon = (ImageView)convertView.findViewById(R.id.imageview_menu);
+            viewHolder.description = (TextView)convertView.findViewById(R.id.tvDescMenuItem);
             convertView.setTag(viewHolder);
             convertView.setOnLongClickListener(null);
             convertView.setLongClickable(false);
@@ -42,6 +44,7 @@ public class MenuListAdapter extends ArrayAdapter {
 
         DrawerItem item = (DrawerItem) getItem(position);
         viewHolder.icon.setImageResource(item.getIconId());
+        viewHolder.description.setText(item.getName());
         return convertView;
     }
 }

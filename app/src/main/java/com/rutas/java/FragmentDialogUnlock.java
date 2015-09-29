@@ -22,13 +22,13 @@ public class FragmentDialogUnlock extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.unlock_view, null))
-        .setNegativeButton("No, thanks", new DialogInterface.OnClickListener() {
+        .setNegativeButton(getString(R.string.no_thanks), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         })
-                .setPositiveButton("Donate!", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.donate), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MapsActivity activity = (MapsActivity)getActivity();

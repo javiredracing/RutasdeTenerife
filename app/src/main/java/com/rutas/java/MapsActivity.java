@@ -24,6 +24,7 @@ import android.os.Message;
 
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
@@ -318,6 +319,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         if (!isPremium){
             loadAdRequest();
+            if (Utils.launchBuyPremium(getApplicationContext(), isPremium)){
+                launchUnlockFragmentDialog();
+            }
         }else{
             configureMenu();
             if (globalToast != null){
@@ -326,7 +330,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 globalToast.show();
             }
         }
-        Log.v(Utils.SKU_PREMIUM,""+isPremium);
+        //Log.v(Utils.SKU_PREMIUM,""+isPremium);
         }
     };
 
@@ -349,7 +353,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             configureMenu();
             removeAdRequest();
             if (globalToast != null){
-                globalToast.setText(getString(R.string.premium_version));
+                globalToast.setText("<b>"+getString(R.string.premium_version)+"</b>");
                 globalToast.setDuration(Toast.LENGTH_LONG);
                 globalToast.show();
             }
@@ -1114,13 +1118,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ListView drawerListMenu = (ListView)findViewById(R.id.left_drawer);
         ArrayList<DrawerItem> itemsMenu = new ArrayList<DrawerItem>();
 
-        itemsMenu.add(new DrawerItem("Item1",R.drawable.icon_my_pos64,1));
-        itemsMenu.add(new DrawerItem("Item2",R.drawable.map64,2));
-        itemsMenu.add(new DrawerItem("Item3",R.drawable.simple_filter_64,3));
-        itemsMenu.add(new DrawerItem("Item4",R.drawable.info64,4));
-        itemsMenu.add(new DrawerItem("Item5",R.drawable.custom_share_64,5));
+        itemsMenu.add(new DrawerItem(getString(R.string.my_position),R.drawable.icon_my_pos64,1));
+        itemsMenu.add(new DrawerItem(getString(R.string.map_mode),R.drawable.map64,2));
+        itemsMenu.add(new DrawerItem(getString(R.string.filter),R.drawable.simple_filter_64,3));
+        itemsMenu.add(new DrawerItem(getString(R.string.info_path),R.drawable.info64,4));
+        itemsMenu.add(new DrawerItem(getString(R.string.share), R.drawable.custom_share_64, 5));
         if (!isPremium)
-            itemsMenu.add(new DrawerItem("Item6", R.drawable.unlock,6));
+            itemsMenu.add(new DrawerItem("Premium", R.drawable.unlock,6));
         drawerListMenu.setAdapter(new MenuListAdapter(getApplicationContext(), itemsMenu));
 
         drawerListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -1194,12 +1198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                         break;
                     case 5:
-                        if (getSupportFragmentManager().findFragmentByTag("unlock") == null) {
-                            FragmentDialogUnlock dialogFilter = new FragmentDialogUnlock();
-                            dialogFilter.setCancelable(true);
-
-                            dialogFilter.show(getSupportFragmentManager(), "unlock");
-                        }
+                        launchUnlockFragmentDialog();
                         break;
                     default:
                         Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
@@ -1298,7 +1297,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    //Invitation service
+    private void launchUnlockFragmentDialog(){
+        if (getSupportFragmentManager().findFragmentByTag("unlock") == null) {
+            FragmentDialogUnlock dialogFilter = new FragmentDialogUnlock();
+            dialogFilter.setCancelable(false);
+
+            dialogFilter.show(getSupportFragmentManager(), "unlock");
+        }
+    }
+   //Invitation service
    /* private void updateInvitationStatus(Intent intent) {
         String invitationId = AppInviteReferral.getInvitationId(intent);
 
