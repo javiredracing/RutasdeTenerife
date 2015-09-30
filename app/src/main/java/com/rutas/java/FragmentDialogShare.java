@@ -23,6 +23,10 @@ public class FragmentDialogShare extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
+        tracker.setScreenName("Share");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_share, null);
         Button btInvite = (Button) view.findViewById(R.id.btInvite);
@@ -31,6 +35,12 @@ public class FragmentDialogShare extends DialogFragment {
             public void onClick(View v) {
                 //Log.v("Share Dialog", "Invite");
                 //https://developers.google.com/app-invites/android/guides/app
+                Tracker tracker = ((RutasTenerife) getActivity().getApplication()).getTracker();
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Menu")
+                        .setAction("Share")
+                        .setLabel("Invite")
+                        .build());
                 Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.app_name))
                         .setMessage(getString(R.string.shareText))
                                 //.setDeepLink(Uri.parse("http://www.marca.com"))
@@ -55,7 +65,7 @@ public class FragmentDialogShare extends DialogFragment {
                 tracker.send(new HitBuilders.EventBuilder()
                         .setCategory("Menu")
                         .setAction("Share")
-                        .setLabel("-")
+                        .setLabel("Share_app")
                         .build());
                 dismiss();
             }

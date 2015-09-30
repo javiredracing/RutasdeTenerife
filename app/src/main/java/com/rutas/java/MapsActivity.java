@@ -339,7 +339,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         public void onIabPurchaseFinished(IabResult result, Purchase info) {
             // if we were disposed of in the meantime, quit.
         if (mHelper == null) return;
+
+        Tracker tracker = ((RutasTenerife) getApplication()).getTracker();
         if (result.isFailure()){
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Purchase")
+                    .setAction("Fails")
+                    .setLabel("0")
+                    .build());
             globalToast.setText(getString(R.string.error_purchasing) + ": " + result.getMessage());
             globalToast.setDuration(Toast.LENGTH_LONG);
             globalToast.show();
@@ -352,8 +359,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             isPremium = true;
             configureMenu();
             removeAdRequest();
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Purchase")
+                    .setAction("Done")
+                    .setLabel("1")
+                    .build());
             if (globalToast != null){
-                globalToast.setText("<b>"+getString(R.string.premium_version)+"</b>");
+                globalToast.setText(getString(R.string.premium_version));
                 globalToast.setDuration(Toast.LENGTH_LONG);
                 globalToast.show();
             }
@@ -1304,6 +1316,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             dialogFilter.show(getSupportFragmentManager(), "unlock");
         }
+    }
+
+    public boolean isPremium(){
+        return isPremium;
     }
    //Invitation service
    /* private void updateInvitationStatus(Intent intent) {

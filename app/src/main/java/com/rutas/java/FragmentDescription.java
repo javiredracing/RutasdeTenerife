@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.io.File;
 
 /**
@@ -115,6 +118,12 @@ public class FragmentDescription extends Fragment {
             btAction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Tracker tracker = ((RutasTenerife) getActivity().getApplication()).getTracker();
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Extended-Info")
+                            .setAction("how_to_get")
+                            .setLabel("-")
+                            .build());
                     double[] myLatLng = arguments.getDoubleArray(getString(R.string.VALUE_LATLNG_POS));
                     if (myLatLng != null){
                         double[] latLongPoint = arguments.getDoubleArray(getString(R.string.VALUE_LATLNG));
@@ -132,23 +141,36 @@ public class FragmentDescription extends Fragment {
             btGetTrack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MapsActivity mainActivity = (MapsActivity)getActivity();
+                    isPremium = mainActivity.isPremium();
+                    Tracker tracker = ((RutasTenerife) getActivity().getApplication()).getTracker();
                     if (isPremium){
                         if (trackName != ""){
                             File f = Utils.assetsToStorage(trackName, getActivity().getApplicationContext());
                             if (f != null){
                                 //Log.v("Track", f.getAbsolutePath());
-                                showToast(getString(R.string.file_saved) + " <b>"+f.getAbsolutePath()+"</b>");
+                                showToast(getString(R.string.file_saved) + " "+f.getAbsolutePath());
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 //intent.setDataAndType(Uri.fromFile(f),"application/vnd.google-earth.kml+xml");
                                 intent.setDataAndType(Uri.fromFile(f),"application/xml");
                                 Intent chooser = Intent.createChooser(intent, getString(R.string.open_kml));
                                 getActivity().startActivity(chooser);
                             }
+                            tracker.send(new HitBuilders.EventBuilder()
+                                    .setCategory("Extended-Info")
+                                    .setAction("get_track")
+                                    .setLabel("premium_version")
+                                    .build());
                         }
                     }else{
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Extended-Info")
+                                .setAction("get_track")
+                                .setLabel("purchase_flow")
+                                .build());
                         if (getActivity().getSupportFragmentManager().findFragmentByTag("unlock") == null) {
                             FragmentDialogUnlock dialogFilter = new FragmentDialogUnlock();
-                            dialogFilter.setCancelable(true);
+                            dialogFilter.setCancelable(false);
 
                             dialogFilter.show(getActivity().getSupportFragmentManager(), "unlock");
                         }

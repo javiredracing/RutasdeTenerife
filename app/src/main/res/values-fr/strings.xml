@@ -157,4 +157,5 @@
                     ► Télécharger des pistes au format <i>.KML</i> et utiliser dans d\'autres applications. \n
                     ► Prévisions pour les 3 prochains jours.</string>
     <string name="map_mode">Carte mode</string>
+    <string name="app_policy">The information provided by this App is indicative. <i>Hiking in Tenerife</i> supplies this information for the convenience of users, just with informative purposes and not being responsible for the current state of the paths/trails, the offer, quality, or privacy of passing areas, etc. <i>Hiking in Tenerife</i> accepts no responsibility for any errors, omissions or a poor orientation that could cause any risk to users of this application.</string>
 </resources>

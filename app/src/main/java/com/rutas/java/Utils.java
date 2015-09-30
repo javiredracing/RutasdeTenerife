@@ -35,7 +35,8 @@ public class Utils {
     private final static int TYPE_REGULAR = 0;
 
     protected static final int PURCHASE_CODE_REQUEST = 10001;
-    protected static final String SKU_PREMIUM = "android.test.purchased";
+    //protected static final String SKU_PREMIUM = "android.test.purchased";
+    protected static final String SKU_PREMIUM = "com.rutas.java.premium1";
 
     protected static final int REQUEST_INVITE = 10002;
 

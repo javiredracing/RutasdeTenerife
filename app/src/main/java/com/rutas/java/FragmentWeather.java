@@ -44,6 +44,7 @@ public class FragmentWeather extends Fragment {
     private double[] myLatLng;
     private String jsonWeather;
     private View v, forecast1, forecast2, forecast3;
+    private Button btNextDays;
 
     private boolean isPremium;
 
@@ -54,8 +55,9 @@ public class FragmentWeather extends Fragment {
         if (v == null){
             //Log.v("OnCreate", "Recreating Weather Fragment");
             //Getting json weather from cache
-            isPremium = getArguments().getBoolean(getString(R.string.VALUE_IS_PREMIUM),false);
+            //isPremium = getArguments().getBoolean(getString(R.string.VALUE_IS_PREMIUM), false);
             MapsActivity mainActivity = (MapsActivity)getActivity();
+            isPremium = mainActivity.isPremium();
             jsonWeather = mainActivity.getLastRouteShowed().getWeatherJson();
 
             Bundle arguments = getArguments();
@@ -76,25 +78,36 @@ public class FragmentWeather extends Fragment {
             forecast1 = v.findViewById(R.id.llForecast1);
             forecast1.setVisibility(View.VISIBLE);
 
-            Button btNextDays = (Button)v.findViewById(R.id.btWeatherNextDays);
+            btNextDays = (Button)v.findViewById(R.id.btWeatherNextDays);
             if (!isPremium){
                 btNextDays.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (getActivity().getSupportFragmentManager().findFragmentByTag("unlock") == null) {
-                            FragmentDialogUnlock dialogFilter = new FragmentDialogUnlock();
-                            dialogFilter.setCancelable(true);
+                        MapsActivity mainActivity = (MapsActivity)getActivity();
+                        isPremium = mainActivity.isPremium();
 
-                            dialogFilter.show(getActivity().getSupportFragmentManager(), "unlock");
+
+                        if (!isPremium){
+                            if (getActivity().getSupportFragmentManager().findFragmentByTag("unlock") == null) {
+                                FragmentDialogUnlock dialogFilter = new FragmentDialogUnlock();
+                                dialogFilter.setCancelable(false);
+
+                                dialogFilter.show(getActivity().getSupportFragmentManager(), "unlock");
+                                Tracker tracker = ((RutasTenerife) getActivity().getApplication()).getTracker();
+                                tracker.send(new HitBuilders.EventBuilder()
+                                        .setCategory("Extended-Info")
+                                        .setAction("next_days_weather")
+                                        .setLabel("purchase_flow")
+                                        .build());
+                            }
+                        }else{
+                            setPremiumVersion();
+                            callThreadWeather();
                         }
                     }
                 });
             }else{
-                btNextDays.setVisibility(View.GONE);
-                forecast2 = v.findViewById(R.id.llForecast2);
-                forecast2.setVisibility(View.VISIBLE);
-                forecast3 = v.findViewById(R.id.llForecast3);
-                forecast3.setVisibility(View.VISIBLE);
+                setPremiumVersion();
             }
             handlerWeather = new Handler(){
                 @Override
@@ -176,45 +189,7 @@ public class FragmentWeather extends Fragment {
             };
 
             if (jsonWeather == null){
-                Thread weatherThread = new Thread(){
-                    @Override
-                    public void run(){
-                        String languaje = Locale.getDefault().getLanguage();
-                        int nDays = 1;
-                        if (isPremium)
-                            nDays = 3;
-                        String uri ="http://api.worldweatheronline.com/free/v2/weather.ashx?q="+ myLatLng[0] +","+ myLatLng[1] +"&format=json&num_of_days="+nDays+"&tp=24&key="+getString(R.string.KEY_WEATHER)+"&showlocaltime=yes&lang="+languaje;
-                        //String uri = "http://free.worldweatheronline.com/feed/weather.ashx?q="+ lat +","+ lon +"&format=json&num_of_days=1&key=da8292f4dd111341131401";
-                        try {
-                            URL url = new URL(uri);
-
-                            HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
-                            urlConnection.setConnectTimeout(2000);
-                            urlConnection.setReadTimeout(2000);
-                            InputStream in = urlConnection.getInputStream();
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(in,"UTF-8"),8);
-                            jsonWeather = reader.readLine();
-                            in.close();
-                            if (jsonWeather != null){
-                                //Log.v("gettingHttpRequest", jsonWeather);
-                                Message msg = new Message();
-                                msg.obj = jsonWeather;
-                                //Log.v("Thread weather", "Info NO cacheada!!");
-                                handlerWeather.sendMessage(msg);
-                            }
-                            urlConnection.disconnect();
-                        } catch (IOException e) {
-                            Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
-                            tracker.send(new HitBuilders.EventBuilder()
-                                    .setCategory("Weather-Api")
-                                    .setAction("Fails")
-                                    .setLabel("connection")
-                                    .build());
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                weatherThread.start();
+                callThreadWeather();
             }else{	//Si result existe en cache...
                // Log.v("onCreateView", "recicling view Weather");
                 Message msg = new Message();
@@ -317,5 +292,55 @@ public class FragmentWeather extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setPremiumVersion(){
+        btNextDays.setVisibility(View.GONE);
+        forecast2 = v.findViewById(R.id.llForecast2);
+        forecast2.setVisibility(View.VISIBLE);
+        forecast3 = v.findViewById(R.id.llForecast3);
+        forecast3.setVisibility(View.VISIBLE);
+    }
+
+    private void callThreadWeather(){
+        Thread weatherThread = new Thread(){
+            @Override
+            public void run(){
+                String languaje = Locale.getDefault().getLanguage();
+                int nDays = 1;
+                if (isPremium)
+                    nDays = 3;
+                String uri ="http://api.worldweatheronline.com/free/v2/weather.ashx?q="+ myLatLng[0] +","+ myLatLng[1] +"&format=json&num_of_days="+nDays+"&tp=24&key="+getString(R.string.KEY_WEATHER)+"&showlocaltime=yes&lang="+languaje;
+                //String uri = "http://free.worldweatheronline.com/feed/weather.ashx?q="+ lat +","+ lon +"&format=json&num_of_days=1&key=da8292f4dd111341131401";
+                try {
+                    URL url = new URL(uri);
+
+                    HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+                    urlConnection.setConnectTimeout(2000);
+                    urlConnection.setReadTimeout(2000);
+                    InputStream in = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in,"UTF-8"),8);
+                    jsonWeather = reader.readLine();
+                    in.close();
+                    if (jsonWeather != null){
+                        //Log.v("gettingHttpRequest", jsonWeather);
+                        Message msg = new Message();
+                        msg.obj = jsonWeather;
+                        //Log.v("Thread weather", "Info NO cacheada!!");
+                        handlerWeather.sendMessage(msg);
+                    }
+                    urlConnection.disconnect();
+                } catch (IOException e) {
+                    Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Weather-Api")
+                            .setAction("Fails")
+                            .setLabel("connection")
+                            .build());
+                    e.printStackTrace();
+                }
+            }
+        };
+        weatherThread.start();
     }
 }

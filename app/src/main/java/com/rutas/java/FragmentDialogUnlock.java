@@ -10,6 +10,9 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 /**
  * Created by Javi on 18/08/2015.
  */
@@ -20,17 +23,33 @@ public class FragmentDialogUnlock extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+        Tracker tracker = ((RutasTenerife)getActivity().getApplication()).getTracker();
+        tracker.setScreenName("Unlock");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.unlock_view, null))
         .setNegativeButton(getString(R.string.no_thanks), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Tracker tracker = ((RutasTenerife) getActivity().getApplication()).getTracker();
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Unlock")
+                        .setAction("No_unlock")
+                        .setLabel("-")
+                        .build());
                 dialog.dismiss();
             }
         })
                 .setPositiveButton(getString(R.string.donate), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Tracker tracker = ((RutasTenerife) getActivity().getApplication()).getTracker();
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Unlock")
+                                .setAction("YES_unlock")
+                                .setLabel("-")
+                                .build());
                         MapsActivity activity = (MapsActivity)getActivity();
                         activity.mHelper.launchPurchaseFlow(getActivity(), Utils.SKU_PREMIUM, Utils.PURCHASE_CODE_REQUEST, activity.mPurchaseFinishedListener);
                         //activity.mHelper.launchSubscriptionPurchaseFlow(getActivity(), Utils.SKU_PREMIUM, Utils.PURCHASE_CODE_REQUEST, activity.mPurchaseFinishedListener);
