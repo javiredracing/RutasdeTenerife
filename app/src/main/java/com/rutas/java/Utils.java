@@ -179,7 +179,7 @@ public class Utils {
             toPath.mkdir();
         }
         File toFile = new File(toPath,fileName);
-        Log.v("File "+ toFile.getAbsolutePath()+" exist", ""+toFile.exists());
+        //Log.v("File "+ toFile.getAbsolutePath()+" exist", ""+toFile.exists());
         if (!toFile.exists()){
 
             try {

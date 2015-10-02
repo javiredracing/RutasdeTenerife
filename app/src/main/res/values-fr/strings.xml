@@ -148,10 +148,10 @@
     <string name="policy_text">Les identifiants nous permettent de personnaliser le contenu et les annonces, d\'offrir des fonctionnalités relatives aux médias sociaux et d\'analyser notre trafic. Nous partageons également ces identifiants, ainsi que d\'autres informations sur votre appareil avec nos partenaires de médias sociaux, de publicité et d\'analyse.</string>
     <string name="invite">Inviter des amis</string>
     <string name="open_kml">Fichier <i>.KML</i> ouverte</string>
-    <string name="price">(1 €)</string>
+    <string name="price">(1.20 €)</string>
     <string name="no_thanks">Non merci</string>
     <string name="donate">Collaborer!</string>
-    <string name="pay_text">Aidez-moi à continuer à développer ce projet en faisant don de <u><b>1 €</b></u> \n\n
+    <string name="pay_text">Aidez-moi à continuer à développer ce projet en faisant don de <u><b>1.20 €</b></u> \n\n
                     <u>Avantages de don:</u>\n
                     ► Retirer annonces. \n
                     ► Télécharger des pistes au format <i>.KML</i> et utiliser dans d\'autres applications. \n
