@@ -24,7 +24,6 @@ import android.os.Message;
 
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
@@ -47,6 +46,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -141,6 +141,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public IabHelper mHelper;
     private boolean isPremium;
+
+    private FloatingActionButton pinPath;
+    boolean pinPathIsPressed;
     //
 
     @Override
@@ -161,6 +164,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         globalToast.setView(v);
 
+        pinPath = (FloatingActionButton)findViewById(R.id.btPinTrack);
+        pinPathIsPressed = false;
+        pinPath.setEnabled(false);
        /* ImageButton button = (ImageButton)findViewById(R.id.btActionMenu);
         button.setImageResource(R.mipmap.ic_launcher);*/
 
@@ -484,6 +490,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (myPos != null){
             myPos.remove();
             myPos = null;
+            pinPath.setEnabled(false);
         }
     }
 
@@ -504,8 +511,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .flat(true)
                             .draggable(false)
             );
-        }else
-            myPos.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+            pinPath.setEnabled(true);
+        }else{
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            myPos.setPosition(latLng);
+            if (pinPathIsPressed)
+                centerInPos(mMap,latLng);
+        }
         //myPos.setRotation(30);
         //Log.v("Location", mCurrentLocation.toString());
     }
@@ -949,6 +961,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void showBottomMenu(){
+
         if (bottomMenu.getVisibility() == View.GONE){
             Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_on);
             animation.setAnimationListener(new Animation.AnimationListener() {
@@ -973,6 +986,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void closeQuickInfo(){
+
         if (quickInfo.getVisibility() != View.GONE){
             Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out_screen);
             animation.setFillEnabled(true);
@@ -1020,6 +1034,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             });
             animation.setDuration(400);
             bottomMenu.startAnimation(animation);
+            pinPathUnpressed();
         }
     }
 
@@ -1045,7 +1060,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void actionSharePath(View v){
 
-        if (lastRouteShowed != null && lastRouteShowed.isActive) {
+      /*  if (lastRouteShowed != null && lastRouteShowed.isActive) {
             final GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
                 @Override
                 public void onSnapshotReady(Bitmap bitmap) {
@@ -1074,7 +1089,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             globalToast.setDuration(Toast.LENGTH_LONG);
             globalToast.show();
             //progress = ProgressDialog.show(this, "Loading","Generating image", true);
-        }
+        }*/
     }
 
     public void actionCloseQuickInfo(View v){
@@ -1084,6 +1099,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 pathShowed.remove();
             closeBottomMenu();
             closeQuickInfo();
+        }
+    }
+
+    public void actionPinTrack(View v){
+
+        if (myPos != null){
+            if (!pinPathIsPressed){
+                pinPathIsPressed = true;
+                pinPath.setIcon(R.drawable.pin);
+                pinPath.setColorNormal(pinPath.getColorPressed());
+                centerInPos(mMap, myPos.getPosition());
+            }else{
+                pinPathUnpressed();
+            }
         }
     }
 
@@ -1146,12 +1175,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 switch (position) {
                     case 0: //get current position
                         if (myPos != null) {
-                            getCurrentAddress(myPos.getPosition());
-                            float zoom = mMap.getCameraPosition().zoom;
-                            if (zoom < 14)
-                                zoom = 14;
-                            CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(myPos.getPosition(), zoom, mMap.getCameraPosition().tilt, mMap.getCameraPosition().bearing));
-                            mMap.animateCamera(cu);
+                            LatLng pos = myPos.getPosition();
+                            getCurrentAddress(pos);
+                            centerInPos(mMap, pos);
                             //drawerLayout.closeDrawers();
                             closeNavigationDrawer();
                         } else {
@@ -1285,7 +1311,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private boolean verifyDeveloperPayload(Purchase p) {
-        String payload = p.getDeveloperPayload();
+        //String payload = p.getDeveloperPayload();
         return true;
     }
 
@@ -1320,6 +1346,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public boolean isPremium(){
         return isPremium;
+    }
+
+    private void centerInPos(GoogleMap map, LatLng latLng){
+        float zoom = map.getCameraPosition().zoom;
+        if (zoom < 14)
+            zoom = 14;
+        CameraUpdate cu = CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng, zoom, map.getCameraPosition().tilt, map.getCameraPosition().bearing));
+        map.animateCamera(cu);
+    }
+
+    private void pinPathUnpressed(){
+        pinPathIsPressed = false;
+        pinPath.setColorNormal(getResources().getColor(R.color.gris));
+        pinPath.setIcon(R.drawable.pinned);
     }
    //Invitation service
    /* private void updateInvitationStatus(Intent intent) {

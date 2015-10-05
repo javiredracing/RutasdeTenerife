@@ -35,15 +35,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/btSharePath"
+                    android:id="@+id/btPinTrack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     fab:fab_colorNormal="@color/gris"
                     fab:fab_colorPressed="@android:color/tab_indicator_text"
-                    ads:fab_icon="@drawable/share32"
+                    ads:fab_colorDisabled="@color/black_alpha"
+                    ads:fab_icon="@drawable/pinned"
                     ads:fab_size="mini"
-                    android:onClick="actionSharePath"
-                    android:visibility="gone"
+                    android:onClick="actionPinTrack"
                     />
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btCenter"
