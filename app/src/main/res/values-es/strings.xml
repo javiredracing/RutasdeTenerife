@@ -160,4 +160,5 @@
     <string name="no_thanks">No, gracias</string>
     <string name="donate">¡Colaborar!</string>
     <string name="map_mode">Modo mapa</string>
+    <string name="on_route">Modo "En ruta"</string>
 </resources>

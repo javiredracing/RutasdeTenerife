@@ -155,4 +155,5 @@
     <string name="donate">Spenden!</string>
     <string name="map_mode">Kartenmodus</string>
     <string name="app_policy">Das durch diese App zur Verfügung gestellten Informationen ist bezeichnend. <i>Wandern auf Teneriffa</i> liefert diese Informationen für die Bequemlichkeit der Nutzer, nur mit informativen Zwecken und nicht in der für den aktuellen Zustand der Wege / Wanderwege, das Angebot, die Qualität oder die Privatsphäre der Weitergabe Bereiche usw. <i>Wandern auf Teneriffa</i> verantwortlich nimmt keine Verantwortung für Fehler, Unterlassungen oder eine schlechte Ausrichtung, die eine Gefahr für die Nutzer dieser Anwendung führen könnte.</string>
+    <string name="on_route">Mode "auf der Strecke"</string>
 </resources>

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -17,13 +16,11 @@ import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
@@ -1107,9 +1104,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (myPos != null){
             if (!pinPathIsPressed){
                 pinPathIsPressed = true;
-                pinPath.setIcon(R.drawable.pin);
+                pinPath.setIcon(R.drawable.pinned_24);
                 pinPath.setColorNormal(pinPath.getColorPressed());
                 centerInPos(mMap, myPos.getPosition());
+                globalToast.setText(getString(R.string.on_route));
+                globalToast.setDuration(Toast.LENGTH_SHORT);
+                globalToast.show();
             }else{
                 pinPathUnpressed();
             }
@@ -1359,7 +1359,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void pinPathUnpressed(){
         pinPathIsPressed = false;
         pinPath.setColorNormal(getResources().getColor(R.color.gris));
-        pinPath.setIcon(R.drawable.pinned);
+        pinPath.setIcon(R.drawable.pin_24);
     }
    //Invitation service
    /* private void updateInvitationStatus(Intent intent) {

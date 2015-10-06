@@ -1,6 +1,7 @@
 <resources>
     <color name="gris">#DAAA</color>
     <color name="lightGreen">#BBEAB0</color>
+    <color name="darkGreen">#bce75e</color>
     <color name="pathGreen">#009241</color>
     <color name="pathYellow">#ffff00</color>
     <color name="pathRed">#f80909</color>
