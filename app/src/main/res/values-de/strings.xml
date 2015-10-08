@@ -148,9 +148,9 @@
     <string name="legal"><u>rechtliche Informationen</u></string>
     <string name="policy_text">Wir verwenden Gerätekennungen, um Inhalte und Anzeigen zu personalisieren, Funktionen für soziale Medien anbieten zu können und die Zugriffe auf unsere App zu analysieren. Außerdem geben wir diese Kennungen und andere Informationen über Ihr Gerät an unsere Partner für soziale Medien, Werbung und Analysen weiter.</string>
     <string name="invite">Freunde einladen</string>
-    <string name="open_kml"> Offene <i>.kml</i>-Datei</string>
+    <string name="open_kml"> Offene <i>.gpx</i>-Datei</string>
     <string name="price">(1.19 €)</string>
-    <string name="pay_text">Helfen Sie mir bitte damit diesem Projekt für nur <u><b>1.19 €</b></u> weiter fahren ¡ \n\n  <u>Vorteile für teilnehmer:</u> \n ► Keine Werbung.  \n► Laden Sie die Tracks durch <i>.KML</i> das format runter, damit die mit anderen Anwendung benutzen können. \n ► Kurzfristigen Wettervorhersage. (<i>drei Tage</i>)</string>
+    <string name="pay_text">Helfen Sie mir bitte damit diesem Projekt für nur <u><b>1.19 €</b></u> weiter fahren ¡ \n\n  <u>Vorteile für teilnehmer:</u> \n ► Keine Werbung.  \n► Laden Sie die Tracks durch <i>.GPX</i> das format runter, damit die mit anderen Anwendung benutzen können. \n ► Kurzfristigen Wettervorhersage. (<i>drei Tage</i>)</string>
     <string name="no_thanks">Nein Danke</string>
     <string name="donate">Spenden!</string>
     <string name="map_mode">Kartenmodus</string>

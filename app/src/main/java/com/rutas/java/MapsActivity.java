@@ -155,6 +155,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         v.setBackgroundResource(R.drawable.border_toast);
         TextView tv = (TextView) v.findViewById(android.R.id.message);
         if( tv != null) {
+            tv.setTextAppearance(this, android.R.style.TextAppearance_Medium);
             tv.setGravity(Gravity.CENTER);
             tv.setShadowLayer(0,0,0,0);
             tv.setTextColor(getResources().getColor(android.R.color.darker_gray));
@@ -855,6 +856,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             myInput = getApplicationContext().getAssets().open(xmlPath);
                             InputSource arhivo = new InputSource(myInput);
                             arhivo.setEncoding("UTF-8");
+
                             if (extension.toLowerCase().contentEquals("kml")){
                                 KmlHandler kmlHandler = new KmlHandler();
                                 xr.setContentHandler(kmlHandler);
@@ -866,6 +868,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 xr.parse(arhivo);
                                 msg.obj = gpxHandler.getPath();
                             }
+
                             handlerPath.sendMessage(msg);
                             myInput.close();
                         } catch (ParserConfigurationException e) {

@@ -143,13 +143,18 @@ public class FragmentDescription extends Fragment {
                 public void onClick(View v) {
                     MapsActivity mainActivity = (MapsActivity)getActivity();
                     isPremium = mainActivity.isPremium();
+                    isPremium = true;
                     Tracker tracker = ((RutasTenerife) getActivity().getApplication()).getTracker();
                     if (isPremium){
                         if (trackName != ""){
+                            //Change extension to GPX
+                            trackName = trackName.substring(0, trackName.lastIndexOf('.'));
+                            trackName = trackName+ ".gpx";
+
                             File f = Utils.assetsToStorage(trackName, getActivity().getApplicationContext());
                             if (f != null){
                                 //Log.v("Track", f.getAbsolutePath());
-                                showToast(getString(R.string.file_saved) + " "+f.getAbsolutePath());
+                                showToast(getString(R.string.file_saved) + " "+f.getPath());
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 //intent.setDataAndType(Uri.fromFile(f),"application/vnd.google-earth.kml+xml");
                                 intent.setDataAndType(Uri.fromFile(f),"application/xml");
@@ -159,7 +164,7 @@ public class FragmentDescription extends Fragment {
                             tracker.send(new HitBuilders.EventBuilder()
                                     .setCategory("Extended-Info")
                                     .setAction("get_track")
-                                    .setLabel("premium_version")
+                                    .setLabel(trackName)
                                     .build());
                         }
                     }else{
@@ -187,8 +192,9 @@ public class FragmentDescription extends Fragment {
             View vista = toast.getView();
             TextView tv = (TextView) vista.findViewById(android.R.id.message);
             if( tv != null) {
+                tv.setTextAppearance(getActivity(), android.R.style.TextAppearance_Large);
                 tv.setGravity(Gravity.CENTER);
-                tv.setShadowLayer(0,0,0,0);
+                tv.setShadowLayer(0, 0, 0, 0);
                 tv.setTextColor(getResources().getColor(android.R.color.darker_gray));
             }
             vista.setBackgroundResource(R.drawable.border_toast);

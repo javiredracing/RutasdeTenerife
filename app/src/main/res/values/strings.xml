@@ -175,8 +175,8 @@
     <string name="legal"><u>Legal information</u></string>
     <string name="app_policy">The information provided by this App is indicative. <i>Hiking in Tenerife</i> supplies this information for the convenience of users, just with informative purposes and not being responsible for the current state of the paths/trails, the offer, quality, or privacy of passing areas, etc. <i>Hiking in Tenerife</i> accepts no responsibility for any errors, omissions or a poor orientation that could cause any risk to users of this application.</string>
     <string name="invite">Invite friends</string>
-    <string name="open_kml">Open the <i>.kml</i> file</string>
-    <string name="pay_text">Help me to continue developing this project donating <b>0.89 £</b>! \n \n <u>Benefits of the donation:</u> \n ► Remove ads. \n ► Download tracks in <i>.KML</i> format, for using in other applications. \n ► Weather prevision for the next <i>3 days</i>.</string>
+    <string name="open_kml">Open the <i>.gpx</i> file</string>
+    <string name="pay_text">Help me to continue developing this project donating <b>0.89 £</b>! \n \n <u>Benefits of the donation:</u> \n ► Remove ads. \n ► Download tracks in <i>.GPX</i> format, for using in other applications. \n ► Weather prevision for the next <i>3 days</i>.</string>
     <string name="price">(0.89 £)</string>
     <string name="no_thanks">No, thanks</string>
     <string name="donate">Donate!</string>

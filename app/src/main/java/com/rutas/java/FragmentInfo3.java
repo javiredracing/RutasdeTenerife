@@ -53,6 +53,7 @@ public class FragmentInfo3 extends Fragment {
                         View vista = toast.getView();
                         TextView tv = (TextView) v.findViewById(android.R.id.message);
                         if( tv != null) {
+                            tv.setTextAppearance(getActivity(), android.R.style.TextAppearance_Medium);
                             tv.setGravity(Gravity.CENTER);
                             tv.setShadowLayer(0,0,0,0);
                             tv.setTextColor(getResources().getColor(android.R.color.darker_gray));
