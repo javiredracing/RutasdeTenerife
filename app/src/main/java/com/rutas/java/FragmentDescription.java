@@ -143,7 +143,6 @@ public class FragmentDescription extends Fragment {
                 public void onClick(View v) {
                     MapsActivity mainActivity = (MapsActivity)getActivity();
                     isPremium = mainActivity.isPremium();
-                    isPremium = true;
                     Tracker tracker = ((RutasTenerife) getActivity().getApplication()).getTracker();
                     if (isPremium){
                         if (trackName != ""){
