@@ -327,7 +327,8 @@ public class FragmentWeather extends Fragment {
                         Message msg = new Message();
                         msg.obj = jsonWeather;
                         //Log.v("Thread weather", "Info NO cacheada!!");
-                        handlerWeather.sendMessage(msg);
+                        if (handlerWeather != null)
+                            handlerWeather.sendMessage(msg);
                     }
                     urlConnection.disconnect();
                 } catch (IOException e) {

@@ -196,8 +196,8 @@ public class FragmentChart extends Fragment {
                             xr.setContentHandler(gpx);
                             xr.parse(archivo);
                             mensaje.obj = gpx.getAltitud();
-                        }
-                        handlerGraf.sendMessage(mensaje);
+                        }if (handlerGraf != null)
+                            handlerGraf.sendMessage(mensaje);
                         myInput.close();
                     } catch (ParserConfigurationException e) {
                         Log.d("Parser ", e.toString());
