@@ -1,16 +1,15 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
+
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
-
+    compileSdkVersion 23
+    buildToolsVersion '23.0.1'
     defaultConfig {
         applicationId "com.rutas.java"
         minSdkVersion 15
-        targetSdkVersion 22
-        versionCode 9
-        versionName "2.2"
+        targetSdkVersion 23
+        versionCode 11
+        versionName "2.3"
     }
     buildTypes {
         release {
@@ -18,24 +17,27 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    lintOptions{
+    lintOptions {
         checkReleaseBuilds false
         abortOnError false
+    }
+    productFlavors {
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-   /* compile 'com.android.support:appcompat-v7:23.0.0'*/
-   /* compile 'com.google.android.gms:play-services:8.1.0'*/
-    compile 'com.google.android.gms:play-services-appinvite:8.1.0'
-    compile 'com.google.android.gms:play-services-analytics:8.1.0'
-    compile 'com.google.android.gms:play-services-maps:8.1.0'
-    compile 'com.google.android.gms:play-services-ads:8.1.0'
-    compile 'com.google.android.gms:play-services-location:8.1.0'
+    /* compile 'com.android.support:appcompat-v7:23.0.0'*/
+    /* compile 'com.google.android.gms:play-services:8.1.0'*/
     compile files('libs/androidplot-core-0.6.1.jar')
+    compile 'com.google.android.gms:play-services-appinvite:8.4.0'
+    compile 'com.google.android.gms:play-services-analytics:8.4.0'
+    compile 'com.google.android.gms:play-services-maps:8.4.0'
+    compile 'com.google.android.gms:play-services-ads:8.4.0'
+    compile 'com.google.android.gms:play-services-location:8.4.0'
+
     compile 'com.getbase:floatingactionbutton:1.10.0'
-    compile 'com.android.support:support-annotations:22.0.1'
+    compile 'com.android.support:support-annotations:23.1.1'
     compile 'com.google.maps.android:android-maps-utils:0.4'
 }
+apply plugin: 'com.google.gms.google-services'

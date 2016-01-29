@@ -1,5 +1,6 @@
 package com.rutas.java;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +18,7 @@ public class BaseDatos extends SQLiteOpenHelper {
 	
 	private final static String TABLA = "Senderos";
 	private final static String BASEDATOS = "BDRutas";
-	private final static String DB_PATH = "/data/data/com.rutas.java/databases/";
+	//private final static String DB_PATH = "/data/data/com.rutas.java/databases/";
 	private final static int DB_VERSION = 4;	//cambiar cuando haya una nueva version de la bd
 	//private final static String DIRECCION = "ftp://colega:alrasaIN3@ftp.rutasdetenerife.com:20/"+ BASEDATOS;
 	
@@ -54,8 +55,78 @@ public class BaseDatos extends SQLiteOpenHelper {
 			Log.d("BaseDatos", e.toString());
 		}*/
 	}
-	
-	public void crearBaseDatos() throws IOException{
+
+
+
+	/**
+	 * Copy database file from assets folder inside the apk to the system database path.
+	 * @return True if the database have copied successfully or if the database already exists without overwrite, false otherwise.
+	 */
+	public boolean crearBaseDatos()  {
+		File outputFile = contexto.getDatabasePath(BASEDATOS);
+
+		if (outputFile.exists()) {
+			//Log.v("Crear DB","exists");
+			if (checkVersion(outputFile)){
+				//Log.v("Crear DB","version Updated");
+				return true;
+			}/*else
+				Log.v("Crear DB","Override DB!");*/
+		}
+
+		outputFile = contexto.getDatabasePath(BASEDATOS);
+		outputFile.getParentFile().mkdirs();
+
+		try {
+			InputStream inputStream = contexto.getAssets().open(BASEDATOS);
+			OutputStream outputStream = new FileOutputStream(outputFile);
+
+			// transfer bytes from the input stream into the output stream
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = inputStream.read(buffer)) > 0) {
+				outputStream.write(buffer, 0, length);
+			}
+
+			// Close the streams
+			outputStream.flush();
+			outputStream.close();
+			inputStream.close();
+
+			outputFile.renameTo(contexto.getDatabasePath(BASEDATOS));
+
+		} catch (IOException e) {
+			if (outputFile.exists()) {
+				outputFile.delete();
+			}
+			return false;
+		}
+		return true;
+	}
+
+	private boolean checkVersion(File file){
+		SQLiteDatabase checkDB = null;
+		boolean isUpdated = true;
+		try{
+			checkDB = SQLiteDatabase.openDatabase(file.getPath(), null, SQLiteDatabase.OPEN_READONLY);
+		}catch(SQLiteException e){
+			//database does't exist yet.
+			isUpdated = false;
+			Log.d("Check database", "database does't exist yet. ");
+		}
+		if (checkDB != null) {
+			if (checkDB.getVersion() < DB_VERSION) {
+				//Log.v("Borrar db", "" + db.getVersion());
+				isUpdated = false;
+			}
+			checkDB.close();
+		}else
+			isUpdated = false;
+
+		return isUpdated;
+	}
+
+	/*public void crearBaseDatos() throws IOException{
 		if (!comprobarBD()){
 			this.getReadableDatabase();
 			try{
@@ -64,12 +135,13 @@ public class BaseDatos extends SQLiteOpenHelper {
 				throw new Error("Error copying database");
 			}
 			}
-		}
+		}*/
 
 	public void abrirBD()throws SQLException{
-		String myPath = DB_PATH + BASEDATOS;
+		//String myPath = DB_PATH + BASEDATOS;
 		//Log.v("PATH",myPath);
-    	db = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+		File f = contexto.getDatabasePath(BASEDATOS);
+    	db = SQLiteDatabase.openDatabase(f.getPath(), null, SQLiteDatabase.OPEN_READONLY);
 	}
 	
 	/*public void writeBD() throws SQLException{
@@ -77,7 +149,7 @@ public class BaseDatos extends SQLiteOpenHelper {
 		db = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
 	}*/
 	
-	private boolean comprobarBD(){
+	/*private boolean comprobarBD(){
 		SQLiteDatabase checkDB = null;
 		String myPath = DB_PATH + BASEDATOS;
 		boolean dbExist = false;
@@ -98,9 +170,9 @@ public class BaseDatos extends SQLiteOpenHelper {
     		}    			
     	}    	
     	return dbExist;
-	}
+	}*/
 	//Importa la BD de la direccion dada y se copia en la ruta determinada 
-	private void importarBD() throws IOException{
+	/*private void importarBD() throws IOException{
 		
 		InputStream myInput;
 		
@@ -112,7 +184,8 @@ public class BaseDatos extends SQLiteOpenHelper {
 			//
 	 		throw new Error("Unable to create database");	
 		}*/
-		myInput = contexto.getAssets().open(BASEDATOS);
+
+		/*myInput = contexto.getAssets().open(BASEDATOS);
 		OutputStream myOutput = new FileOutputStream(DB_PATH + BASEDATOS);
 		
 		//transfer bytes from the inputfile to the outputfile
@@ -127,7 +200,7 @@ public class BaseDatos extends SQLiteOpenHelper {
     	myOutput.close();
     	myInput.close();
 
-	}
+	}*/
 	//A�ade un nuevo sendero
 	/*public long addSendero(String nombre, double inicX, double inicY, double finX, double finY, float duracion,
 			float longitud, String dificultad, String descripcion, String kml){

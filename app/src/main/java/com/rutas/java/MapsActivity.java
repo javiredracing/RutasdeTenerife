@@ -1,11 +1,13 @@
 package com.rutas.java;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.graphics.Color;
@@ -21,6 +23,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
@@ -150,19 +153,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setUpMapIfNeeded();
         prefs = this.getSharedPreferences("options", Context.MODE_PRIVATE);
         //Configuring global toast
-        globalToast = Toast.makeText(getApplicationContext(),null, Toast.LENGTH_LONG);
+        globalToast = Toast.makeText(getApplicationContext(), null, Toast.LENGTH_LONG);
         View v = globalToast.getView();
         v.setBackgroundResource(R.drawable.border_toast);
         TextView tv = (TextView) v.findViewById(android.R.id.message);
-        if( tv != null) {
+        if (tv != null) {
             tv.setTextAppearance(this, android.R.style.TextAppearance_Medium);
             tv.setGravity(Gravity.CENTER);
-            tv.setShadowLayer(0,0,0,0);
+            tv.setShadowLayer(0, 0, 0, 0);
             tv.setTextColor(getResources().getColor(android.R.color.darker_gray));
         }
         globalToast.setView(v);
 
-        pinPath = (FloatingActionButton)findViewById(R.id.btPinTrack);
+        pinPath = (FloatingActionButton) findViewById(R.id.btPinTrack);
         pinPathIsPressed = false;
         pinPath.setEnabled(false);
        /* ImageButton button = (ImageButton)findViewById(R.id.btActionMenu);
@@ -231,12 +234,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
-        et_search = (EditText)findViewById(R.id.et_search);
+        et_search = (EditText) findViewById(R.id.et_search);
         configureSearch();
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         configureMenu();/*Menu*/
 
-        handlerPath = new Handler(){
+        handlerPath = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -245,7 +248,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 enableTap = true;
             }
         };
-        handlerGeocoder = new Handler(){
+        handlerGeocoder = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -260,12 +263,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     addConnectionCallbacks(this).
                     addOnConnectionFailedListener(this).
                     build();
-        }else{
-            Toast.makeText(getApplicationContext(),getString(R.string.error_loading), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), getString(R.string.error_loading), Toast.LENGTH_SHORT).show();
             finish();
         }
 
-        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -276,11 +279,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             @Override
             public void onIabSetupFinished(IabResult result) {
-                if (!result.isSuccess()){
+                if (!result.isSuccess()) {
                     Log.v("onIabSetupFinished", "Problem setting up In-app Billing: " + result.getMessage());
 
-                }
-                else {
+                } else {
                     Log.v("onIabSetupFinished", "In-app Billing OK!");
                     mHelper.queryInventoryAsync(mGotInventoryListener);
                 }
@@ -300,14 +302,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Google invite
         //TODO revise!!
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             Intent intent = getIntent();
-            if (AppInviteReferral.hasReferral(intent)){
+            if (AppInviteReferral.hasReferral(intent)) {
                 //TODO launchDeepLinkActivity(intent);
                 //redirect to custom activity
                 //https://developers.google.com/app-invites/android/guides/app
             }
-           // updateInvitationStatus(intent);
+            // updateInvitationStatus(intent);
         }
     }//end onCreate
 
@@ -316,25 +318,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         @Override
         public void onQueryInventoryFinished(IabResult result, Inventory inv) {
-        isPremium = false;
-        if ((mHelper != null) && (!result.isFailure())) {
-            Purchase premiumPurchase = inv.getPurchase(Utils.SKU_PREMIUM);
-            isPremium = (premiumPurchase != null && verifyDeveloperPayload(premiumPurchase));
-        }
-        if (!isPremium){
-            loadAdRequest();
-            if (Utils.launchBuyPremium(getApplicationContext(), isPremium)){
-                launchUnlockFragmentDialog();
+            isPremium = false;
+            if ((mHelper != null) && (!result.isFailure())) {
+                Purchase premiumPurchase = inv.getPurchase(Utils.SKU_PREMIUM);
+                isPremium = (premiumPurchase != null && verifyDeveloperPayload(premiumPurchase));
             }
-        }else{
-            configureMenu();
-            if (globalToast != null){
-                globalToast.setText(getString(R.string.premium_version));
-                globalToast.setDuration(Toast.LENGTH_LONG);
-                globalToast.show();
+            if (!isPremium) {
+                loadAdRequest();
+                if (Utils.launchBuyPremium(getApplicationContext(), isPremium)) {
+                    launchUnlockFragmentDialog();
+                }
+            } else {
+                configureMenu();
+                if (globalToast != null) {
+                    globalToast.setText(getString(R.string.premium_version));
+                    globalToast.setDuration(Toast.LENGTH_LONG);
+                    globalToast.show();
+                }
             }
-        }
-        //Log.v(Utils.SKU_PREMIUM,""+isPremium);
+            //Log.v(Utils.SKU_PREMIUM,""+isPremium);
         }
     };
 
@@ -342,40 +344,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onIabPurchaseFinished(IabResult result, Purchase info) {
             // if we were disposed of in the meantime, quit.
-        if (mHelper == null) return;
+            if (mHelper == null) return;
 
-        Tracker tracker = ((RutasTenerife) getApplication()).getTracker();
-        if (result.isFailure()){
-            tracker.send(new HitBuilders.EventBuilder()
-                    .setCategory("Purchase")
-                    .setAction("Fails")
-                    .setLabel("0")
-                    .build());
-            globalToast.setText(getString(R.string.error_purchasing) + ": " + result.getMessage());
-            globalToast.setDuration(Toast.LENGTH_LONG);
-            globalToast.show();
-
-            return;
-        }
-        if (!verifyDeveloperPayload(info))
-            return;
-        if (info.getSku().contentEquals(Utils.SKU_PREMIUM)){
-            isPremium = true;
-            configureMenu();
-            removeAdRequest();
-            tracker.send(new HitBuilders.EventBuilder()
-                    .setCategory("Purchase")
-                    .setAction("Done")
-                    .setLabel("1")
-                    .build());
-            if (globalToast != null){
-                globalToast.setText(getString(R.string.premium_version));
+            Tracker tracker = ((RutasTenerife) getApplication()).getTracker();
+            if (result.isFailure()) {
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Purchase")
+                        .setAction("Fails")
+                        .setLabel("0")
+                        .build());
+                globalToast.setText(getString(R.string.error_purchasing) + ": " + result.getMessage());
                 globalToast.setDuration(Toast.LENGTH_LONG);
                 globalToast.show();
+
+                return;
+            }
+            if (!verifyDeveloperPayload(info))
+                return;
+            if (info.getSku().contentEquals(Utils.SKU_PREMIUM)) {
+                isPremium = true;
+                configureMenu();
+                removeAdRequest();
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Purchase")
+                        .setAction("Done")
+                        .setLabel("1")
+                        .build());
+                if (globalToast != null) {
+                    globalToast.setText(getString(R.string.premium_version));
+                    globalToast.setDuration(Toast.LENGTH_LONG);
+                    globalToast.show();
+                }
             }
         }
-        }
     };
+
     /********/
     @Override
     protected void onStart() {
@@ -403,14 +406,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
-        if (mGoogleApiClient != null){
+        if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
                 LocationServices.FusedLocationApi.requestLocationUpdates(
                         mGoogleApiClient, locationRequest, this);
 
                 //Log.d("onResume", "Location update resumed .....................");
             }
-            if (accelerometer != null && magnetometer != null){
+            if (accelerometer != null && magnetometer != null) {
                 sensorManager.registerListener(this, accelerometer, 330000);
                 sensorManager.registerListener(this, magnetometer, 330000); //3 times per second
             }
@@ -419,13 +432,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU){
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
             //Toast.makeText(getApplicationContext(),"menu key", Toast.LENGTH_SHORT).show();
             if (drawerLayout.isDrawerOpen(Gravity.LEFT))
                 //drawerLayout.closeDrawers();
                 closeNavigationDrawer();
-            if (!drawerLayout.isDrawerOpen(Gravity.LEFT)){
-                if(drawerLayout.isDrawerOpen(Gravity.RIGHT)){
+            if (!drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                     drawerLayout.closeDrawer(Gravity.RIGHT);
                 }
                 drawerLayout.openDrawer(Gravity.LEFT);
@@ -437,10 +450,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(Gravity.RIGHT) || drawerLayout.isDrawerOpen(Gravity.LEFT)){
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT) || drawerLayout.isDrawerOpen(Gravity.LEFT)) {
             //drawerLayout.closeDrawers();
             closeNavigationDrawer();
-        }else{
+        } else {
             AlertDialog d = new AlertDialog.Builder(this)
                     .setTitle(R.string.app_name)
                     .setIcon(R.mipmap.ic_launcher)
@@ -468,14 +481,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mHelper = null;
 
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(getString(R.string.FILTER_LONG),0);
-        editor.putInt(getString(R.string.FILTER_DURAC),0);
+        editor.putInt(getString(R.string.FILTER_LONG), 0);
+        editor.putInt(getString(R.string.FILTER_DURAC), 0);
         editor.putInt(getString(R.string.FILTER_DIF), 0);
         editor.commit();
     }
 
     @Override
     public void onConnected(Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, locationRequest, this);
 
@@ -535,19 +558,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap = googleMap;
             bd = new BaseDatos(getApplicationContext());
             try {
-                bd.crearBaseDatos();
-                bd.abrirBD();
+                if (bd.crearBaseDatos()){
+                    bd.abrirBD();
                 //Carga posicion inicial
-                setUpMap(googleMap);
-                enableTap = true;
+                    setUpMap(googleMap);
+                    enableTap = true;
+                }else{
+                    globalToast.setText(getString(R.string.error_loading_db));
+                    globalToast.show();
+                }
+
             }catch(SQLException sqle){
                 globalToast.setText(getString(R.string.error_loading_db));
                 globalToast.show();
                 finish();
                 //throw sqle;
-            } catch (IOException e) {
+            /*} catch (IOException e) {
                 e.printStackTrace();
-                finish();
+                finish();*/
             }
             finally {
                 bd.close();
