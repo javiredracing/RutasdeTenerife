@@ -18,7 +18,7 @@ Regular updates of new routes.
 
 
 ##Legal
-Copyright (c) 2015 Javier Fernández
+Copyright (c) 2016 Javier Fernández
 
 License:
 [Creative Commons Attribution-NonCommercial 3.0 Unported (CC BY-NC 3.0)](https://creativecommons.org/licenses/by-nc/3.0/)
