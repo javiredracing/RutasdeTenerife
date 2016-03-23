@@ -322,6 +322,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if ((mHelper != null) && (!result.isFailure())) {
                 Purchase premiumPurchase = inv.getPurchase(Utils.SKU_PREMIUM);
                 isPremium = (premiumPurchase != null && verifyDeveloperPayload(premiumPurchase));
+                //isPremium = true;
             }
             if (!isPremium) {
                 loadAdRequest();
@@ -524,20 +525,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (accelerometer != null && magnetometer != null){
                 icon = R.drawable.my_pos24_center;
             }
+            String altitude = "";
+            LatLng coords = new LatLng(28.299221, -16.525690);
+            if (location != null){
+                coords = new LatLng(location.getLatitude(), location.getLongitude());
+                if (location.hasAltitude())
+                    altitude = getString(R.string.altitude) +": "+location.getAltitude() + " m";
+            }
             myPos = mMap.addMarker(new MarkerOptions().
-                            position(new LatLng(28.299221, -16.525690))
+                            position(coords)
                             .icon(BitmapDescriptorFactory.fromResource(icon))
                             .title(getString(R.string.my_position))
                             .anchor(0.5f, 0.5f)
                             .flat(true)
                             .draggable(false)
+                            .snippet(altitude)
             );
             pinPath.setEnabled(true);
         }else{
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            myPos.setPosition(latLng);
-            if (pinPathIsPressed)
-                centerInPos(mMap,latLng);
+            if (location != null){
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                myPos.setPosition(latLng);
+                if (location.hasAltitude())
+                    myPos.setSnippet(getString(R.string.altitude) +": "+location.getAltitude() + " m");
+                else
+                    myPos.setSnippet("");
+                if (pinPathIsPressed)
+                    centerInPos(mMap,latLng);
+            }
         }
         //myPos.setRotation(30);
         //Log.v("Location", mCurrentLocation.toString());
@@ -1172,13 +1187,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void showCurrentAddress(Address address){
         int maxLines = address.getMaxAddressLineIndex();
+        String text = "";
         if (maxLines > 0) {
-            String text = "";
             text = text + address.getAddressLine(0);
             for (int i = 1; i < maxLines; i++) {
                 text = text + ", ";
                 text = text + address.getAddressLine(i);
             }
+        }
+        if (myPos != null){
+            if (!text.isEmpty()){
+                text += "\n";
+            }
+            text += myPos.getSnippet();
+        }
+        if (!text.isEmpty()){
             globalToast.setDuration(Toast.LENGTH_LONG);
             globalToast.setText(text);
             globalToast.show();
