@@ -12,7 +12,29 @@ public class KmlHandler extends DefaultHandler{
 	private StringBuffer buffer;
 	private boolean coordinates;
 	private boolean lineString;
-	
+
+	/**
+	 * Get Latitude, longitude and Altitude
+	 * @return Path
+     */
+	public Path getFullPath(){
+		Path currentPath = null;
+		if (buffer.length() > 0){
+			currentPath = new Path();
+			String[] puntos = buffer.toString().split(" ");
+			int tam = puntos.length - 1;
+			for (int i = 0; i < tam; i++){
+				String[] coordenadas = puntos[i].trim().split(",");
+				double longit = Double.parseDouble(coordenadas[0]);
+				double latit = Double.parseDouble(coordenadas[1]);
+				long altura = (long) Double.parseDouble(coordenadas[2]);
+				LatLng geopunto = new LatLng(latit , longit);
+				currentPath.addItem(geopunto, altura);
+			}
+		}
+		return currentPath;
+	}
+
 	public ArrayList<LatLng> getPath(){
 		
 		ArrayList<LatLng> camino = null;

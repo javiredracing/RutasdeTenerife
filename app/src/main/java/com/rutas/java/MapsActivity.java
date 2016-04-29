@@ -76,6 +76,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.rutas.java.util.IabHelper;
@@ -109,7 +111,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLngBounds latLngBounds;
 
     private Handler handlerPath;
-    private Polyline pathShowed;
+    //private Polyline pathShowed;
+    private TileOverlay coloredPath;
     private Route lastRouteShowed;
 
     private RelativeLayout quickInfo;
@@ -243,7 +246,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                ArrayList<LatLng> path = (ArrayList<LatLng>) msg.obj;
+                Path path = (Path) msg.obj;
                 drawPath(path);
                 enableTap = true;
             }
@@ -872,8 +875,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 lastRouteShowed.isActive = false;
             }
             lastRouteShowed = route;
-            if (pathShowed != null)
-                pathShowed.remove();
+          /*  if (pathShowed != null)
+                pathShowed.remove();*/
+            if (coloredPath != null)
+                coloredPath.remove();
 
             if ((route.isActive) && (!route.getXmlRoute().equals(""))){
                 route.setMarkersVisibility(true);
@@ -904,12 +909,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 KmlHandler kmlHandler = new KmlHandler();
                                 xr.setContentHandler(kmlHandler);
                                 xr.parse(arhivo);
-                                msg.obj = kmlHandler.getPath();
+                                Path path = kmlHandler.getFullPath();
+                                msg.obj = path;
                             }else{
                                 GpxHandler gpxHandler = new GpxHandler(true);
                                 xr.setContentHandler(gpxHandler);
                                 xr.parse(arhivo);
-                                msg.obj = gpxHandler.getPath();
+                                Path path = gpxHandler.getFullPath();
+                                msg.obj = path;
+                               // msg.obj = gpxHandler.getPath();
                             }
 
                             handlerPath.sendMessage(msg);
@@ -938,15 +946,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Draw a polyline over map
      * @param path ArrayList<LatLng>
      */
-    private void drawPath(ArrayList<LatLng> path){
+    private void drawPath(Path path){
         //pathShowed.remove();
-        int color = Color.BLUE;
+       /* int color = Color.BLUE;
         if (lastRouteShowed!= null)
             color = Utils.selectColor(lastRouteShowed.approved(), getApplicationContext());
         PolylineOptions polylineOptions = new PolylineOptions();
         polylineOptions.addAll(path);
         polylineOptions.width(3).color(color);
-        pathShowed = mMap.addPolyline(polylineOptions);
+        pathShowed = mMap.addPolyline(polylineOptions);*/
+        ColoredPolylineTileOverlay coloredPolylineTileOverlay = new ColoredPolylineTileOverlay(getApplicationContext(),path);
+      //  mMap.addTileOverlay(new ColoredPolylineTileOverlay<>())
+        coloredPath = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(coloredPolylineTileOverlay).fadeIn(false));
     }
 
     private void showQuickInfo(Route route){
@@ -1092,13 +1103,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
+    //TODO change
     public void actionCenter(View v){
-        if( (lastRouteShowed != null) && lastRouteShowed.isActive && (pathShowed != null)){
+      /*  if( (lastRouteShowed != null) && lastRouteShowed.isActive && (pathShowed != null)){
 
             LatLngBounds bounds = Utils.centerOnPath(pathShowed.getPoints());
             mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 30), 600, null);
-        }
+        }*/
     }
 
     public void actionSharePath(View v){
@@ -1138,8 +1149,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void actionCloseQuickInfo(View v){
         if (lastRouteShowed != null && lastRouteShowed.isActive) {
             lastRouteShowed.isActive = false;
-            if (pathShowed != null)
-                pathShowed.remove();
+            /*if (pathShowed != null)
+                pathShowed.remove();*/
+            if (coloredPath != null)
+                coloredPath.remove();
             closeBottomMenu();
             closeQuickInfo();
         }
@@ -1343,8 +1356,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             routesList.get(i).isActive = false;
         }
 
-        if (pathShowed != null)
-            pathShowed.remove();
+        /*if (pathShowed != null)
+            pathShowed.remove();*/
+        if (coloredPath != null)
+            coloredPath.remove();
         closeQuickInfo();
         closeBottomMenu();
     }

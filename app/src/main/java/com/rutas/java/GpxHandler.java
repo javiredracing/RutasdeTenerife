@@ -15,6 +15,15 @@ public class GpxHandler extends DefaultHandler{
 	private boolean eleTag;	//etiqueta elevacion
 	private boolean flagTipo;	//true extrae solo coordenadas, false solo altitud
 	//private boolean timeTag;
+
+	/**
+	 * Get Latitude, longitude and altitude
+	 * @return Path
+     */
+	public Path getFullPath(){
+		Path path = new Path(coord,altitud);
+		return path;
+	}
 	
 	public ArrayList<LatLng> getPath(){
 		return coord;
