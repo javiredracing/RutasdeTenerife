@@ -799,6 +799,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googleMap.setMapType(map_type);
         googleMap.getUiSettings().setRotateGesturesEnabled(false);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
         //Google analytics
         Tracker tracker = ((RutasTenerife)getApplication()).getTracker();
         tracker.setScreenName("main_map");
