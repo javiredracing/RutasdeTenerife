@@ -18,6 +18,7 @@ import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -52,13 +53,16 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.appinvite.AppInvite;
 import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.google.android.gms.appinvite.AppInviteInvitationResult;
 import com.google.android.gms.appinvite.AppInviteReferral;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -111,8 +115,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLngBounds latLngBounds;
 
     private Handler handlerPath;
-    //private Polyline pathShowed;
-    private TileOverlay coloredPath;
+    private Polyline pathShowed;
+    //private TileOverlay coloredPath;
     private Route lastRouteShowed;
 
     private RelativeLayout quickInfo;
@@ -263,8 +267,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             createLocationRequest();
             mGoogleApiClient = new GoogleApiClient.Builder(this).
                     addApi(LocationServices.API).
+                    addApi(AppInvite.API).
                     addConnectionCallbacks(this).
                     addOnConnectionFailedListener(this).
+                    enableAutoManage(this,this).
                     build();
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.error_loading), Toast.LENGTH_SHORT).show();
@@ -297,15 +303,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
-                if (mAdView.getVisibility() == View.GONE)
+                if (mAdView.getVisibility() == View.GONE) {
                     mAdView.setVisibility(View.VISIBLE);
+                }
                 Log.i("Ads", "onAdLoaded");
             }
         });
 
         //Google invite
         //TODO revise!!
-        if (savedInstanceState == null) {
+       /* if (savedInstanceState == null) {
             Intent intent = getIntent();
             if (AppInviteReferral.hasReferral(intent)) {
                 //TODO launchDeepLinkActivity(intent);
@@ -313,7 +320,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //https://developers.google.com/app-invites/android/guides/app
             }
             // updateInvitationStatus(intent);
-        }
+        }*/
     }//end onCreate
 
     /********** In app billing instances *********/
@@ -580,6 +587,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     bd.abrirBD();
                 //Carga posicion inicial
                     setUpMap(googleMap);
+                    initializeInvitations();
                     enableTap = true;
                 }else{
                     globalToast.setText(getString(R.string.error_loading_db));
@@ -876,10 +884,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 lastRouteShowed.isActive = false;
             }
             lastRouteShowed = route;
-          /*  if (pathShowed != null)
-                pathShowed.remove();*/
-            if (coloredPath != null)
-                coloredPath.remove();
+            if (pathShowed != null)
+                pathShowed.remove();
+            /*if (coloredPath != null)
+                coloredPath.remove();*/
 
             if ((route.isActive) && (!route.getXmlRoute().equals(""))){
                 route.setMarkersVisibility(true);
@@ -949,16 +957,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void drawPath(Path path){
         //pathShowed.remove();
-       /* int color = Color.BLUE;
+        int color = Color.BLUE;
         if (lastRouteShowed!= null)
             color = Utils.selectColor(lastRouteShowed.approved(), getApplicationContext());
         PolylineOptions polylineOptions = new PolylineOptions();
-        polylineOptions.addAll(path);
+        List<PathPoints> listPoints = path.getPoints();
+        int sizeList = listPoints.size();
+        for (int i = 0; i < sizeList; i++){
+            polylineOptions.add(listPoints.get(i).getLatLng());
+        }
+        //polylineOptions.addAll(path.getPoints());
         polylineOptions.width(3).color(color);
-        pathShowed = mMap.addPolyline(polylineOptions);*/
-        ColoredPolylineTileOverlay coloredPolylineTileOverlay = new ColoredPolylineTileOverlay(getApplicationContext(),path);
+        pathShowed = mMap.addPolyline(polylineOptions);
+        //ColoredPolylineTileOverlay coloredPolylineTileOverlay = new ColoredPolylineTileOverlay(getApplicationContext(),path);
       //  mMap.addTileOverlay(new ColoredPolylineTileOverlay<>())
-        coloredPath = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(coloredPolylineTileOverlay).fadeIn(false));
+        // coloredPath = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(coloredPolylineTileOverlay).fadeIn(false));
     }
 
     private void showQuickInfo(Route route){
@@ -1106,15 +1119,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //TODO change
     public void actionCenter(View v){
-      /*  if( (lastRouteShowed != null) && lastRouteShowed.isActive && (pathShowed != null)){
+       if( (lastRouteShowed != null) && lastRouteShowed.isActive && (pathShowed != null)){
 
             LatLngBounds bounds = Utils.centerOnPath(pathShowed.getPoints());
             mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 30), 600, null);
-        }*/
+        }
     }
 
     public void actionSharePath(View v){
-
+        if( (lastRouteShowed != null) && lastRouteShowed.isActive && (pathShowed != null)) {
+            Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invite))
+                    .setMessage("Te apuntas a patear "+lastRouteShowed.getName() + " - " + lastRouteShowed.getDist() + " kms")
+                    .setDeepLink(Uri.parse("rutastenerife://id.path/" + lastRouteShowed.getId()))
+                    //.setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
+                    .setCallToActionText("Vamos!")
+                    .build();
+            startActivityForResult(intent, Utils.REQUEST_INVITE);
+        }
       /*  if (lastRouteShowed != null && lastRouteShowed.isActive) {
             final GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
                 @Override
@@ -1150,14 +1171,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void actionCloseQuickInfo(View v){
         if (lastRouteShowed != null && lastRouteShowed.isActive) {
             lastRouteShowed.isActive = false;
-            /*if (pathShowed != null)
-                pathShowed.remove();*/
-            if (coloredPath != null)
-                coloredPath.remove();
+            if (pathShowed != null)
+                pathShowed.remove();
+            /*if (coloredPath != null)
+                coloredPath.remove();*/
             closeBottomMenu();
             closeQuickInfo();
         }
     }
+
+
 
     public void actionPinTrack(View v){
 
@@ -1357,10 +1380,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             routesList.get(i).isActive = false;
         }
 
-        /*if (pathShowed != null)
-            pathShowed.remove();*/
-        if (coloredPath != null)
-            coloredPath.remove();
+        if (pathShowed != null)
+            pathShowed.remove();
+        /*if (coloredPath != null)
+            coloredPath.remove();*/
         closeQuickInfo();
         closeBottomMenu();
     }
@@ -1428,7 +1451,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void pinPathUnpressed(){
         pinPathIsPressed = false;
-        pinPath.setColorNormal(getResources().getColor(R.color.gris));
+        pinPath.setColorNormal(Color.WHITE);
         pinPath.setIcon(R.drawable.pin_24);
     }
    //Invitation service
@@ -1446,5 +1469,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // uses the deep link data, rather than immediately upon receipt
         AppInvite.AppInviteApi.convertInvitation(mGoogleApiClient, invitationId);
     }*/
+    private void initializeInvitations(){
 
+        boolean autoLaunchDeepLink = false;
+        AppInvite.AppInviteApi.getInvitation(mGoogleApiClient, this, autoLaunchDeepLink)
+                .setResultCallback(
+                        new ResultCallback<AppInviteInvitationResult>() {
+                            @Override
+                            public void onResult(AppInviteInvitationResult result) {
+                                Log.d("Invitation result", "getInvitation:onResult:" + result.getStatus());
+                                if (result.getStatus().isSuccess()) {
+                                    // Extract information from the intent
+                                    Intent intent = result.getInvitationIntent();
+                                    String deepLink = AppInviteReferral.getDeepLink(intent);
+                                    //String invitationId = AppInviteReferral.getInvitationId(intent);
+                                    if (deepLink != null && !deepLink.isEmpty()){
+                                        String[] array = deepLink.split("/");
+                                        int routeId = Integer.parseInt(array[array.length - 1]);
+                                        Route r = getRoute(routeId);
+                                        clickAction(r, r.getFirstPoint());
+                                        // Because autoLaunchDeepLink = true we don't have to do anything
+                                        // here, but we could set that to false and manually choose
+                                        // an Activity to launch to handle the deep link here.
+                                    }
+                                }
+                            }
+                        });
+    }
 }

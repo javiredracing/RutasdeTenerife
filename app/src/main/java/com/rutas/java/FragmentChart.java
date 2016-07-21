@@ -1,7 +1,9 @@
 package com.rutas.java;
 
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -100,13 +102,21 @@ public class FragmentChart extends Fragment {
                         lowRangeBoundary = 0;
                     }
                     XYSeries serie = new SimpleXYSeries(serieX, serieY,getString(R.string.desnivel));
-                    LineAndPointFormatter series1Format = new LineAndPointFormatter(
+
+                   /* Paint lineFill = new Paint();
+                    lineFill.setAlpha(200);
+                    lineFill.setShader(new LinearGradient(0, 0, 0, 250, Color.GREEN, Color.WHITE, Shader.TileMode.CLAMP));*/
+                   LineAndPointFormatter series1Format = new LineAndPointFormatter(
                             Color.rgb(188, 231, 94),                   // line color
                             null, // point color
                             Color.argb(150, 187, 234, 176),     //fill color
                             null);  //point text color
                     series1Format.getLinePaint().setStrokeWidth(2);
                     series1Format.getLinePaint().setStrokeJoin(Paint.Join.ROUND);
+                    /*LineAndPointFormatter series1Format = new LineAndPointFormatter();
+                    series1Format.getLinePaint().setStrokeWidth(2);
+                    series1Format.getLinePaint().setStrokeJoin(Paint.Join.ROUND);
+                    series1Format.setFillPaint(lineFill);*/
 
                     plot.addSeries(serie, series1Format);
                     plot.setRangeBoundaries(lowRangeBoundary, upperRangeBoundary, BoundaryMode.FIXED);

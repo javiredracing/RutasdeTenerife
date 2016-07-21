@@ -135,9 +135,9 @@ public class ColoredPolylineTileOverlay<T extends ColoredPolylineTileOverlay.Poi
 
         Matrix shaderMat = new Matrix();
         Paint gradientPaint = new Paint();
-      /*  gradientPaint.setStyle(Paint.Style.STROKE);
+        gradientPaint.setStyle(Paint.Style.STROKE);
         gradientPaint.setStrokeWidth(3f * density);
-        gradientPaint.setStrokeCap(Paint.Cap.BUTT);
+        gradientPaint.setStrokeCap(Paint.Cap.BUTT);/*
         //gradientPaint.setStrokeJoin(Paint.Join.ROUND);
         //gradientPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         gradientPaint.setShader(new LinearGradient(0, 0, 1, 0, speedColors, null, Shader.TileMode.CLAMP));

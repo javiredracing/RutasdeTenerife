@@ -1,1 +1,49 @@
-{"project_info":{"project_id":"inspiring-lore-94720","project_number":"849538287949","name":"RutasTenerifeV2"},"client":[{"client_info":{"mobilesdk_app_id":"1:849538287949:android:1e3457dd557aeb13","client_id":"android:com.rutas.java","client_type":1,"android_client_info":{"package_name":"com.rutas.java"}},"oauth_client":[{"client_id":"849538287949-eu1ckd18cr184dpghj5lb7e9fi9rm4e6.apps.googleusercontent.com","client_type":1,"android_info":{"package_name":"com.rutas.java","certificate_hash":"0774AE434F0D450F427CA46F00B538DD518B39C5"}}],"api_key":[],"services":{"analytics_service":{"status":2,"analytics_property":{"tracking_id":"UA-64659514-1"}},"cloud_messaging_service":{"status":1,"apns_config":[]},"appinvite_service":{"status":2,"other_platform_oauth_client":[]},"google_signin_service":{"status":1},"ads_service":{"status":2,"test_banner_ad_unit_id":"ca-app-pub-3940256099942544/6300978111","test_interstitial_ad_unit_id":"ca-app-pub-3940256099942544/1033173712"}}}],"client_info":[],"ARTIFACT_VERSION":"1"}
+{
+  "project_info": {
+    "project_number": "849538287949",
+    "project_id": "inspiring-lore-94720"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849538287949:android:1e3457dd557aeb13",
+        "android_client_info": {
+          "package_name": "com.rutas.java"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849538287949-eu1ckd18cr184dpghj5lb7e9fi9rm4e6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rutas.java",
+            "certificate_hash": "0774AE434F0D450F427CA46F00B538DD518B39C5"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKh8wbdTvEaeoi-DjLlRXdPq7nZ_Hd6fg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-64659514-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2,
+          "test_banner_ad_unit_id": "ca-app-pub-3940256099942544/6300978111",
+          "test_interstitial_ad_unit_id": "ca-app-pub-3940256099942544/1033173712"
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
