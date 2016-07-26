@@ -164,7 +164,7 @@
     <string name="next_days">Next days</string>
     <string name="get_track">Get track</string>
     <string name="file_saved">Track exported to</string>
-    <string name="Base64EncodedPublicKey" translatable="false">1</string>
+    <string name="Base64EncodedPublicKey" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtXuVHCHc8DNRgRTIsd2q2eig+eyo60kouDPyDgMcEQON2zE54Cx8NUnpQCz4cIxEiLKMfgG6dBm7PPUcYU2CCD9wT1caPbU63R/3mBvcQynmidNf0PpLdGar5XUmoxTqLCZwfNnQL5b3CU5QF5t/KhlVXiWvWNar9/Ps5naDj1Af3iTxaA2mPG4punRefhosw+gep64PUVLRK+zRaa06PqYUtBixb7kBBsEyKs9d+U9oAAX8gP6t0eoza+pa9/+JkUypmWQyWvKcGnb/idrMXHOQiN2SOPoAtWbejdrZS5P4sb3IwL3emg1SkhPjgQGui+deqC7RKoRMGAdUBOJL7QIDAQAB</string>
     <string name="back_continue">Press <i>back</i> to continue</string>
     <string name="VALUE_IS_PREMIUM" translatable="false">value_is_premium</string>
     <string name="premium_version">Premium version!</string>
@@ -182,4 +182,7 @@
     <string name="donate">Donate!</string>
     <string name="map_mode">Map mode</string>
     <string name="on_route">Mode "On Route"</string>
+    <string name="lestgo">Let\'s go!</string>
+    <string name="wanttohike">Do you want to hike</string>
+    <string name="invited">friends invited</string>
 </resources>

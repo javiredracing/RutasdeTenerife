@@ -58,7 +58,8 @@ import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.appinvite.AppInviteInvitationResult;
 import com.google.android.gms.appinvite.AppInviteReferral;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
+//import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
@@ -80,8 +81,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.maps.model.TileOverlay;
-import com.google.android.gms.maps.model.TileOverlayOptions;
+//import com.google.android.gms.maps.model.TileOverlay;
+//import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.rutas.java.util.IabHelper;
@@ -679,11 +680,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 resultCode, data)) {
 
             if (requestCode == Utils.REQUEST_INVITE){
+                String textInviteResult = "";
                 if (resultCode == RESULT_OK){
                     String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                    textInviteResult = "" + ids.length + " " + getString(R.string.invited);
                     Log.v("Invite result", "number invitations: "+ ids.length);
-                }else
+                }else{
                     Log.e("Invite result", "FAILED!");
+                    textInviteResult = "Invitation result failed!" ;
+                }
+                globalToast.setText(textInviteResult);
+                globalToast.setDuration(Toast.LENGTH_SHORT);
+                globalToast.show();
             }
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -835,6 +843,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private boolean isGooglePlayServicesAvailable() {
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        int result = googleAPI.isGooglePlayServicesAvailable(this);
+        if(result != ConnectionResult.SUCCESS) {
+            if(googleAPI.isUserResolvableError(result)) {
+                googleAPI.getErrorDialog(this, result, Utils.PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            }
+            return false;
+        }
+        return true;
+    }
+
+  /*  private boolean isGooglePlayServicesAvailable() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (ConnectionResult.SUCCESS == status) {
             return true;
@@ -842,7 +862,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             GooglePlayServicesUtil.getErrorDialog(status, this, 0).show();
             return false;
         }
-    }
+    }*/
 
     /**
      * Route's Binary search
@@ -1129,10 +1149,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void actionSharePath(View v){
         if( (lastRouteShowed != null) && lastRouteShowed.isActive && (pathShowed != null)) {
             Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invite))
-                    .setMessage("Te apuntas a patear "+lastRouteShowed.getName() + " - " + lastRouteShowed.getDist() + " kms")
+                    .setMessage(getString(R.string.wanttohike)+ " "+lastRouteShowed.getName() + " - " + lastRouteShowed.getDist() + " kms ?")
                     .setDeepLink(Uri.parse("rutastenerife://id.path/" + lastRouteShowed.getId()))
                     //.setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
-                    .setCallToActionText("Vamos!")
+                    .setCallToActionText(getString(R.string.lestgo))
                     .build();
             startActivityForResult(intent, Utils.REQUEST_INVITE);
         }

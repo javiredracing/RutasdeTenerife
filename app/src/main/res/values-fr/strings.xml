@@ -159,4 +159,7 @@
     <string name="map_mode">Carte mode</string>
     <string name="app_policy">Les informations contenues dans cette application est à titre indicatif seulement, prévu pour la commodité de l\'utilisateur, sans l\'interprétation de toute façon, l\'état actuel des routes / sentiers, l\'approvisionnement, la qualité, la propriété des domaines à travers laquelle passe, etc. De même, il est pas responsable des erreurs, omissions ou, le cas échéant, une mauvaise orientation qui pourrait provoquer un accident entre les utilisateurs de cette application.</string>
     <string name="on_route">Mode "en route"</string>
+    <string name="lestgo">Allons-y!</string>
+    <string name="wanttohike">Voulez-vous faire de la randonnée</string>
+    <string name="invited">amis invités</string>
 </resources>

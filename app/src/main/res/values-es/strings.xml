@@ -161,4 +161,7 @@
     <string name="donate">¡Colaborar!</string>
     <string name="map_mode">Modo mapa</string>
     <string name="on_route">Modo "En ruta"</string>
+    <string name="lestgo">¡Vamos!</string>
+    <string name="wanttohike">Te apuntas a caminar</string>
+    <string name="invited">amigos invitados</string>
 </resources>

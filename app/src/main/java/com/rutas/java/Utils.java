@@ -40,6 +40,8 @@ public class Utils {
 
     protected static final int REQUEST_INVITE = 10002;
 
+    protected final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
     protected static Bitmap exportBitmap(Context ctx, Bitmap bitmap, String text){
         bitmap = Utils.resizeBitmap(bitmap);
         Resources res = ctx.getResources();
